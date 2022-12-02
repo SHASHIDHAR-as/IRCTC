@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\Ethnotech\\Downloads\\jcalendar-tz-1.3.3-4.jar",
+        "c:\\Users\\Ethnotech\\Downloads\\mysql-connector-java-8.0.28.jar"
+    ]
+}
