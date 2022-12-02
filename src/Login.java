@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 import java.util.Random;
 
 public class Login extends JFrame implements ActionListener {
@@ -96,19 +97,21 @@ public class Login extends JFrame implements ActionListener {
                 String enteredCaptcha=captchaText.getText();
                 if(selectedCaptcha.equals(enteredCaptcha)){
                     try{
-                            Conn c=new Conn();
-                            String query=" SELECT COUNT(user_name) FROM user_login WHERE user_name='suchith' and password='s';";
-                            c.s.executeUpdate(query);
-            
-                            setVisible(false);
-                            new Profile(formNumber+"").setVisible(true);
-
+                        Conn c=new Conn();
+                        ResultSet rs=c.s.executeQuery("SELECT COUNT(user_name) as valid FROM user_login WHERE user_name='"+userName.getText()+"' and password='"+password.getText()+"';");
+                        if(rs.next()){
+                            if(rs.getInt("valid")!=0){
+                                setVisible(false);
+                                new Profile().setVisible(true);
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+                                setVisible(false);
+                                new Login().setVisible(true);
+                            }
+                        }
                     }catch(Exception error){
                         System.out.println(error);
                     }
-
-                    setVisible(false);
-                    new Profile().setVisible(true);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Invalid Captcha");  
