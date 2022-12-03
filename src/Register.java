@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import com.toedter.calendar.JDateChooser;
+import java.sql.*;
+import org.apache.commons.lang3.StringUtils;
 
 public class Register extends JFrame implements ActionListener{
 
@@ -108,8 +110,12 @@ public class Register extends JFrame implements ActionListener{
     }
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==register){
-            if(firstName.getText().equals("") || lastName.getText().equals("") || userName.getText().equals("") || password.getText().equals("") || reEnterPassword.getText().equals("") || email.getText().equals("") || address.getText().equals("") || phone.getText().equals("")){
+            if(firstName.getText().equals("") || lastName.getText().equals("") || userName.getText().equals("") || password.getText().equals("") || reEnterPassword.getText().equals("") || email.getText().equals("") || address.getText().equals("") || phone.getText().equals("") || (!male.isSelected() && !female.isSelected() && !other.isSelected()) || (!indian.isSelected() && !foreign.isSelected()) || ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Please fill all the details"); 
+            }else if(!password.getText().equals(reEnterPassword.getText())){
+                JOptionPane.showMessageDialog(null,"password doesnt match"); 
+                password.setText("");
+                reEnterPassword.setText("");
             }
             else{
                 String firstNameText=firstName.getText();
@@ -138,23 +144,31 @@ public class Register extends JFrame implements ActionListener{
 
                 try{                                                        
                     Conn c=new Conn();
-                        
-                    String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
-                    String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
-                    c.s.executeUpdate(query1);
-                    c.s.executeUpdate(query2);
 
-                    setVisible(false);
-                    new Profile().setVisible(true);
+                    ResultSet rs=c.s.executeQuery("SELECT COUNT(user_name) as valid FROM user_login WHERE user_name='"+userName.getText()+"';");
+                    if(rs.next()){
+                        if(rs.getInt("valid")!=0){
+                            JOptionPane.showMessageDialog(null,"Sorry this user name is already taken!!"); 
+                            userName.setText("");
+                        }else if(StringUtils.containsWhitespace(userName.getText())){
+                            JOptionPane.showMessageDialog(null,"user name can not contain white spaces"); 
+                        }
+                        else{
+                            String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
+                            String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
+                            c.s.executeUpdate(query1);
+                            c.s.executeUpdate(query2);
+
+                            setVisible(false);
+                            new Login().setVisible(true);
+                        }
+                    }
                 }catch(Exception error){
-                    JOptionPane.showMessageDialog(null,"Invalid Entries"); 
+                    JOptionPane.showMessageDialog(null,"Invalid Entries..Please Try again"); 
                     System.out.println(error);
+                    setVisible(false);
                     new Register().setVisible(true);
                 }
-                System.out.println(firstNameText+"\n"+lastNameText+"\n"+userNameText+"\n"+passwordText+"\n"+reEnterPasswordText+"\n"+emailText+"\n"+addressText+"\n"+phoneText+"\n"+gender+"\n"+natiolaity+"\n"+dob);
-
-                setVisible(false);
-                new Login().setVisible(true);
             }
         }
         else if(e.getSource()==back){
