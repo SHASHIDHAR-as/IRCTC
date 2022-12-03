@@ -1,5 +1,5 @@
 import javax.swing.*;
-import org.jdesktop.swingx.prompt.PromptSupport;
+// import org.jdesktop.swingx.prompt.PromptSupport;
 
 public class Profile extends JFrame{
     Profile(){
@@ -7,7 +7,7 @@ public class Profile extends JFrame{
         setLayout(null);
 
         JTextArea ex = new JTextArea();  
-        PromptSupport.setPrompt("01197585960,01197585961",ex);
+        // PromptSupport.setPrompt("01197585960,01197585961",ex);
         ex.setBounds(100,300,100,40);
         add(ex);
 

@@ -159,6 +159,7 @@ public class Register extends JFrame implements ActionListener{
                             c.s.executeUpdate(query1);
                             c.s.executeUpdate(query2);
 
+                            JOptionPane.showMessageDialog(null,"Registration successfull...please login"); 
                             setVisible(false);
                             new Login().setVisible(true);
                         }
