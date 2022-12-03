@@ -4,12 +4,12 @@ import java.awt.event.*;
 import com.toedter.calendar.JDateChooser;
 
 
-public class Book_tickets extends JFrame implements ActionListener{
+public class BookTickets extends JFrame implements ActionListener{
     JTextField From, To,captchaText;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
 
-    Book_tickets() {
+    BookTickets() {
         setTitle("IRCTC");
         setLayout(null);
 
@@ -99,13 +99,13 @@ public class Book_tickets extends JFrame implements ActionListener{
 
         else if(e.getSource()==back){
             setVisible(false);
-            new Home_page().setVisible(true);
+            new HomePage().setVisible(true);
         }
         
     }
 
     public static void main(String args[]) {
-        new Book_tickets();
+        new BookTickets();
     }
 
 }

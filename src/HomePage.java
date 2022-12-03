@@ -2,12 +2,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Home_page extends JFrame implements ActionListener{
+public class HomePage extends JFrame implements ActionListener{
 
     JButton Booking,BookTickets, PNRstatus,Profile;
  
 
-    Home_page() {
+    HomePage() {
         setTitle("IRCTC");
         setLayout(null);
 
@@ -73,7 +73,7 @@ public class Home_page extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==BookTickets){
             setVisible(false);
-            new Book_tickets().setVisible(true);
+            new BookTickets().setVisible(true);
         }
         else if(e.getSource()==Booking){
             setVisible(false);
@@ -88,6 +88,6 @@ public class Home_page extends JFrame implements ActionListener{
             new Register().setVisible(true);
         }
     }public static void main(String[] args) {
-        new Home_page();
+        new HomePage();
     }   
 }
