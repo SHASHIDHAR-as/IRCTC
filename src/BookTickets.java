@@ -1,75 +1,66 @@
 import javax.swing.*;
+import java.sql.*;
+import java.util.ArrayList;
 import java.awt.*;
-import java.awt.event.*;
-import com.toedter.calendar.JDateChooser;
 
+public class BookTickets extends JFrame{
 
-public class BookTickets extends JFrame implements ActionListener{
-    JTextField From, To,captchaText;
-    JButton Search,Clear,back;
-    JDateChooser dateChooser;
+    BookTickets(String source,String destination){
 
-    BookTickets() {
+        JPanel panel;
+        String source="ypr",destination="bay";
+        ArrayList<Integer> train_no=new ArrayList<Integer>();
+        ArrayList<String> train_name=new ArrayList<String>();
+
         setTitle("IRCTC");
         setLayout(null);
 
-        //Main frame image
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/orange.png"));
-        Image i2 = i1.getImage().getScaledInstance(1000, 700, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        image.setBounds(0, 0, 1000, 700);
-        add(image);
+        panel=new JPanel();
+        panel.setBounds(50,50,700,500);
+        add(panel);
 
-        //username text feild
-        From = new JTextField("From station");
-        From.setBounds(100, 219, 300, 40);
-        From.setFont(new Font("Raleway", Font.BOLD, 15));
-        From.setForeground(Color.gray);
-        From.setBorder(null);
-        image.add(From);
+        try{
+            Conn c=new Conn();
 
-        //password text feild
-        To = new JTextField("To station");
-        To.setBounds(460, 219, 300, 40);
-        To.setFont(new Font("Raleway", Font.BOLD, 15));
-        To.setForeground(Color.gray);
-        To.setBorder(null);
-        image.add(To);
 
-        dateChooser=new JDateChooser();
-        dateChooser.setBounds(100,300,400,30);
-        dateChooser.setForeground(new Color(105,105,105));
-        image.add(dateChooser);
+            int trains[]=new int[3];
+            ResultSet rs=c.s.executeQuery("select train_no from trains");
 
+
+            System.out.println("the trains are:");
+            for(int i=0;i<3 && rs.next();i++){
+                trains[i]=rs.getInt("train_no");
+                System.out.println(trains[i]);
+            }
+
+            System.out.println("Travelling train is: ");
+
+            for(int i=0;i<trains.length;i++){
+                rs=c.s.executeQuery("select * from trains where train_no= (select t.train_no from (select t1.train_no,t1.station_id as source,t2.station_id as destination from `"+trains[i]+"` as t1 cross join `"+trains[i]+"` as t2 where t1.stop_no < t2.stop_no) as t where t.source='"+source+"' and t.destination='"+destination+"');");
+                if(rs.next()){
+                    train_no.add(rs.getInt("train_no"));
+                    train_name.add(rs.getString("train_name"));
+                    System.out.println(train_no.get(i)+" "+train_name.get(i));              
+                }
+            }
+
+            System.out.println("train details are");
+            rs=c.s.executeQuery("select t1.time as ,t2.time"+
+            " inner join `"+train_no.get(0)+"` on "+
+            " trains.train_id = `"+train_no.get(0)+"`.train_id;"
+            
+            
+            
+            );
+            JLabel label=new JLabel(rs.getString("train_no")+" "+rs.getString("train_name"));
+            JPanel newPanel=new JPanel();
+            newPanel.setBounds(0,0,50,50);
+            newPanel.add(label);
+            panel.add(newPanel);
         
-        Search = new JButton("Search");
-        Search.setBounds(387, 417, 76, 30);
-        Search.setForeground(Color.black);
-        Search.setBackground(Color.ORANGE);
-        Search.setFont(new Font("Raleway", Font.BOLD, 16));
-        Search.setBorder(null);
-        Search.addActionListener(this);
-        image.add(Search);
-
-        Clear = new JButton("Clear");
-        Clear.setBounds(487, 417, 76, 30);
-        Clear.setForeground(Color.black);
-        Clear.setBackground(Color.ORANGE);
-        Clear.setFont(new Font("Raleway", Font.BOLD, 16));
-        Clear.setBorder(null);
-        Clear.addActionListener(this);
-        image.add(Clear);
-
-        back=new JButton("Back");
-        back.setBounds(600, 417, 76, 30);
-        back.setForeground(Color.black);
-        back.setBackground(Color.ORANGE);
-        back.setFont(new Font("Raleway", Font.BOLD, 16));
-        back.setBorder(null);
-        back.addActionListener(this);
-        image.add(back);
-
+        }catch(Exception error){
+            error.printStackTrace();
+        }
 
         getContentPane().setBackground(Color.white);
 
@@ -77,35 +68,8 @@ public class BookTickets extends JFrame implements ActionListener{
         setVisible(true);
         setLocation(180, 20);
     }
-
-
-    public void actionPerformed(ActionEvent e) {
-
-        //check for login
-        if(e.getSource()==Search){
-            //check if all the details are entered
-            if(From.getText().equals("") || To.getText().equals("") || captchaText.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Please fill all the details");  
-            }
-            //check for captcha validation
-            else{
-        
-            }
-        }
-        else if(e.getSource()==Clear){
-            From.setText("");
-            To.setText("");
-        }
-
-        else if(e.getSource()==back){
-            setVisible(false);
-            new HomePage().setVisible(true);
-        }
-        
-    }
-
-    public static void main(String args[]) {
+    public static void main(String args[])
+    {
         new BookTickets();
     }
-
 }

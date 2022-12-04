@@ -32,7 +32,7 @@ public class HomePage extends JFrame implements ActionListener{
         BookTickets.addActionListener(this);
         image.add(BookTickets);
 
-        Booking=new JButton("Bookings");
+        Booking=new JButton("My Bookings");
         Booking.setBounds(300, 300, 150, 30);
         Booking.setForeground(Color.black);
         Booking.setBackground(Color.ORANGE);
@@ -71,7 +71,7 @@ public class HomePage extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==BookTickets){
             setVisible(false);
-            new BookTickets().setVisible(true);
+            new SearchTrains().setVisible(true);
         }
         else if(e.getSource()==Booking){
             setVisible(false);
