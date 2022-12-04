@@ -92,7 +92,8 @@ public class SearchTrains extends JFrame implements ActionListener{
                 String source=From.getText();
                 String destination=To.getText();
                 String day=getDay(dateChooser.getDate());
-                System.out.println(source+" "+destination+" "+day);
+                setVisible(false);
+                new BookTickets(source, destination).setVisible(true);
             }
         }
         else if(e.getSource()==Clear){
