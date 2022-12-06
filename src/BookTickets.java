@@ -1,13 +1,18 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.awt.*;
+import java.awt.event.*;
 
-public class BookTickets extends JFrame{
-    static Border blackline = BorderFactory.createLineBorder(Color.black);
+public class BookTickets extends JFrame implements ActionListener{
+    static Box vertical=Box.createVerticalBox();
+    JScrollPane jsp = new JScrollPane(vertical);
+    JPanel mainPanel = new JPanel(new FlowLayout());
 
+    
+    static ArrayList<JPanel> panels=new ArrayList<JPanel>();
+    ArrayList<JButton> book=new ArrayList<JButton>();
+    
     BookTickets(String source,String destination,String day){
         
         ArrayList<Integer> trains=new ArrayList<Integer>();
@@ -16,16 +21,11 @@ public class BookTickets extends JFrame{
         ArrayList<String> arrivalTime=new ArrayList<String>();
         ArrayList<String> destinationTime=new ArrayList<String>();
         ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
+        
+        add(jsp, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
 
         setTitle("IRCTC");
-        setLayout(null);
-
-        ArrayList<JPanel> trainDetails=new ArrayList<JPanel>();
-        JPanel mainPanel = new JPanel(new FlowLayout());
-        // mainPanel.add(Box.createRigidArea(new Dimension(0,5)));
-        mainPanel.setBounds(10,10,900,500);
-        mainPanel.setBackground(Color.BLUE);
-        add(mainPanel);
 
         try{
             Conn c=new Conn();
@@ -67,32 +67,46 @@ public class BookTickets extends JFrame{
             for(int i=0;i<arrivalTime.size();i++){
                 System.out.println("Travelling trains are: ");
                 System.out.println(train_no.get(i)+" "+train_name.get(i));              
-
+                
                 JLabel label=new JLabel(train_no.get(i)+"  "+train_name.get(i)+"  "+source+"  "+destination+"  "+arrivalTime.get(i)+"  "+destinationTime.get(i)+"  "+costOfTravel.get(i));
-                trainDetails.add(getPanel(label));
-                mainPanel.add(getPanel(label));
+                addPanel(label, i);
+                
             }
 
         }catch(Exception error){
             error.printStackTrace();
         }
 
-        getContentPane().setBackground(Color.white);
+        // getContentPane().setBackground(Color.white);
+        mainPanel.add(vertical,BorderLayout.PAGE_START);
 
-        setSize(1000, 700);
         setLocation(180, 20);
+        setSize(1000, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    public static JPanel getPanel(JLabel label){
-        JPanel panel=new JPanel();
-        panel.setBounds(0,0,50,50);
-        panel.setBorder(blackline);
-        panel.add(label);
-        return panel;
+    void addPanel(JLabel label,int i){
+        JPanel panel=new JPanel(new BorderLayout());
+        panels.add(panel);
+        label.setBorder(BorderFactory.createLineBorder(Color.black));
+        JButton button=new JButton("Book");
+        button.addActionListener(this);
+        book.add(button);
+        panel.add(button);
+        panel.add(label,BorderLayout.LINE_START);
+        vertical.add(panel);
+    }
+    public void actionPerformed(ActionEvent e) {
+        for(int i=0;i<book.size();i++){
+            if(e.getSource()==book.get(i)){
+                
+            }
+        }
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","sunday");
+        new BookTickets("ypr","bay","tuesday");
 
     }
+
 }
