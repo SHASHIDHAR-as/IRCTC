@@ -93,7 +93,7 @@ public class SearchTrains extends JFrame implements ActionListener{
                 String destination=To.getText();
                 String day=getDay(dateChooser.getDate());
                 setVisible(false);
-                new BookTickets(source, destination).setVisible(true);
+                new BookTickets(source, destination,day).setVisible(true);
             }
         }
         else if(e.getSource()==Clear){

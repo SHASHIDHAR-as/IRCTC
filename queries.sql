@@ -153,10 +153,10 @@ select train_no,train_name
  from trains where trains.train_no= 
 (select t.train_no from 
 (select t1.train_no,t1.station_id as source,t2.station_id as destination 
-from `100` as t1 
-cross join `100` as t2 
+from `300` as t1 
+cross join `300` as t2 
 where t1.stop_no < t2.stop_no) as t 
-where t.source='ypr' and t.destination='ken');
+where t.source='del' and t.destination='ypr');
 
 -- create a schedule table 
 create table schedule(
@@ -173,13 +173,17 @@ foreign key (train_no) references trains(train_no)
 
 insert into schedule values
 (100,'y','y','y','y','y','n','n'),
-(100,'n','y','y','n','y','n','n'),
-(100,'y','n','y','n','n','y','y');
+(200,'n','y','y','n','y','n','n'),
+(300,'y','n','y','n','n','y','y');
 
 select * from schedule;
 
 select * from searching;
 
 -- get time and cost of travel
-select t1.time,t2.time , (t2.cost-t1.cost) from `100` as t1,`100` as t2
-where t1.station_id='ypr' and t2.station_id='ken';
+select distinct(t1.time) as arrival,t2.time as destination, (t2.cost-t1.cost) as cost 
+from (`300` as t1,`300` as t2) inner join schedule
+on t1.station_id='del' and t2.station_id='ypr' and t1.stop_no<t2.stop_no
+and schedule.train_no=300 and schedule.wednesday='y';
+
+select stop_no,station_id,time from `100`;
