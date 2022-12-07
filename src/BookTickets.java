@@ -9,18 +9,23 @@ public class BookTickets extends JFrame implements ActionListener{
     JScrollPane jsp = new JScrollPane(vertical);
     JPanel mainPanel = new JPanel(new FlowLayout());
 
+    String source,destination;
     
     static ArrayList<JPanel> panels=new ArrayList<JPanel>();
     ArrayList<JButton> book=new ArrayList<JButton>();
+            
+    ArrayList<Integer> trains=new ArrayList<Integer>();
+    ArrayList<Integer> train_no=new ArrayList<Integer>();
+    ArrayList<String> train_name=new ArrayList<String>();
+    ArrayList<String> arrivalTime=new ArrayList<String>();
+    ArrayList<String> destinationTime=new ArrayList<String>();
+    ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
+
+    JButton back;
     
     BookTickets(String source,String destination,String day){
-        
-        ArrayList<Integer> trains=new ArrayList<Integer>();
-        ArrayList<Integer> train_no=new ArrayList<Integer>();
-        ArrayList<String> train_name=new ArrayList<String>();
-        ArrayList<String> arrivalTime=new ArrayList<String>();
-        ArrayList<String> destinationTime=new ArrayList<String>();
-        ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
+        this.source=source;
+        this.destination=destination;
         
         add(jsp, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
@@ -80,6 +85,11 @@ public class BookTickets extends JFrame implements ActionListener{
         // getContentPane().setBackground(Color.white);
         mainPanel.add(vertical,BorderLayout.PAGE_START);
 
+        back=new JButton("Back");
+        back.addActionListener(this);
+        back.setBounds(100,500,100,100);
+        mainPanel.add(back);
+
         setLocation(180, 20);
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,7 +109,14 @@ public class BookTickets extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<book.size();i++){
             if(e.getSource()==book.get(i)){
-                
+                BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
+
+                setVisible(false);
+                new AddPassengers(details).setVisible(true);
+            }
+            else if(e.getSource()==back){
+                setVisible(false);
+                new SearchTrains();
             }
         }
     }
