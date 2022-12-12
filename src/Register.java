@@ -156,6 +156,8 @@ public class Register extends JFrame implements ActionListener{
                         else{
                             String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
                             String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
+
+                    
                             c.s.executeUpdate(query1);
                             c.s.executeUpdate(query2);
 

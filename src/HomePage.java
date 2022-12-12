@@ -73,7 +73,7 @@ public class HomePage extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==BookTickets){
             setVisible(false);
-            new BookTickets().setVisible(true);
+            new SearchTrains().setVisible(true);
         }
         else if(e.getSource()==Booking){
             setVisible(false);
