@@ -8,6 +8,9 @@
         "jcalendar-tz-1.3.3-4.jar",
         "mysql-connector-j-8.0.31.jar",
         "common-lang3.jar",
-        "swingx-1.6.1.jar"
+        "swingx-1.6.1.jar",
+        "activation.jar",
+        "javax.mail.jar",
+        "smtp-1.4.5.jar"
     ]
 }

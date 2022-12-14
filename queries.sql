@@ -187,3 +187,47 @@ on t1.station_id='del' and t2.station_id='ypr' and t1.stop_no<t2.stop_no
 and schedule.train_no=300 and schedule.wednesday='y';
 
 select stop_no,station_id,time from `100`;
+
+create table pnr_status(
+pnr_no bigint primary key,
+train_no int, 
+train_name varchar(20),
+from_station varchar(20),
+to_station varchar(20),
+foreign key (train_no) references trains(train_no)
+);
+
+create table bookings(
+booking_id int primary key,
+pnr_no bigint,
+user_name varchar(50),
+date varchar(15),
+cost decimal,
+foreign key (user_name) references user_login(user_name),
+foreign key(pnr_no) references pnr_status(pnr_no)
+);
+
+create table passengers(
+name varchar(20),
+age int,
+gender char(5),
+pnr_no bigint,
+foreign key (pnr_no)  references pnr_status(pnr_no)
+);
+
+insert into pnr_status values(1111111111,100,'hampi','ypr','bay');
+insert into pnr_status values(2111111111,200,'bay','gsdfg','oo');
+insert into pnr_status values(3111111111,300,'vande','adfafd','lpo');
+
+
+insert into bookings values(100,3111111111,'suchith','07th dec 22',356.25);
+insert into bookings values(200,3111111111,'sf','07th dec 22',1000.25);
+insert into bookings values(300,1111111111,'User Name','07th dec 22',5487);
+
+select * from bookings;
+
+insert into passengers values('such',20,'male',3111111111);
+insert into passengers values('such',20,'male',1111111111);
+insert into passengers values('such',20,'male',2111111111);
+insert into passengers values('such',20,'male',1111111111);
+insert into passengers values('such',20,'male',3111111111);
