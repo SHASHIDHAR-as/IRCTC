@@ -1,14 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 public class PNRStatus extends JFrame implements ActionListener{
     JLabel label;
     Box pnrPanel = Box.createVerticalBox();
-    // JPanel pnrPanel;
     JTextField pnrNo;
     JButton search;
+    
+    DefaultTableModel model = new DefaultTableModel();
+    JTable jtbl = new JTable(model);
+
     PNRStatus(){
         setTitle("IRCTC");
         setLayout(null);
@@ -23,9 +27,8 @@ public class PNRStatus extends JFrame implements ActionListener{
         add(search);
 
         label=new JLabel("PNR details are :");
-        label.setBounds(50,150,100,50);
         label.setVisible(false);
-        add(label);
+        pnrPanel.add(label);
 
         pnrPanel.setBounds(50,180,500,200);
         pnrPanel.setVisible(false);
@@ -64,6 +67,17 @@ public class PNRStatus extends JFrame implements ActionListener{
                     pnrPanel.add(from_stationL);
                     pnrPanel.add(to_stationL);
                 }
+                                
+                model.addColumn("Name");
+                model.addColumn("age");
+                model.addColumn("gender");
+                rs=c.s.executeQuery("select name,age,pnr_no from passengers where pnr_no='"+pnrNo.getText()+"';");
+                while(rs.next()){
+                    model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(3)});
+                }
+                JScrollPane pg = new JScrollPane(jtbl);
+                pnrPanel.add(pg);
+                // pnrPanel.add(jtbl);
             }catch(Exception error){
                 System.out.println(error);
             }
