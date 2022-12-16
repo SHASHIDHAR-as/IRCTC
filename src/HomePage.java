@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class HomePage extends JFrame implements ActionListener{
-
-    JButton Booking,BookTickets, PNRstatus,Profile;
  
-    HomePage() {
+    String userName;
+    JButton Booking,BookTickets,PNRstatus,Profile,logout;
+ 
+    HomePage(String userName) {
+        this.userName=userName;
         setTitle("IRCTC");
         setLayout(null);
 
@@ -59,33 +61,45 @@ public class HomePage extends JFrame implements ActionListener{
         Profile.addActionListener(this);
         image.add(Profile);
 
+        logout=new JButton("Log Out");
+        logout.setBounds(700, 500, 150, 30);
+        logout.setForeground(Color.black);
+        logout.setBackground(Color.ORANGE);
+        logout.setFont(new Font("Raleway", Font.BOLD, 16));
+        logout.setBorder(null);
+        logout.addActionListener(this);
+        image.add(logout);
+
         getContentPane().setBackground(Color.white);
 
         setSize(1000, 700);
         setVisible(true);
         setLocation(180, 20);
     }
-
+ 
     public void actionPerformed(ActionEvent e) {
 
         //check for login
         if(e.getSource()==BookTickets){
             setVisible(false);
-            new SearchTrains().setVisible(true);
+            new SearchTrains(userName).setVisible(true);
         }
         else if(e.getSource()==Booking){
             setVisible(false);
-            new Register().setVisible(true);
+            new MyBookings(userName).setVisible(true);
         }
         else if(e.getSource()==PNRstatus){
             setVisible(false);
-            new Register().setVisible(true);
+            new PNRStatus(userName).setVisible(true);
         }
         else if(e.getSource()==Profile){
             setVisible(false);
             new Register().setVisible(true);
+        }else if(e.getSource()==logout){
+            setVisible(false);
+            new Login().setVisible(true);
         }
     }public static void main(String[] args) {
-        new HomePage();
+        new HomePage("suchith");
     }   
 }

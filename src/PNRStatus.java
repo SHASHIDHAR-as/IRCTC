@@ -8,12 +8,14 @@ public class PNRStatus extends JFrame implements ActionListener{
     JLabel label;
     Box pnrPanel = Box.createVerticalBox();
     JTextField pnrNo;
-    JButton search;
+    JButton search,back;
+    String userName;
     
     DefaultTableModel model = new DefaultTableModel();
     JTable jtbl = new JTable(model);
 
-    PNRStatus(){
+    PNRStatus(String userName){
+        this.userName=userName;
         setTitle("IRCTC");
         setLayout(null);
 
@@ -26,6 +28,11 @@ public class PNRStatus extends JFrame implements ActionListener{
         search.addActionListener(this);
         add(search);
 
+        back=new JButton("Back");
+        back.setBounds(200,100,100,50);
+        back.addActionListener(this);
+        add(back);
+
         label=new JLabel("PNR details are :");
         label.setVisible(false);
         pnrPanel.add(label);
@@ -33,6 +40,8 @@ public class PNRStatus extends JFrame implements ActionListener{
         pnrPanel.setBounds(50,180,500,200);
         pnrPanel.setVisible(false);
         add(pnrPanel);
+
+
 
         getContentPane().setBackground(Color.white);
 
@@ -71,9 +80,9 @@ public class PNRStatus extends JFrame implements ActionListener{
                 model.addColumn("Name");
                 model.addColumn("age");
                 model.addColumn("gender");
-                rs=c.s.executeQuery("select name,age,pnr_no from passengers where pnr_no='"+pnrNo.getText()+"';");
+                rs=c.s.executeQuery("select name,age,gender from passengers where pnr_no='"+pnrNo.getText()+"';");
                 while(rs.next()){
-                    model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(3)});
+                    model.addRow(new Object[]{rs.getString("name"), rs.getString("age"),rs.getString("gender")});
                 }
                 JScrollPane pg = new JScrollPane(jtbl);
                 pnrPanel.add(pg);
@@ -82,11 +91,15 @@ public class PNRStatus extends JFrame implements ActionListener{
                 System.out.println(error);
             }
         }
+        else if(e.getSource()==back){
+            setVisible(false);
+            new HomePage(userName);
+        }
         
     }
     public static void main(String args[])
     {
-        new PNRStatus();
+        new PNRStatus("suchith");
     }
  
 }

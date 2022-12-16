@@ -202,7 +202,7 @@ booking_id int primary key,
 pnr_no bigint,
 user_name varchar(50),
 date varchar(15),
-cost decimal,
+ticket_cost decimal,
 foreign key (user_name) references user_login(user_name),
 foreign key(pnr_no) references pnr_status(pnr_no)
 );
@@ -219,15 +219,24 @@ insert into pnr_status values(1111111111,100,'hampi','ypr','bay');
 insert into pnr_status values(2111111111,200,'bay','gsdfg','oo');
 insert into pnr_status values(3111111111,300,'vande','adfafd','lpo');
 
-
 insert into bookings values(100,3111111111,'suchith','07th dec 22',356.25);
+insert into bookings values(100,1111111111,'harsha','07th dec 22',356.25);
 insert into bookings values(200,3111111111,'sf','07th dec 22',1000.25);
 insert into bookings values(300,1111111111,'User Name','07th dec 22',5487);
 
-select * from bookings;
+select * from pnr_status;
 
 insert into passengers values('such',20,'male',3111111111);
-insert into passengers values('such',20,'male',1111111111);
+insert into passengers values('harsh',20,'male',1111111111);
 insert into passengers values('such',20,'male',2111111111);
 insert into passengers values('such',20,'male',1111111111);
 insert into passengers values('such',20,'male',3111111111);
+
+insert into pnr_status values(pnr_no,train_no,train_name,from_station,to_station);
+insert into passengers values(name,age,gender,pnr_no);
+
+insert into bookings values (booking_id,pnr_no,user_name,date,ticket_cost);
+
+desc bookings;
+
+select * from bookings;

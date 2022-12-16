@@ -9,7 +9,7 @@ public class BookTickets extends JFrame implements ActionListener{
     JScrollPane jsp = new JScrollPane(vertical);
     JPanel mainPanel = new JPanel(new FlowLayout());
 
-    String source,destination;
+    String source,destination,userName;
     
     static ArrayList<JPanel> panels=new ArrayList<JPanel>();
     ArrayList<JButton> book=new ArrayList<JButton>();
@@ -23,9 +23,10 @@ public class BookTickets extends JFrame implements ActionListener{
 
     JButton back;
     
-    BookTickets(String source,String destination,String day){
+    BookTickets(String source,String destination,String day,String userName){
         this.source=source;
         this.destination=destination;
+        this.userName=userName;
         
         add(jsp, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
@@ -36,6 +37,10 @@ public class BookTickets extends JFrame implements ActionListener{
             Conn c=new Conn();
 
             ResultSet rs=c.s.executeQuery("select train_no from trains");
+
+            if(rs==null){
+                System.out.println("null");
+            }
 
             System.out.println("the trains are:");
             for(int i=0;i<3 && rs.next();i++){
@@ -116,13 +121,13 @@ public class BookTickets extends JFrame implements ActionListener{
             }
             else if(e.getSource()==back){
                 setVisible(false);
-                new SearchTrains();
+                new SearchTrains(userName);
             }
         }
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","tuesday");
+        new BookTickets("ypr","bay","tuesday","suchith");
 
     }
 
