@@ -64,32 +64,32 @@
 
 // }
 
-import javax.swing.*;
-import javax.swing.JPanel;
-import java.awt.*;
+// import javax.swing.*;
+// import javax.swing.JPanel;
+// import java.awt.*;
 
-public class Createcol {
-    Createcol(){
-        JLabel label=new JLabel("hi");
-        // label.setBounds(5, 10, 30, 30);
-        label.setVerticalAlignment(JLabel.BOTTOM );
+// public class Createcol {
+//     Createcol(){
+//         JLabel label=new JLabel("hi");
+//         // label.setBounds(5, 10, 30, 30);
+//         label.setVerticalAlignment(JLabel.BOTTOM );
         
-        JPanel redpannel =new JPanel();
-        redpannel.setBackground(Color.red);
-        redpannel.setBounds(0,0,750,200);
-        redpannel.setLayout(new BorderLayout());
-        JFrame frame=new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-        frame.setSize(750,750);
-        frame.setVisible(true);
-        frame.add(redpannel);
-        redpannel.add(label);
-    }
-    public static void main(String[] args) {
-       new Createpan(); 
-    }
-}
+//         JPanel redpannel =new JPanel();
+//         redpannel.setBackground(Color.red);
+//         redpannel.setBounds(0,0,750,200);
+//         redpannel.setLayout(new BorderLayout());
+//         JFrame frame=new JFrame();
+//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//         frame.setLayout(null);
+//         frame.setSize(750,750);
+//         frame.setVisible(true);
+//         frame.add(redpannel);
+//         redpannel.add(label);
+//     }
+//     public static void main(String[] args) {
+//        new Createpan(); 
+//     }
+// }
 
 
 // import javax. swing.*;

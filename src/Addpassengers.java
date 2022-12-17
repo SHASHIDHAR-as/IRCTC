@@ -14,19 +14,30 @@ public class Addpassengers extends JFrame implements ActionListener {
     DefaultTableModel model;
     static Box vertical = Box.createVerticalBox();
     String Pnrnum;
-
-    Addpassengers(BookedTrain details) {
+    int train_no,seats=0;
+    String train_name;
+    String source ;
+    String destination;
+    String arrivalTime;
+        
+    String destinationTime;
+    int cost;
+    int pass_num=0;
+    String user_name;
+    Addpassengers(BookedTrain details,String user_name) {
+        this.user_name=user_name;
 
         Random ran = new Random();
         long first7 = (ran.nextLong() % 90000000L) + 2356000000L;
         Pnrnum = "" + Math.abs(first7);
         System.out.println(Pnrnum);
-        int train_no = details.train_no;
-        String train_name = details.train_name;
-        String source = details.source;
-        String destination = details.destination;
-        String arrivalTime = details.arrivalTime;
-        String destinationTime = details.destination;
+            train_no = details.train_no;
+            train_name = details.train_name;
+            source = details.source;
+            destination = details.destination;
+            arrivalTime = details.arrivalTime;
+            destinationTime = details.destination;
+            cost=details.cost;
         // System.out.println(train_name);
         setTitle("IRCTC");
         // to show the selectd train
@@ -120,7 +131,7 @@ public class Addpassengers extends JFrame implements ActionListener {
         panel3.setBackground(Color.green);
         panel3.setBounds(0, 200, 1000, 800);
 
-        cols = new String[] { "Name", "AGE", "GENDER","PNR" };
+        cols = new String[] { "Name", "AGE", "GENDER","PNR","Ticket cost" };
 
         model = (DefaultTableModel) table.getModel();
 
@@ -152,6 +163,7 @@ public class Addpassengers extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        
         if (e.getSource() == Add) {
             String gender = null;
             if (male.isSelected())
@@ -164,23 +176,29 @@ public class Addpassengers extends JFrame implements ActionListener {
             if (PassengerName.getText().equals("") || Age.getText().equals("") || gender == null) {
                 JOptionPane.showMessageDialog(null, "Please fill all the details");
             } else {
-                model.addRow(new Object[] { PassengerName.getText(), Age.getText(), gender,Pnrnum });
+                model.addRow(new Object[] { PassengerName.getText(), Age.getText(), gender,Pnrnum ,cost});
+                pass_num++;
+                seats++;
             }
         } else if (e.getSource() == delete) {
             if (table.getSelectedRow() != -1) {
                 // remove selected row from the model
                 model.removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+                pass_num--;
+                seats--;
             }
         } else if (e.getSource() == back) {
             setVisible(false);
-            new SearchTrains().setVisible(true);
+            new SearchTrains(user_name).setVisible(true);
         } else if (e.getSource() == submit) {
             try {
                 Conn c = new Conn();
                 int rows = table.getRowCount();
                 System.out.println(rows);
-
+                int total=pass_num*cost;
+                System.out.println("Total cost"+total);
+                System.out.println(seats);
                 for (int row = 0; row < rows; row++) {
                     String PName = (String) table.getValueAt(row, 0);
                     String age = (String) table.getValueAt(row, 1);
@@ -192,8 +210,10 @@ public class Addpassengers extends JFrame implements ActionListener {
                     // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
                 }
                 JOptionPane.showMessageDialog(null, "Successfully Saved");
-
                 setVisible(false);
+                
+                new ConfirmBooking(train_no,train_name,source,destination,arrivalTime,destinationTime,Pnrnum,total,seats,user_name).setVisible(true);
+                // setVisible(false);
 
             } catch (Exception error) {
                 System.out.println(error);
@@ -202,7 +222,7 @@ public class Addpassengers extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
-        new Addpassengers(details);
+        BookedTrain details = new BookedTrain(100, "hampi", "ksr", "ypr", "sd", "sd", 10);
+        new Addpassengers(details,"shashi");
     }
 }

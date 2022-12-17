@@ -23,10 +23,12 @@ public class BookTickets extends JFrame implements ActionListener{
     ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
 
     JButton back;
+    String user_name;
     
-    BookTickets(String source,String destination,String day){
+    BookTickets(String source,String destination,String day,String user_name){
         this.source=source;
         this.destination=destination;
+        this.user_name=user_name;
         
         add(jsp, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
@@ -113,17 +115,17 @@ public class BookTickets extends JFrame implements ActionListener{
                 BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
 
                 setVisible(false);
-                new Addpassengers(details).setVisible(true);
+                new Addpassengers(details,user_name).setVisible(true);
             }
             else if(e.getSource()==back){
                 setVisible(false);
-                new SearchTrains();
+                new SearchTrains(user_name);
             }
         }
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","tuesday");
+        new BookTickets("ypr","bay","tuesday","shashi");
 
     }
 

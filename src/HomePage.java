@@ -6,8 +6,9 @@ public class HomePage extends JFrame implements ActionListener{
 
     JButton Booking,BookTickets, PNRstatus,Profile;
  
-
-    HomePage() {
+    String user_name;
+    HomePage(String user_name) {
+        this.user_name=user_name;
         setTitle("IRCTC");
         setLayout(null);
 
@@ -73,21 +74,21 @@ public class HomePage extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==BookTickets){
             setVisible(false);
-            new SearchTrains().setVisible(true);
+            new SearchTrains(user_name).setVisible(true);
         }
         else if(e.getSource()==Booking){
             setVisible(false);
-            new Register().setVisible(true);
+            new MyBookings(user_name).setVisible(true);
         }
         else if(e.getSource()==PNRstatus){
             setVisible(false);
-            new Register().setVisible(true);
+            new PNRStatus(user_name).setVisible(true);
         }
         else if(e.getSource()==Profile){
             setVisible(false);
-            new Register().setVisible(true);
+            new Profile(user_name).setVisible(true);
         }
     }public static void main(String[] args) {
-        new HomePage();
+        new HomePage("shashi");
     }   
 }

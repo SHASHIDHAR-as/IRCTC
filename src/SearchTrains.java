@@ -9,8 +9,9 @@ public class SearchTrains extends JFrame implements ActionListener{
     JTextField From, To;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
-
-    SearchTrains() {
+    String user_name;
+    SearchTrains(String user_name) {
+        this.user_name=user_name;
         setTitle("IRCTC");
         setLayout(null);
 
@@ -93,7 +94,7 @@ public class SearchTrains extends JFrame implements ActionListener{
                 String destination=To.getText();
                 String day=getDay(dateChooser.getDate());
                 setVisible(false);
-                new BookTickets(source, destination,day).setVisible(true);
+                new BookTickets(source, destination,day,user_name).setVisible(true);
             }
         }
         else if(e.getSource()==Clear){
@@ -103,7 +104,7 @@ public class SearchTrains extends JFrame implements ActionListener{
 
         else if(e.getSource()==back){
             setVisible(false);
-            new HomePage().setVisible(true);
+            new HomePage(user_name).setVisible(true);
         } 
     }
 
@@ -113,7 +114,7 @@ public class SearchTrains extends JFrame implements ActionListener{
         return dow.name();
     }
     public static void main(String args[]) {
-        new SearchTrains();
+        new SearchTrains("shashi");
     }
 
 }

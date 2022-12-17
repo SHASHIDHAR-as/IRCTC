@@ -108,7 +108,7 @@ public class Login extends JFrame implements ActionListener {
                     }
 
                     setVisible(false);
-                    new HomePage().setVisible(true);
+                    new HomePage(userName.getText()).setVisible(true);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Invalid Captcha");  
