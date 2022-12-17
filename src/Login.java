@@ -5,8 +5,9 @@ import java.sql.*;
 import java.util.Random;
 
 public class Login extends JFrame implements ActionListener {
+
     JTextField userName, password,captchaText;
-    JButton login,register;
+    JButton login,register,back;
     JLabel captchaValue;            //label for displaying selected captcha
     String captcha[]={"12345","lksdj","sldkj","ksljfh"};        //storing captcha values
     String selectedCaptcha;     //to store selected captcha
@@ -72,6 +73,11 @@ public class Login extends JFrame implements ActionListener {
         register.addActionListener(this);
         image.add(register);
 
+        back=new JButton("back");
+        back.setBounds(600,600,100,40);
+        back.addActionListener(this);
+        add(back);
+
         getContentPane().setBackground(Color.white);
 
         setSize(1000, 700);
@@ -122,6 +128,10 @@ public class Login extends JFrame implements ActionListener {
         else if(e.getSource()==register){
             setVisible(false);
             new Register().setVisible(true);
+        }
+        else if(e.getSource()==back){
+            setVisible(false);
+            new Main().setVisible(true);
         }
         
     }
