@@ -220,7 +220,7 @@ insert into pnr_status values(2111111111,200,'bay','gsdfg','oo');
 insert into pnr_status values(3111111111,300,'vande','adfafd','lpo');
 
 insert into bookings values(100,3111111111,'suchith','07th dec 22',356.25);
-insert into bookings values(100,1111111111,'harsha','07th dec 22',356.25);
+insert into bookings values(400,1111111111,'suchith','07th dec 22',356.25);
 insert into bookings values(200,3111111111,'sf','07th dec 22',1000.25);
 insert into bookings values(300,1111111111,'User Name','07th dec 22',5487);
 
@@ -240,3 +240,16 @@ insert into bookings values (booking_id,pnr_no,user_name,date,ticket_cost);
 desc bookings;
 
 select * from bookings;
+
+create table admin(
+login_id varchar(10) primary key,
+password varchar(20),
+email_id varchar(50)
+);
+
+insert into admin values(11111,'12345','suchithkumargm@gmail.com');
+insert into admin values(22222,'12345','suchithkumar2910@gmail.com');
+insert into admin values(33333,'12345','suchithkumaryt@gmail.com');
+insert into admin values(44444,'12345','sukanyam287@gmail.com');
+
+select * from admin;

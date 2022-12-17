@@ -3,7 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Admin extends JFrame implements ActionListener{
-    Admin(){
+    String loginId;
+
+    Admin(String loginId){
+        this.loginId=loginId;
+
         setTitle("IRCTC");
         setLayout(null);
         
@@ -20,7 +24,7 @@ public class Admin extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new Admin();
+        new Admin("11111");
     }
 
 }
