@@ -211,8 +211,7 @@ create table passengers(
 name varchar(20),
 age int,
 gender char(5),
-pnr_no bigint,
-foreign key (pnr_no)  references pnr_status(pnr_no)
+pnr_no bigint
 );
 
 insert into pnr_status values(1111111111,100,'hampi','ypr','bay');
@@ -233,6 +232,7 @@ insert into passengers values('such',20,'male',1111111111);
 insert into passengers values('such',20,'male',3111111111);
 
 select * from passengers;
+desc passengers;
 
 insert into pnr_status values(pnr_no,train_no,train_name,from_station,to_station);
 insert into passengers values(name,age,gender,pnr_no);

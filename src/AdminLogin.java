@@ -5,8 +5,9 @@ import java.sql.*;
 import java.util.Random;
 
 public class AdminLogin extends JFrame implements ActionListener{
+    String genOtp,email;
     JTextField loginId,password,otp;
-    JButton login,back,getOTP;
+    JButton login,back;
     AdminLogin(){
         setTitle("IRCTC");
         setLayout(null);        
@@ -18,14 +19,6 @@ public class AdminLogin extends JFrame implements ActionListener{
         password =new JTextField("Password");
         password.setBounds(100,200,200,50);
         add(password);
-
-        otp =new JTextField("OTP");
-        otp.setBounds(100,300,200,50);
-        add(otp);
-
-        getOTP =new JButton("Get OTP");
-        getOTP.setBounds(300,300,80,50);
-        add(getOTP);
 
         login=new JButton("LOGIN");
         login.setBounds(100,400,100,50);
@@ -44,60 +37,42 @@ public class AdminLogin extends JFrame implements ActionListener{
         setLocation(180, 20);
     }
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==getOTP){
-        //     String login_id=loginId.getText();
-        //     String passwordString=password.getText();
-        //     String otpEntered=otp.getText();
-        //     String genOtp=OTP(4).toString();
-        //     System.out.println(genOtp);
-        //     if(otp.equals(genOtp)){
-        //         try{
-        //             Conn c=new Conn();
-        //             ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
-        //             if(rs.next()){
-        //                 if(rs.getInt("valid")!=0){
-        //                     setVisible(false);
-        //                     new Admin((loginId.getText()));
-        //                 }else{
-        //                     JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
-        //                     setVisible(false);
-        //                     new Login().setVisible(true);
-        //                 }
-        //             }
-        //         }catch(Exception error){
-        //             System.out.println(error);
-        //         }
-        //     }else{
-        //         JOptionPane.showMessageDialog(null,"Invalid OTP..please try again");  
-        //             otp.setText("");
-        //     }
-        
-        //     setVisible(false);
-        //     new Admin(loginId.getText()).setVisible(true);
-        }
-        else if(e.getSource()==login){
+        if(e.getSource()==login){
+            genOtp=String.copyValueOf(OTP(4));
+            System.out.println(genOtp);
             String login_id=loginId.getText();
             String passwordString=password.getText();
             try{
                 Conn c=new Conn();
+
                 ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
                 if(rs.next()){
                     if(rs.getInt("valid")!=0){
-                        setVisible(false);
-                        new Admin((loginId.getText()));
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
-                        loginId.setText("");
-                        password.setText("");
+                        rs=c.s.executeQuery("select email_id from admin_login where login_id='"+loginId.getText()+"';");
+                        if(rs.next()){
+                            email=rs.getString("email_id");
+                            System.out.println(email);
+                            SendOTP.sendOTP(genOtp,email);
+                            String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email "); 
+                            System.out.println(enteredOtp);
+                            if(genOtp.equals(enteredOtp)){
+                                setVisible(false);
+                                new Admin(login_id);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
+                            }
+                        }
                     }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+                    loginId.setText("");
+                    password.setText("");
                 }
             }catch(Exception error){
                 System.out.println(error);
             }
-        }
-        else if(e.getSource()==back){
-            setVisible(false);
-            new Main().setVisible(true);
         }
     }
 

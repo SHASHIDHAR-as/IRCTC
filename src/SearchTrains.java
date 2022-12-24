@@ -1,11 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
 import java.time.*;
+import java.util.ArrayList;
 import java.util.Date;
 import com.toedter.calendar.JDateChooser;
 
 public class SearchTrains extends JFrame implements ActionListener{
+    ArrayList<String> stations=new ArrayList<>();
     JTextField From, To;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
@@ -15,6 +18,16 @@ public class SearchTrains extends JFrame implements ActionListener{
         this.userName=userName;
         setTitle("IRCTC");
         setLayout(null);
+        
+        try{
+            Conn c=new Conn();
+            ResultSet rs=c.s.executeQuery("select station_id from stations;");
+            while(rs.next()){
+                stations.add(rs.getString("station_id"));
+            }
+        }catch(Exception error){
+            System.out.println(error);
+        }
 
         //Main frame image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/orange.png"));

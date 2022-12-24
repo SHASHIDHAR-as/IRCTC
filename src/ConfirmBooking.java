@@ -175,21 +175,12 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                         int rows = table.getRowCount();
                         System.out.println(rows);
         
-                        for (int row = 0; row < rows; row++) {
-                            // String PName = (String) table.getValueAt(row, 0);
-                            // String age = (String) table.getValueAt(row, 1);
-                            // String gen = (String) table.getValueAt(row, 2);
-                            String Pnr = (String) table.getValueAt(row, 3);
-        
-                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnr+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
-
-                                    c.s.executeUpdate(query);
-                                    //insert into booking
-                                    
-                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnr+"','"+user_name+"','"+timeStamp+"','"+total+"')";
-                                    c.s.executeUpdate(query2);
-                            // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
-                        }
+                        String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                        c.s.executeUpdate(query);
+                        
+                        String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                        c.s.executeUpdate(query2);
+                        
                         JOptionPane.showMessageDialog(null, "Tickets confirmed\n"+"BOOKING ID:"+booking_id);
         
                         // setVisible(false);
@@ -204,34 +195,6 @@ public class ConfirmBooking extends JFrame implements ActionListener {
             new HomePage(user_name).setVisible(true);
         
         } 
-        
-        
-        //     setVisible(false);
-        //     new SearchTrains().setVisible(true);
-        // } else if (e.getSource() == submit) {
-        //     try {
-        //         Conn c = new Conn();
-        //         int rows = table.getRowCount();
-        //         System.out.println(rows);
-
-        //         for (int row = 0; row < rows; row++) {
-        //             String PName = (String) table.getValueAt(row, 0);
-        //             String age = (String) table.getValueAt(row, 1);
-        //             String gen = (String) table.getValueAt(row, 2);
-        //             String Pnr = (String) table.getValueAt(row, 3);
-
-        //                     String query = "Insert into Passengers(Name,Age,gender,pnr_no) values ('"+PName+"','"+age+"','"+gen+"','"+Pnr+"')";
-        //             c.s.executeUpdate(query);
-        //             // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
-        //         }
-        //         JOptionPane.showMessageDialog(null, "Successfully Saved");
-
-        //         setVisible(false);
-
-            // } catch (Exception error) {
-            //     System.out.println(error);
-            // }
-        // }
     }
 
     public static void main(String[] args) {

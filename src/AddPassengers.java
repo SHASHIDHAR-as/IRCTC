@@ -201,11 +201,11 @@ public class Addpassengers  extends JFrame implements ActionListener {
                 System.out.println(seats);
                 for (int row = 0; row < rows; row++) {
                     String PName = (String) table.getValueAt(row, 0);
-                    int age = (int)table.getValueAt(row, 1);
+                    int age = Integer.parseInt(table.getValueAt(row, 1).toString());
                     String gen = (String) table.getValueAt(row, 2);
-                    String Pnr = (String) table.getValueAt(row, 3);
+                    long Pnr =Long.parseLong(table.getValueAt(row, 3).toString());
 
-                            String query1= "Insert into Passengers(Name,Age,gender,pnr_no) values ('"+PName+"',"+age+",'"+gen+"','"+Pnr+"')";
+                            String query1= "Insert into Passengers(Name,Age,gender,pnr_no) values ('"+PName+"',"+age+",'"+gen+"',"+Pnr+")";
                     c.s.executeUpdate(query1);
                     // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
                 }
@@ -216,6 +216,7 @@ public class Addpassengers  extends JFrame implements ActionListener {
                 // setVisible(false);
 
             } catch (Exception error) {
+                error.printStackTrace();
                 System.out.println(error);
             }
         }

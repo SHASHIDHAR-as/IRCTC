@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import com.toedter.calendar.JDateChooser;
 import java.sql.*;
+import java.util.Random;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class Register extends JFrame implements ActionListener{
@@ -154,14 +156,23 @@ public class Register extends JFrame implements ActionListener{
                             JOptionPane.showMessageDialog(null,"user name can not contain white spaces"); 
                         }
                         else{
-                            String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
-                            String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
-                            c.s.executeUpdate(query1);
-                            c.s.executeUpdate(query2);
-
-                            JOptionPane.showMessageDialog(null,"Registration successfull...please login"); 
-                            setVisible(false);
-                            new Login().setVisible(true);
+                            String genOtp=String.copyValueOf(OTP(4));
+                            SendOTP.sendOTP(genOtp,emailText);
+                            String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email "); 
+                            System.out.println(enteredOtp);
+                            if(genOtp.equals(enteredOtp)){
+                                String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
+                                String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
+                                c.s.executeUpdate(query1);
+                                c.s.executeUpdate(query2);
+    
+                                JOptionPane.showMessageDialog(null,"Registration successfull...please login"); 
+                                setVisible(false);
+                                new Login().setVisible(true);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
+                            }                            
                         }
                     }
                 }catch(Exception error){
@@ -177,6 +188,18 @@ public class Register extends JFrame implements ActionListener{
             new Login().setVisible(true);
         }
         
+    }
+    static char[] OTP(int len)
+    {
+        System.out.print("You OTP is : ");
+        String numbers = "0123456789";
+        Random rndm_method = new Random();
+        char[] otp = new char[len];
+        for (int i = 0; i < len; i++)
+        {
+            otp[i] =numbers.charAt(rndm_method.nextInt(numbers.length()));
+        }
+        return otp;
     }
     public static void main(String[] args) {
         new Register();

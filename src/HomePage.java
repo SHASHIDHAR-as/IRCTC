@@ -94,7 +94,7 @@ public class HomePage extends JFrame implements ActionListener{
         }
         else if(e.getSource()==Profile){
             setVisible(false);
-            new Register().setVisible(true);
+            new Profile(userName).setVisible(true);
         }else if(e.getSource()==logout){
             setVisible(false);
             new Login().setVisible(true);

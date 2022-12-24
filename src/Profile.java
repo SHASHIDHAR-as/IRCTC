@@ -74,11 +74,11 @@ public class Profile extends JFrame implements ActionListener {
         try{
             Conn c=new Conn();
 
-            ResultSet rs=c.s.executeQuery("select userName ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where userName='"+userName+"';");
+            ResultSet rs=c.s.executeQuery("select user_name ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where user_name='"+userName+"';");
 
             System.out.println("the details are:");
                 while(rs.next()){
-                userName=rs.getString("userName");
+                userName=rs.getString("user_name");
                 Name=rs.getString("Name");
                 gender=rs.getString("gender");
                 address=rs.getString("address");

@@ -3,10 +3,9 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class SendOTP {
-    public static void sendOTP(String otp){
-
+    public static void sendOTP(String otp,String to){
         // Recipient's email ID needs to be mentioned.
-        String to = "projectemail295@gmail.com";
+        // String to = "projectemail295@gmail.com";
 
         // Sender's email ID needs to be mentioned
         String from = "suchithkumar2910@gmail.com";
@@ -64,6 +63,6 @@ public class SendOTP {
         }
     }
     public static void main(String args[]){
-        sendOTP("kljsdfg");
+        sendOTP("kljsdfg","projectemail295@gmail.com");
     }
 }
