@@ -184,6 +184,7 @@ public class AddTrains  extends JFrame implements ActionListener {
                 
                     JOptionPane.showMessageDialog(null, "train added successfully");
                     setVisible(false);
+                    new Admin(loginId);
 
             } catch (Exception error) {
                 System.out.println(error);

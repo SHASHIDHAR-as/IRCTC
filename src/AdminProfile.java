@@ -8,7 +8,7 @@ public class AdminProfile extends JFrame implements ActionListener {
     JLabel admin,name,gen,add;
     AdminProfile(String loginId) {
         this.loginId=loginId;
-
+        System.out.println("hahf;lafh");
         setTitle("IRCTC");
         setLayout(null);
 
@@ -47,7 +47,9 @@ public class AdminProfile extends JFrame implements ActionListener {
         try{
             Conn c=new Conn();
 
-            ResultSet rs=c.s.executeQuery("select login_id ,concat(first_name,last_name) as Name,gender,address from admin where login_id='"+loginId+"';");
+            String query="select login_id ,concat(first_name,last_name) as Name,gender,address from admin where login_id='"+loginId+"';";
+            System.out.println(query);
+            ResultSet rs=c.s.executeQuery(query);
 
             System.out.println("the details are:");
                 while(rs.next()){
@@ -84,6 +86,6 @@ public class AdminProfile extends JFrame implements ActionListener {
 }
 
     public static void main(String[] args) {
-        new AdminProfile("sf");
+        new AdminProfile("11111");
     }
 }

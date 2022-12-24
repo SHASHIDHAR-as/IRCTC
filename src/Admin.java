@@ -37,7 +37,7 @@ public class Admin extends JFrame implements ActionListener{
         addTrain.addActionListener(this);
         add(addTrain);
         
-        bookings =new JButton("view profile");
+        bookings =new JButton("view bookings");
         bookings.setBounds(100,200,100,50);
         bookings.addActionListener(this);
         add(bookings);
@@ -56,6 +56,7 @@ public class Admin extends JFrame implements ActionListener{
         
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==profile){
+            System.out.println("prilfe prwessd");
             setVisible(false);
             new AdminProfile(loginId);
         }
@@ -64,7 +65,8 @@ public class Admin extends JFrame implements ActionListener{
             new AddTrains(loginId);
         }
         else if(e.getSource()==bookings){
-
+            setVisible(false);
+            new AllBookings(loginId);
         }
         else if(e.getSource()==logout){
             setVisible(false);

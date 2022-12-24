@@ -76,7 +76,7 @@ public class Login extends JFrame implements ActionListener {
         back=new JButton("back");
         back.setBounds(600,600,100,40);
         back.addActionListener(this);
-        add(back);
+        image.add(back);
 
         getContentPane().setBackground(Color.white);
 
