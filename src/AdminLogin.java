@@ -45,38 +45,55 @@ public class AdminLogin extends JFrame implements ActionListener{
     }
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==getOTP){
-            String login_id=loginId.getText();
-            String passwordString=password.getText();
-            String otpEntered=otp.getText();
-            String genOtp=OTP(4).toString();
-            System.out.println(genOtp);
-            if(otp.equals(genOtp)){
-                try{
-                    Conn c=new Conn();
-                    ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
-                    if(rs.next()){
-                        if(rs.getInt("valid")!=0){
-                            setVisible(false);
-                            new Admin((loginId.getText()));
-                        }else{
-                            JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
-                            setVisible(false);
-                            new Login().setVisible(true);
-                        }
-                    }
-                }catch(Exception error){
-                    System.out.println(error);
-                }
-            }else{
-                JOptionPane.showMessageDialog(null,"Invalid OTP..please try again");  
-                    otp.setText("");
-            }
+        //     String login_id=loginId.getText();
+        //     String passwordString=password.getText();
+        //     String otpEntered=otp.getText();
+        //     String genOtp=OTP(4).toString();
+        //     System.out.println(genOtp);
+        //     if(otp.equals(genOtp)){
+        //         try{
+        //             Conn c=new Conn();
+        //             ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
+        //             if(rs.next()){
+        //                 if(rs.getInt("valid")!=0){
+        //                     setVisible(false);
+        //                     new Admin((loginId.getText()));
+        //                 }else{
+        //                     JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+        //                     setVisible(false);
+        //                     new Login().setVisible(true);
+        //                 }
+        //             }
+        //         }catch(Exception error){
+        //             System.out.println(error);
+        //         }
+        //     }else{
+        //         JOptionPane.showMessageDialog(null,"Invalid OTP..please try again");  
+        //             otp.setText("");
+        //     }
         
-            setVisible(false);
-            new Admin(loginId.getText()).setVisible(true);
+        //     setVisible(false);
+        //     new Admin(loginId.getText()).setVisible(true);
         }
         else if(e.getSource()==login){
-
+            String login_id=loginId.getText();
+            String passwordString=password.getText();
+            try{
+                Conn c=new Conn();
+                ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
+                if(rs.next()){
+                    if(rs.getInt("valid")!=0){
+                        setVisible(false);
+                        new Admin((loginId.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+                        loginId.setText("");
+                        password.setText("");
+                    }
+                }
+            }catch(Exception error){
+                System.out.println(error);
+            }
         }
         else if(e.getSource()==back){
             setVisible(false);

@@ -117,12 +117,12 @@ public class BookTickets extends JFrame implements ActionListener{
                 BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
 
                 setVisible(false);
-                new AddPassengers(details).setVisible(true);
+                new Addpassengers(details,userName).setVisible(true);
             }
-            else if(e.getSource()==back){
-                setVisible(false);
-                new SearchTrains(userName);
-            }
+        }
+        if(e.getSource()==back){
+            setVisible(false);
+            new SearchTrains(userName);
         }
     }
     public static void main(String args[])

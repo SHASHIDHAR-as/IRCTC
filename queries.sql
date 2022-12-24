@@ -132,7 +132,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  (300,4,'chi','1:00',30),
  (300,5,'ypr','1:00',40);
  
- select * from `300`;
+ select * from `500`;
  
 -- create tupes of source and destination
  select t1.station_id,t2.station_id
@@ -232,6 +232,8 @@ insert into passengers values('such',20,'male',2111111111);
 insert into passengers values('such',20,'male',1111111111);
 insert into passengers values('such',20,'male',3111111111);
 
+select * from passengers;
+
 insert into pnr_status values(pnr_no,train_no,train_name,from_station,to_station);
 insert into passengers values(name,age,gender,pnr_no);
 
@@ -243,13 +245,45 @@ select * from bookings;
 
 create table admin(
 login_id varchar(10) primary key,
-password varchar(20),
-email_id varchar(50)
+first_name varchar(20),
+last_name varchar(20),
+gender varchar(10),
+address varchar(100)
 );
 
-insert into admin values(11111,'12345','suchithkumargm@gmail.com');
-insert into admin values(22222,'12345','suchithkumar2910@gmail.com');
-insert into admin values(33333,'12345','suchithkumaryt@gmail.com');
-insert into admin values(44444,'12345','sukanyam287@gmail.com');
+insert into admin values('11111','suchith','kumar','male','aa');
+insert into admin values('22222','suchith','kumar','male','aa');
+insert into admin values('33333','suchith','kumar','male','aa');
+insert into admin values('44444','suchith','kumar','male','aa');
 
 select * from admin;
+
+create table admin_login(
+login_id varchar(10) primary key,
+password varchar(20),
+email_id varchar(50),
+foreign key (login_id) references admin(login_id)
+);
+
+insert into admin_login values(11111,'12345','suchithkumargm@gmail.com');
+insert into admin_login values(22222,'12345','suchithkumar2910@gmail.com');
+insert into admin_login values(33333,'12345','suchithkumaryt@gmail.com');
+insert into admin_login values(44444,'12345','sukanyam287@gmail.com');
+
+select * from admin_login;
+
+
+create table  if not exists `500`(
+train_no int ,
+stop_no int,
+station_id varchar(30),
+time varchar(20),
+cost int ,
+foreign key (station_id) references station(station_id),
+foreign key (train_no) references trains(train_no));
+
+Insert into `500` values ('500','1','bay','time',1);
+
+insert into trains values ('1000','1000',1000);
+
+delete from trains where train_no='1000';
