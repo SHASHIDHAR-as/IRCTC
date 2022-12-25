@@ -9,7 +9,7 @@ public class Login extends JFrame implements ActionListener {
     JTextField userName, password,captchaText;
     JButton login,register,back;
     JLabel captchaValue;            //label for displaying selected captcha
-    String captcha[]={"12345","lksdj","sldkj","ksljfh"};        //storing captcha values
+    String captcha[]={"12345","lksdj","sldkj","kslfh","78dhr","*&ghg"};        //storing captcha values
     String selectedCaptcha;     //to store selected captcha
 
     Login() {
@@ -26,55 +26,65 @@ public class Login extends JFrame implements ActionListener {
 
         //username text feild
         userName = new JTextField("User Name");
-        userName.setBounds(260, 219, 500, 40);
-        userName.setFont(new Font("Raleway", Font.BOLD, 15));
+        userName.setBounds(257, 220, 500, 40);
+        userName.setFont(new Font("Raleway", Font.BOLD, 20));
         userName.setForeground(Color.gray);
         userName.setBorder(null);
         image.add(userName);
 
         //password text feild
         password = new JTextField("Password");
-        password.setBounds(260, 278, 500, 40);
-        password.setFont(new Font("Raleway", Font.BOLD, 15));
+        password.setBounds(257, 280, 500, 40);
+        password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);
         password.setBorder(null);
         image.add(password);
 
         //login button
-        login = new JButton("Login");
-        login.setBounds(687, 417, 76, 30);
+        login = new JButton("LOGIN");
+        login.setBounds(689, 393, 80, 30);
         login.setForeground(Color.white);
         login.setBackground(Color.ORANGE);
-        login.setFont(new Font("Raleway", Font.BOLD, 16));
+        login.setFont(new Font("Raleway", Font.BOLD, 24));
         login.setBorder(null);
+        login.setOpaque(false);
         login.addActionListener(this);
         image.add(login);
 
         //generate random captcha and display
         selectedCaptcha=getRandom(captcha);
         captchaValue=new JLabel(selectedCaptcha);
-        captchaValue.setBounds(387,450,50,50);
+        captchaValue.setBounds(295,380,100,50);
+        captchaValue.setForeground(Color.white);
+        captchaValue.setFont(new Font("Raleway", Font.BOLD, 23));
         image.add(captchaValue);
 
         //enter captcha
-        captchaText=new JTextField();
-        captchaText.setBounds(460, 440, 200, 40);
-        captchaText.setFont(new Font("Raleway", Font.BOLD, 15));
+        captchaText=new JTextField("Captcha");
+        captchaText.setBounds(420, 385, 180, 40);
+        captchaText.setFont(new Font("Raleway", Font.BOLD, 20));
         captchaText.setForeground(Color.gray);
+        captchaText.setBorder(null);
         captchaText.addActionListener(this);
         image.add(captchaText);
 
         register=new JButton("Register User");
-        register.setBounds(387, 617, 90, 30);
-        register.setForeground(Color.white);
-        register.setBackground(Color.ORANGE);
-        register.setFont(new Font("Raleway", Font.BOLD, 16));
+        register.setBounds(415, 470, 170, 30);
+        register.setForeground(Color.decode("#E87020"));
+        register.setFont(new Font("Raleway", Font.BOLD, 25));
+        register.setBackground(Color.white);
         register.setBorder(null);
+        // register.setOpaque(false);
         register.addActionListener(this);
         image.add(register);
-
-        back=new JButton("back");
-        back.setBounds(600,600,100,40);
+        
+        back=new JButton("BACK");
+        back.setBounds(697,470,70,30);
+        back.setFont(new Font("Raleway", Font.BOLD, 20));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
         back.addActionListener(this);
         image.add(back);
 

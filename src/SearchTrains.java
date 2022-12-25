@@ -129,5 +129,4 @@ public class SearchTrains extends JFrame implements ActionListener{
     public static void main(String args[]) {
         new SearchTrains("suchith");
     }
-
 }
