@@ -51,9 +51,10 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  insert into trains values(100,'hampi express',10);
  insert into trains values(200,'kar express',0);
  insert into trains values(300,'kannada express',40);
- 
+  update  trains set seats_available=40 where train_no =200;
  select * from trains;
- 
+ use irctc;
+ drop table trains;
  -- table to store station details
  create table station(
  station_id char(3) primary key,
@@ -93,6 +94,8 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  foreign key (station_id) references station(station_id),
   foreign key (train_no) references trains(train_no)
  );
+ select *from `200`;
+ 
  
   create table `300`(
  train_no int ,
@@ -122,7 +125,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
   (200,3,'bay','1:00',20),
   (200,4,'sol','1:00',30),
   (200,5,'del','1:00',40);
- 
+ use irctc;
  select * from `200`;
  
  insert into `300` values 
@@ -153,10 +156,10 @@ select train_no,train_name
  from trains where trains.train_no= 
 (select t.train_no from 
 (select t1.train_no,t1.station_id as source,t2.station_id as destination 
-from `100` as t1 
-cross join `100` as t2 
+from `200` as t1 
+cross join `200` as t2 
 where t1.stop_no < t2.stop_no) as t 
-where t.source='ypr' and t.destination='ken');
+where t.source='ypr' and t.destination='sol');
 
 -- create a schedule table 
 create table schedule(
@@ -173,25 +176,91 @@ foreign key (train_no) references trains(train_no)
 
 insert into schedule values
 (100,'y','y','y','y','y','n','n'),
-(100,'n','y','y','n','y','n','n'),
-(100,'y','n','y','n','n','y','y');
+(200,'n','y','y','n','y','n','n'),
+(300,'y','n','y','n','n','y','y');
 
 select * from schedule;
+drop table schedule;
 
 select * from searching;
 
 -- get time and cost of travel
-select t1.time,t2.time , (t2.cost-t1.cost) from `100` as t1,`100` as t2
-where t1.station_id='ypr' and t2.station_id='ken';
+select t1.time,t2.time , (t2.cost-t1.cost) from `200` as t1,`200` as t2
+where t1.station_id='ypr' and t2.station_id='sol';
 
+select distinct(t1.time) as arrival,t2.time as destination, (t2.cost-t1.cost) as cost 
+from (`200` as t1,`200` as t2) inner join schedule
+on t1.station_id='ypr' and t2.station_id='sol' and t1.stop_no<t2.stop_no
+and schedule.train_no=200 and schedule.wednesday='y';
 
 create table Passenger(
 Name varchar(50),
 Age varchar(10),
 Gender varchar(20),
-Pnr_num numeric(10));
+Pnr_num varchar(10));
 
 SET SQL_SAFE_UPDATES = 0;
 delete from Passenger;
-select *from Passenger;
+select *from Passenger; 
 drop table passenger;
+
+create table pnr_status(
+pnr_no varchar(10) primary key,
+train_no int, 
+train_name varchar(20),
+from_station varchar(20),
+to_station varchar(20),
+foreign key (train_no) references trains(train_no)
+);
+
+drop  table pnr_status;
+
+insert into pnr_status values(4565644,100,'hampi','ksr','ypr');
+select *from pnr_status;
+select *from pnr_status where pnr_no=2279320292;
+select *from user where user_name='shashi';
+select user_name ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where user_name='shashi';
+desc user;
+show tables;
+
+create table bookings(
+booking_id int primary key,
+pnr_no varchar(10),
+user_name varchar(50),
+date varchar(50),
+ticket_cost int,
+foreign key (user_name) references user_login(user_name),
+foreign key(pnr_no) references pnr_status(pnr_no)
+);
+drop table bookings;
+select *from pnr_status;
+desc pnr_status;
+desc passenger;
+select Name ,age,gender from passenger where pnr_num=2413536473;
+select *from `200`;
+show tables;
+select *from bookings;
+
+use irctc;
+create table admin(
+login_id varchar(10) primary key,
+first_name varchar(20),
+last_name varchar(20),
+gender varchar(10),
+address varchar(100)
+);
+insert into admin values('11111','shashidhar','as','male','aa');
+insert into admin values('22222','suchith','kumar','male','aa');
+insert into admin values('33333','suchith','kumar','male','aa');
+insert into admin values('44444','suchith','kumar','male','aa');
+
+create table admin_login(
+login_id varchar(10) primary key,
+password varchar(20),
+email_id varchar(50),
+foreign key (login_id) references admin(login_id)
+);
+insert into admin_login values(11111,'12345','shashidhar.shivaraj715@gmail.com');
+insert into admin_login values(22222,'12345','suchithkumar2910@gmail.com');
+insert into admin_login values(33333,'12345','suchithkumaryt@gmail.com');
+insert into admin_login values(44444,'12345','sukanyam287@gmail.com');

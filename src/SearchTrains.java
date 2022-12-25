@@ -9,9 +9,10 @@ public class SearchTrains extends JFrame implements ActionListener{
     JTextField From, To;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
-    String user_name;
-    SearchTrains(String user_name) {
-        this.user_name=user_name;
+    String userName;
+
+    SearchTrains(String userName) {
+        this.userName=userName;
         setTitle("IRCTC");
         setLayout(null);
 
@@ -72,7 +73,6 @@ public class SearchTrains extends JFrame implements ActionListener{
         back.addActionListener(this);
         image.add(back);
 
-
         getContentPane().setBackground(Color.white);
 
         setSize(1000, 700);
@@ -86,7 +86,7 @@ public class SearchTrains extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==Search){
             //check if all the details are entered
-            if(From.getText().equals("") || To.getText().equals("") ){
+            if(From.getText().equals("") || To.getText().equals("") ||getDay(dateChooser.getDate())==""){
                 JOptionPane.showMessageDialog(null,"Please fill all the details");  
             }
             else{
@@ -94,7 +94,8 @@ public class SearchTrains extends JFrame implements ActionListener{
                 String destination=To.getText();
                 String day=getDay(dateChooser.getDate());
                 setVisible(false);
-                new BookTickets(source, destination,day,user_name).setVisible(true);
+                new BookTickets(source, destination,day,userName).setVisible(true);
+                // System.out.println(source);
             }
         }
         else if(e.getSource()==Clear){
@@ -104,7 +105,7 @@ public class SearchTrains extends JFrame implements ActionListener{
 
         else if(e.getSource()==back){
             setVisible(false);
-            new HomePage(user_name).setVisible(true);
+            new HomePage(userName).setVisible(true);
         } 
     }
 

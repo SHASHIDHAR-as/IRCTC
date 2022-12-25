@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ public class BookTickets extends JFrame implements ActionListener{
     JScrollPane jsp = new JScrollPane(vertical);
     JPanel mainPanel = new JPanel(new FlowLayout());
 
-    String source,destination;
+    String source,destination,userName;
     
     static ArrayList<JPanel> panels=new ArrayList<JPanel>();
     ArrayList<JButton> book=new ArrayList<JButton>();
@@ -23,12 +22,12 @@ public class BookTickets extends JFrame implements ActionListener{
     ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
 
     JButton back;
-    String user_name;
     
-    BookTickets(String source,String destination,String day,String user_name){
+    BookTickets(String source,String destination,String day,String userName){
         this.source=source;
         this.destination=destination;
-        this.user_name=user_name;
+        this.userName=userName;
+        System.out.println(source);
         
         add(jsp, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
@@ -39,6 +38,10 @@ public class BookTickets extends JFrame implements ActionListener{
             Conn c=new Conn();
 
             ResultSet rs=c.s.executeQuery("select train_no from trains");
+
+            if(rs==null){
+                System.out.println("null");
+            }
 
             System.out.println("the trains are:");
             for(int i=0;i<3 && rs.next();i++){
@@ -52,6 +55,7 @@ public class BookTickets extends JFrame implements ActionListener{
                 
                 rs=c.s.executeQuery(query);
                 if(rs.next()){
+                    // System.out.println(rs.getString("train_no"));
                     train_no.add(rs.getInt("train_no"));
                     train_name.add(rs.getString("train_name"));
                 }
@@ -68,6 +72,7 @@ public class BookTickets extends JFrame implements ActionListener{
                     arrivalTime.add(rs.getString("arrival"));
                     destinationTime.add(rs.getString("destination"));
                     costOfTravel.add(rs.getInt("cost"));
+                    // System.out.println(rs.getString("destination"));
                 }
             }
 
@@ -112,20 +117,21 @@ public class BookTickets extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<book.size();i++){
             if(e.getSource()==book.get(i)){
+                System.out.println(source+" "+destination);
                 BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
 
                 setVisible(false);
-                new Addpassengers(details,user_name).setVisible(true);
+                new Addpassengers(details,userName).setVisible(true);
             }
             else if(e.getSource()==back){
                 setVisible(false);
-                new SearchTrains(user_name);
+                new SearchTrains(userName);
             }
         }
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","tuesday","shashi");
+        new BookTickets("ypr","sol","tuesday","shashi");
 
     }
 

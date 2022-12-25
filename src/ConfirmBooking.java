@@ -5,9 +5,11 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 import java.sql.*;
+import java.io.File;
 
 
 public class ConfirmBooking extends JFrame implements ActionListener {
@@ -28,18 +30,21 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String destinationTime ;
         String user_name;
         String timeStamp;
+        String email;
 
-    ConfirmBooking(int train_no,String train_name,String source,String destination,String arrivalTime,String destinationTime,String Pnrnum,int total,int seats,String user_name) {
+    // ConfirmBooking(int train_no,String train_name,String source,String destination,String arrivalTime,String destinationTime,String Pnrnum,int total,int seats,String user_name) {
 
-        this.train_no = train_no;
-        this.train_name = train_name;
-        this.source = source;
-        this.destination = destination;  
-        System.out.println(train_no); 
-        this.arrivalTime = arrivalTime;
+        ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
+
+        train_no = details.train_no;
+        train_name = details.train_name;
+        source = details.source;
+        destination =details. destination;  
+        // System.out.println(train_no); 
+        arrivalTime = details.arrivalTime;
         this.destinationTime = destination;
         this.Pnrnum=Pnrnum;
-        this.total=total;
+        total=details.cost;
         this.seats=seats;
         this.user_name=user_name;
         // System.out.println(train_name);
@@ -141,12 +146,6 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
                     ResultSet rs = c.s.executeQuery("select * from Passenger where pnr_num = '" + Pnrnum + "'");
-
-                // Printing ID, name, email of customers
-                // of the SQL command above
-                // System.out.println("Name\t\t\tage\t\tGender\t\tPNR");
-
-                // Condition check
                 while (rs.next()) {
 
                     String name = rs.getString("Name");
@@ -175,67 +174,73 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                         int rows = table.getRowCount();
                         System.out.println(rows);
         
-                        for (int row = 0; row < rows; row++) {
-                            // String PName = (String) table.getValueAt(row, 0);
-                            // String age = (String) table.getValueAt(row, 1);
-                            // String gen = (String) table.getValueAt(row, 2);
-                            String Pnr = (String) table.getValueAt(row, 3);
-        
-                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnr+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
 
                                     c.s.executeUpdate(query);
                                     //insert into booking
                                     
-                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnr+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
                                     c.s.executeUpdate(query2);
+
+
+
+                                    // String query3 = ("select email from user_login where user_name='" + user_name + "';");
+                                    // c.s.executeUpdate(query3);
+                                    // System.out.println(c.s.executeUpdate(query3));
+                                    // while(rs.next()){
+                                    // System.out.println(rsd.getString("email"));
+                                    // System.out.println(rs);
+                                    // }
+                                    // c.s.executeUpdate(query3);
                             // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
-                        }
+                        // }
                         JOptionPane.showMessageDialog(null, "Tickets confirmed\n"+"BOOKING ID:"+booking_id);
+                        
         
                         // setVisible(false);
-        
+
+                        ArrayList<String> details=new ArrayList<String>();
+                        details.add("PNR NUM    :"+Pnrnum);
+                        details.add("USER NAME  :"+user_name);
+                        details.add("TIME       :"+timeStamp);
+                        details.add("NUM SEATS  :"+String.valueOf(seats));
+                        details.add("TOTAL FAIR :"+String.valueOf(total));
+                        
+
+                        // File f =new File(user_name+".txt");
+                        // Customerfile d=new Customerfile();
+                        // d.createfile(user_name);
+                        // d.writefile(details,user_name);
+                        
+                        ResultSet rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+user_name+"';");
+                        
+                        if(rs.next()){
+                            email=rs.getString("email");
+                            System.out.println(email);
+                        }
+                        MailAttachment.sendConfirmation(email,user_name,details);
+                        
+                        // d.deletefile(user_name);
+
+
                     } catch (Exception error) {
                         System.out.println(error);
                     }
+                    setVisible(false);
+                    new HomePage(user_name).setVisible(true);
         } 
 
-        else if (e.getSource() == back) {
-            setVisible(false);
-            new HomePage(user_name).setVisible(true);
-        
-        } 
-        
-        
+        // else if (e.getSource() == back) {
         //     setVisible(false);
-        //     new SearchTrains().setVisible(true);
-        // } else if (e.getSource() == submit) {
-        //     try {
-        //         Conn c = new Conn();
-        //         int rows = table.getRowCount();
-        //         System.out.println(rows);
-
-        //         for (int row = 0; row < rows; row++) {
-        //             String PName = (String) table.getValueAt(row, 0);
-        //             String age = (String) table.getValueAt(row, 1);
-        //             String gen = (String) table.getValueAt(row, 2);
-        //             String Pnr = (String) table.getValueAt(row, 3);
-
-        //                     String query = "Insert into Passenger(Name,Age,gender,pnr_num) values ('"+PName+"','"+age+"','"+gen+"','"+Pnr+"')";
-        //             c.s.executeUpdate(query);
-        //             // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
-        //         }
-        //         JOptionPane.showMessageDialog(null, "Successfully Saved");
-
-        //         setVisible(false);
-
-            // } catch (Exception error) {
-            //     System.out.println(error);
-            // }
-        // }
+        //     new HomePage(user_name).setVisible(true);
+        
+        // } 
     }
 
     public static void main(String[] args) {
-        // BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
-        new ConfirmBooking(100,"hampi","ksr","ypr","sd","fs","1334",54,2,"shashi");
+        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
+        // new ConfirmBooking(100,"hampi","ksr","ypr","sd","fs","1334",54,2,"shashi");
+
+        new ConfirmBooking(details,"54654655","shashi",40);
     }
 }

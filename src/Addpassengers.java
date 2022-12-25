@@ -212,7 +212,13 @@ public class Addpassengers extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Successfully Saved");
                 setVisible(false);
                 
-                new ConfirmBooking(train_no,train_name,source,destination,arrivalTime,destinationTime,Pnrnum,total,seats,user_name).setVisible(true);
+                // new ConfirmBooking(train_no,train_name,source,destination,arrivalTime,destinationTime,Pnrnum,total,seats,user_name).setVisible(true);
+
+                BookedTrain details=new BookedTrain(train_no, train_name, source, destination, arrivalTime, destinationTime, total);
+
+
+
+                new ConfirmBooking(details,Pnrnum,user_name,seats);
                 // setVisible(false);
 
             } catch (Exception error) {
