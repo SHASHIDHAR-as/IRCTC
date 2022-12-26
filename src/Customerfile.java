@@ -20,11 +20,12 @@ public class Customerfile{
     String name){
         try{
             FileWriter fileWriter=new FileWriter(name+".txt");
-            fileWriter.write("Hi,name\nYour Train tickets are booked \nDETAILS :\n");
+            fileWriter.write("               IRCTC RAILWAY RESERVATION            \n\n");
+            fileWriter.write("Hi,"+name+"\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
             for(String detail : details) {
                 
                 fileWriter.write("\n"+detail.toString()+System.lineSeparator());
-                System.out.println(detail);
+                // System.out.println(detail);
             }
             fileWriter.close();
             }

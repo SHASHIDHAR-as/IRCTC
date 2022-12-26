@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.transform.Source;
+
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;  
@@ -30,9 +32,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String destinationTime ;
         String user_name;
         String timeStamp;
-        String email;
-
-    // ConfirmBooking(int train_no,String train_name,String source,String destination,String arrivalTime,String destinationTime,String Pnrnum,int total,int seats,String user_name) {
+        String email,genOtp;
+        boolean buttonPressed = false;
 
         ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
 
@@ -47,8 +48,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         total=details.cost;
         this.seats=seats;
         this.user_name=user_name;
-        // System.out.println(train_name);
         setTitle("IRCTC");
+
         // to show the selectd train
         Container c = getContentPane();
         JPanel panel = new JPanel();
@@ -141,7 +142,9 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == show) {
+        
+        // if (!buttonPressed) {
+        if (e.getSource() == show & !buttonPressed) {
                 try{
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
@@ -152,16 +155,16 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     String age = rs.getString("Age");
                     String Gender = rs.getString("Gender");
                     String pnr = rs.getString("pnr_num");
-                    // int Pnr = rs.getInt("pnr_num");
-                    System.out.println(name + "\t\t" + age
-                            + "\t\t" + Gender+"\t\t"+pnr);
-                            model.addRow(new Object[] { name,age,Gender,pnr });
+                    model.addRow(new Object[] { name,age,Gender,pnr });
                 }
+                
             }
                 catch (Exception error) {
                     System.out.println(error);
                 }
+                buttonPressed = true;
                 }
+            // }
             
             
         else if (e.getSource() == confirm) {
@@ -182,46 +185,34 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                                     String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
                                     c.s.executeUpdate(query2);
 
-
-
-                                    // String query3 = ("select email from user_login where user_name='" + user_name + "';");
-                                    // c.s.executeUpdate(query3);
-                                    // System.out.println(c.s.executeUpdate(query3));
-                                    // while(rs.next()){
-                                    // System.out.println(rsd.getString("email"));
-                                    // System.out.println(rs);
-                                    // }
-                                    // c.s.executeUpdate(query3);
-                            // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
-                        // }
-                        JOptionPane.showMessageDialog(null, "Tickets confirmed\n"+"BOOKING ID:"+booking_id);
-                        
-        
-                        // setVisible(false);
-
                         ArrayList<String> details=new ArrayList<String>();
                         details.add("PNR NUM    :"+Pnrnum);
                         details.add("USER NAME  :"+user_name);
+                        details.add("SOURCE     :"+source);
+                        details.add("DESTINATION:"+destination);
                         details.add("TIME       :"+timeStamp);
+                        details.add("BOOKING ID :"+booking_id);
                         details.add("NUM SEATS  :"+String.valueOf(seats));
                         details.add("TOTAL FAIR :"+String.valueOf(total));
-                        
-
-                        // File f =new File(user_name+".txt");
-                        // Customerfile d=new Customerfile();
-                        // d.createfile(user_name);
-                        // d.writefile(details,user_name);
                         
                         ResultSet rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+user_name+"';");
                         
                         if(rs.next()){
                             email=rs.getString("email");
                             System.out.println(email);
+                            genOtp=String.copyValueOf(OTP(4));
+                            SendOTP.sendOTP(genOtp,email);
+                            String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email to confirm tickets "); 
+                            System.out.println(enteredOtp);
+                            if(genOtp.equals(enteredOtp)){
+                                JOptionPane.showMessageDialog(null,"Your tickets are being confirmed \nwait for 5 seconds");
+                                MailAttachment.sendConfirmation(email,user_name,details);
+                                JOptionPane.showMessageDialog(null, "Tickets confirmed \nBooking details are sent to your email\n"+"BOOKING ID:"+booking_id);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
+                            }
                         }
-                        MailAttachment.sendConfirmation(email,user_name,details);
-                        
-                        // d.deletefile(user_name);
-
 
                     } catch (Exception error) {
                         System.out.println(error);
@@ -229,17 +220,28 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     setVisible(false);
                     new HomePage(user_name).setVisible(true);
         } 
+        else if (e.getSource() == back) {
+            setVisible(false);
+            new HomePage(user_name).setVisible(true);
+        } 
 
-        // else if (e.getSource() == back) {
-        //     setVisible(false);
-        //     new HomePage(user_name).setVisible(true);
-        
-        // } 
+
+    }
+    static char[] OTP(int len)
+    {
+        System.out.print("You OTP is : ");
+        String numbers = "0123456789";
+        Random rndm_method = new Random();
+        char[] otp = new char[len];
+        for (int i = 0; i < len; i++)
+        {
+            otp[i] =numbers.charAt(rndm_method.nextInt(numbers.length()));
+        }
+        return otp;
     }
 
     public static void main(String[] args) {
         BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
-        // new ConfirmBooking(100,"hampi","ksr","ypr","sd","fs","1334",54,2,"shashi");
 
         new ConfirmBooking(details,"54654655","shashi",40);
     }

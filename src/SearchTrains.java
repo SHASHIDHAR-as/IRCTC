@@ -6,7 +6,7 @@ import java.util.Date;
 import com.toedter.calendar.JDateChooser;
 
 public class SearchTrains extends JFrame implements ActionListener{
-    JTextField From, To;
+    JComboBox From, To;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
     String userName;
@@ -25,7 +25,8 @@ public class SearchTrains extends JFrame implements ActionListener{
         add(image);
 
         //username text feild
-        From = new JTextField("From station");
+        String fromstations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
+        From = new JComboBox(fromstations);
         From.setBounds(100, 219, 300, 40);
         From.setFont(new Font("Raleway", Font.BOLD, 15));
         From.setForeground(Color.gray);
@@ -33,7 +34,8 @@ public class SearchTrains extends JFrame implements ActionListener{
         image.add(From);
 
         //password text feild
-        To = new JTextField("To station");
+        String Tostations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
+        To = new JComboBox(Tostations);
         To.setBounds(460, 219, 300, 40);
         To.setFont(new Font("Raleway", Font.BOLD, 15));
         To.setForeground(Color.gray);
@@ -86,12 +88,12 @@ public class SearchTrains extends JFrame implements ActionListener{
         //check for login
         if(e.getSource()==Search){
             //check if all the details are entered
-            if(From.getText().equals("") || To.getText().equals("") ||getDay(dateChooser.getDate())==""){
+            if(From.getSelectedItem().equals("") || To.getSelectedItem().equals("") ||getDay(dateChooser.getDate())==""){
                 JOptionPane.showMessageDialog(null,"Please fill all the details");  
             }
             else{
-                String source=From.getText();
-                String destination=To.getText();
+                String source=(String)From.getSelectedItem();
+                String destination=(String)To.getSelectedItem();
                 String day=getDay(dateChooser.getDate());
                 setVisible(false);
                 new BookTickets(source, destination,day,userName).setVisible(true);
@@ -99,8 +101,8 @@ public class SearchTrains extends JFrame implements ActionListener{
             }
         }
         else if(e.getSource()==Clear){
-            From.setText("");
-            To.setText("");
+            From.setSelectedItem("");
+            To.setSelectedItem("");
         }
 
         else if(e.getSource()==back){
@@ -117,5 +119,4 @@ public class SearchTrains extends JFrame implements ActionListener{
     public static void main(String args[]) {
         new SearchTrains("shashi");
     }
-
 }

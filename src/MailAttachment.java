@@ -45,7 +45,7 @@ public class MailAttachment {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject("IRCTC RAILWAY RESERVATION");
 
 
 
@@ -63,7 +63,7 @@ public class MailAttachment {
                 
                 attachmentPart.attachFile(f);
                 
-                textPart.setText("hi this is demo");
+                textPart.setText("Railway tickets booking confirmation");
                 multipart.addBodyPart(textPart);
                 multipart.addBodyPart(attachmentPart);
                 
