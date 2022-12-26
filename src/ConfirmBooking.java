@@ -3,8 +3,6 @@ import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;  
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Random;
 import java.sql.*;
@@ -29,19 +27,19 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String user_name;
         String timeStamp;
 
-    ConfirmBooking(int train_no,String train_name,String source,String destination,String arrivalTime,String destinationTime,String Pnrnum,int total,int seats,String user_name) {
+        ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
 
-        this.train_no = train_no;
-        this.train_name = train_name;
-        this.source = source;
-        this.destination = destination;  
-        System.out.println(train_no); 
-        this.arrivalTime = arrivalTime;
-        this.destinationTime = destination;
-        this.Pnrnum=Pnrnum;
-        this.total=total;
-        this.seats=seats;
-        this.user_name=user_name;
+            train_no = details.train_no;
+            train_name = details.train_name;
+            source = details.source;
+            destination =details. destination;  
+            // System.out.println(train_no); 
+            arrivalTime = details.arrivalTime;
+            this.destinationTime = destination;
+            this.Pnrnum=Pnrnum;
+            total=details.cost;
+            this.seats=seats;
+            this.user_name=user_name;
         // System.out.println(train_name);
         setTitle("IRCTC");
         // to show the selectd train
@@ -198,7 +196,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        // BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
-        new ConfirmBooking(100,"hampi","ksr","ypr","sd","fs","3111111111",54,2,"shashi");
+        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
+
+        new ConfirmBooking(details,"54654655","shashi",40);
     }
 }

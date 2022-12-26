@@ -1,17 +1,12 @@
 import java.io.*;
-
+import java.util.ArrayList;
 import java.util.Properties;
-
 import javax.mail.*;
 import javax.mail.internet.*;
 
 public class MailAttachment {
-    public static void main(String args[]){
-        
-        // Recipient's email ID needs to be mentioned.
-        String to = "projectemail295@gmail.com";
-
-        // Sender's email ID needs to be mentioned
+    public static void sendConfirmation(String email,String UserName,ArrayList<String> details){
+        Customerfile c=new Customerfile();
         String from = "suchithkumar2910@gmail.com";
 
         // Assuming you are sending email from through gmails smtp
@@ -45,10 +40,12 @@ public class MailAttachment {
             message.setFrom(new InternetAddress(from));
 
             // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject("IRCTC RAILWAY RESERVATION");
+
+
 
             Multipart multipart = new MimeMultipart();
 
@@ -58,27 +55,46 @@ public class MailAttachment {
 
             try {
                 
-                File f =new File("file.txt");
-
+                File f =new File(UserName+".txt");
+                c.createfile(UserName);
+                c.writefile(details,UserName);
+                
                 attachmentPart.attachFile(f);
-                textPart.setText("This is text from suchith");
+                
+                textPart.setText("Railway tickets booking confirmation");
                 multipart.addBodyPart(textPart);
                 multipart.addBodyPart(attachmentPart);
-
+                
             } catch (IOException e) {
-
+                
                 e.printStackTrace();
-
+                
             }
-
+            
             message.setContent(multipart);
-
+            
             System.out.println("sending...");
             // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
+            c.deletefile(UserName);
+        }
+        catch (MessagingException mex) {
             mex.printStackTrace();
         }
+    }
+    public static void main(String args[]){
+        
+        // Recipient's email ID needs to be mentioned.
+        String to = "suchithkumaryt@gmail.com";
+        String name="suchith";
+        ArrayList<String> details=new ArrayList<String>();
+        details.add(name);
+        details.add("blore");
+        details.add("9108733565");
+
+        // Sender's email ID needs to be mentioned
+        sendConfirmation(to,name,details);
+    
     }
 }
