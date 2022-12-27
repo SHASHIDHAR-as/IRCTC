@@ -13,7 +13,7 @@ public class Login extends JFrame implements ActionListener {
     String selectedCaptcha;     //to store selected captcha
 
     Login() {
-        setTitle("IRCTC");
+        setTitle("IRCTC");//
         setLayout(null);
 
         //Main frame image
