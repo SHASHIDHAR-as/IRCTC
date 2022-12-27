@@ -4,8 +4,10 @@ import java.awt.event.*;
 import java.time.*;
 import java.util.Date;
 import com.toedter.calendar.JDateChooser;
+import java.sql.*;
 
 public class SearchTrains extends JFrame implements ActionListener{
+    String FromStations[];
     JComboBox From, To;
     JButton Search,Clear,back;
     JDateChooser dateChooser;
@@ -25,17 +27,34 @@ public class SearchTrains extends JFrame implements ActionListener{
         add(image);
 
         //username text feild
-        String fromstations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
-        From = new JComboBox(fromstations);
+        // String fromstations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
+        
+        try{
+        Conn c=new Conn();
+        int count=0;
+        ResultSet rs=c.s.executeQuery("select count(station_id) as count from station");
+        if(rs.next()){
+            count=rs.getInt("count");
+            System.out.println(count);
+            FromStations=new String[count];
+            ResultSet rsd=c.s.executeQuery("select station_id from station");
+
+            for(int i=0;i<count&&rsd.next();i++){
+                FromStations[i]=rsd.getString("station_id");
+                // System.out.println(FromStations[i]);
+            }
+        }}catch(Exception error){
+            error.printStackTrace();
+        }
+
+        From = new JComboBox(FromStations);
         From.setBounds(100, 219, 300, 40);
         From.setFont(new Font("Raleway", Font.BOLD, 15));
         From.setForeground(Color.gray);
         From.setBorder(null);
         image.add(From);
 
-        //password text feild
-        String Tostations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
-        To = new JComboBox(Tostations);
+        To = new JComboBox(FromStations);
         To.setBounds(460, 219, 300, 40);
         To.setFont(new Font("Raleway", Font.BOLD, 15));
         To.setForeground(Color.gray);
