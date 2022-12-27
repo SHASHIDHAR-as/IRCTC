@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
@@ -6,12 +8,15 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class AddTrains  extends JFrame implements ActionListener {
-    JTextField trainNo,trainName,seats,stopNo,stationId,time,cost;
+    JTextField trainNo,trainName,seats,stopNo,time,cost;
+    JComboBox stationId;
     JButton saveTrain,Add, back, delete, submit;
     JTable table = new JTable();
     JScrollPane pane;
     Object[] cols = null;
     DefaultTableModel model;
+    String userName;
+    String FromStations[];
     String loginId,train_no,train_name,Seats;
     static Box vertical = Box.createVerticalBox();
         
@@ -53,8 +58,42 @@ public class AddTrains  extends JFrame implements ActionListener {
         stopNo.setBounds(10, 55, 200, 30);
         panel2.add(stopNo);
 
-        stationId = new JTextField("station Id");
-        stationId.setBounds(10, 90, 200, 30);
+
+        try{
+            Conn c=new Conn();
+            int count=0;
+            ResultSet rs=c.s.executeQuery("select count(station_id) as count from station");
+            if(rs.next()){
+                count=rs.getInt("count");
+                System.out.println(count);
+                FromStations=new String[count];
+                ResultSet rsd=c.s.executeQuery("select station_id from station");
+    
+                for(int i=0;i<count&&rsd.next();i++){
+                    FromStations[i]=rsd.getString("station_id");
+                    // System.out.println(FromStations[i]);
+                }
+            }}catch(Exception error){
+                error.printStackTrace();
+            }
+
+        stationId = new JComboBox(FromStations);
+        stationId.setBounds(10, 90, 200, 29);
+        stationId.setFont(new Font("Raleway", Font.BOLD, 15));
+        DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+        stationId.setRenderer(listRenderer);
+        stationId.setForeground(Color.black);
+        stationId.setBackground(Color.white);
+        stationId.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = new JButton();
+                button.setContentAreaFilled(false);
+                button.setBorder(null);
+                return button;
+            }
+        });
         panel2.add(stationId);
 
         time = new JTextField("time");
@@ -136,13 +175,13 @@ public class AddTrains  extends JFrame implements ActionListener {
 
         if (e.getSource() == Add) {
 
-            if (stopNo.getText().equals("") || stationId.getText().equals("") ||  time.getText().equals("") || cost.getText().equals("")) {
+            if (stopNo.getText().equals("") || stationId.getSelectedItem().equals("") ||  time.getText().equals("") || cost.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please fill all the details");
             } else {
-                if(!stations.contains(stationId.getText())){
+                if(!stations.contains(stationId.getSelectedItem())){
                     JOptionPane.showMessageDialog(null, "Invalid station id");
                 }else{
-                    model.addRow(new Object[] { stopNo.getText(), stationId.getText(),time.getText() ,cost.getText()});
+                    model.addRow(new Object[] { stopNo.getText(), stationId.getSelectedItem(),time.getText() ,cost.getText()});
                 }
             }
         } else if (e.getSource() == delete) {

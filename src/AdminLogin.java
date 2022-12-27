@@ -10,25 +10,47 @@ public class AdminLogin extends JFrame implements ActionListener{
     JButton login,back;
     AdminLogin(){
         setTitle("IRCTC");
-        setLayout(null);        
+        setLayout(null);    
 
-        loginId =new JTextField("Login Id");
-        loginId.setBounds(100,100,200,50);
-        add(loginId);
+        //Main frame image
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/adminlogin.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(0, 0, 983, 660);
+        add(image);    
+
+        loginId =new JTextField("Admin Id");
+        loginId.setBounds(250,240,490,30);
+        loginId.setFont(new Font("Raleway", Font.BOLD, 20));
+        loginId.setForeground(Color.gray);
+        loginId.setBorder(null);
+        image.add(loginId);
 
         password =new JTextField("Password");
-        password.setBounds(100,200,200,50);
-        add(password);
+        password.setBounds(250,318,490,30);
+        password.setFont(new Font("Raleway", Font.BOLD, 20));
+        password.setForeground(Color.gray);
+        password.setBorder(null);
+        image.add(password);
 
         login=new JButton("LOGIN");
-        login.setBounds(100,400,100,50);
+        login.setBounds(662,408,90,40);
+        login.setForeground(Color.white);
+        login.setBackground(Color.decode("#e87020"));
+        login.setFont(new Font("Raleway", Font.BOLD, 24));
+        login.setBorder(null);
         login.addActionListener(this);
-        add(login);
+        image.add(login);
 
         back=new JButton("BACK");
-        back.setBounds(200,400,100,50);
+        back.setBounds(250,410,70,30);
+        back.setFont(new Font("Raleway", Font.BOLD, 20));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.white);
+        back.setBorder(null);
         back.addActionListener(this);
-        add(back);
+        image.add(back);
         
         getContentPane().setBackground(Color.white);
 
@@ -45,7 +67,8 @@ public class AdminLogin extends JFrame implements ActionListener{
             try{
                 Conn c=new Conn();
 
-                ResultSet rs=c.s.executeQuery("SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';");
+                String query="SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='"+login_id+"' and password='"+passwordString+"';";
+                ResultSet rs=c.s.executeQuery(query);
                 if(rs.next()){
                     if(rs.getInt("valid")!=0){
                         rs=c.s.executeQuery("select email_id from admin_login where login_id='"+loginId.getText()+"';");
@@ -64,6 +87,11 @@ public class AdminLogin extends JFrame implements ActionListener{
                             }
                         }
                     }
+                    else{
+                    JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+                    loginId.setText("");
+                    password.setText("");
+                }
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
@@ -73,10 +101,9 @@ public class AdminLogin extends JFrame implements ActionListener{
             }catch(Exception error){
                 System.out.println(error);
             }
-        }
-        if(e.getSource()==back){
+        }else if(e.getSource()==back){
             setVisible(false);
-            new Main().setVisible(true);
+            new Main();
         }
     }
 

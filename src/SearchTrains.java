@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.time.*;
@@ -19,11 +23,11 @@ public class SearchTrains extends JFrame implements ActionListener{
         setLayout(null);
 
         //Main frame image
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/orange.png"));
-        Image i2 = i1.getImage().getScaledInstance(1000, 700, Image.SCALE_DEFAULT);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/searchtrain.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel image = new JLabel(i3);
-        image.setBounds(0, 0, 1000, 700);
+        image.setBounds(0, 0, 983, 660);
         add(image);
 
         //username text feild
@@ -48,48 +52,72 @@ public class SearchTrains extends JFrame implements ActionListener{
         }
 
         From = new JComboBox(FromStations);
-        From.setBounds(100, 219, 300, 40);
+        From.setBounds(107, 175, 230, 30);
         From.setFont(new Font("Raleway", Font.BOLD, 15));
-        From.setForeground(Color.gray);
-        From.setBorder(null);
+        From.setForeground(Color.black);
+        From.setBackground(Color.white);
+        DefaultListCellRenderer  listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+        From.setRenderer(listRenderer);
+        From.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = new JButton();
+                button.setContentAreaFilled(false);
+                button.setBorder(null);
+                return button;
+            }
+        });
         image.add(From);
 
         To = new JComboBox(FromStations);
-        To.setBounds(460, 219, 300, 40);
+        To.setBounds(650, 175, 230, 30);
         To.setFont(new Font("Raleway", Font.BOLD, 15));
-        To.setForeground(Color.gray);
-        To.setBorder(null);
+        listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+        To.setRenderer(listRenderer);
+        To.setForeground(Color.black);
+        To.setBackground(Color.white);
+        To.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = new JButton();
+                button.setContentAreaFilled(false);
+                button.setBorder(null);
+                return button;
+            }
+        });
         image.add(To);
 
         dateChooser=new JDateChooser();
-        dateChooser.setBounds(100,300,400,30);
+        dateChooser.setBounds(380,252,230,30);
         dateChooser.setForeground(new Color(105,105,105));
         image.add(dateChooser);
 
         
-        Search = new JButton("Search");
-        Search.setBounds(387, 417, 76, 30);
-        Search.setForeground(Color.black);
-        Search.setBackground(Color.ORANGE);
-        Search.setFont(new Font("Raleway", Font.BOLD, 16));
+        Search = new JButton("SEARCH TRAINS");
+        Search.setBounds(667, 447, 216, 30);
+        Search.setForeground(Color.decode("#e87020"));
+        Search.setBackground(Color.white);
+        Search.setFont(new Font("Raleway", Font.BOLD, 24));
         Search.setBorder(null);
         Search.addActionListener(this);
         image.add(Search);
 
-        Clear = new JButton("Clear");
-        Clear.setBounds(487, 417, 76, 30);
-        Clear.setForeground(Color.black);
-        Clear.setBackground(Color.ORANGE);
-        Clear.setFont(new Font("Raleway", Font.BOLD, 16));
+        Clear = new JButton("CLEAR");
+        Clear.setBounds(105, 267, 80, 30);
+        Clear.setForeground(Color.decode("#e87020"));
+        Clear.setBackground(Color.white);
+        Clear.setFont(new Font("Raleway", Font.BOLD, 20));
         Clear.setBorder(null);
         Clear.addActionListener(this);
         image.add(Clear);
 
-        back=new JButton("Back");
-        back.setBounds(600, 417, 76, 30);
-        back.setForeground(Color.black);
-        back.setBackground(Color.ORANGE);
-        back.setFont(new Font("Raleway", Font.BOLD, 16));
+        back=new JButton("BACK");
+        back.setBounds(105, 453, 73, 30);
+        back.setForeground(Color.decode("#e87020"));
+        back.setBackground(Color.white);
+        back.setFont(new Font("Raleway", Font.BOLD, 24));
         back.setBorder(null);
         back.addActionListener(this);
         image.add(back);
@@ -104,6 +132,7 @@ public class SearchTrains extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
 
+        try{
         //check for login
         if(e.getSource()==Search){
             //check if all the details are entered
@@ -128,6 +157,9 @@ public class SearchTrains extends JFrame implements ActionListener{
             setVisible(false);
             new HomePage(userName).setVisible(true);
         } 
+    }catch(Exception error){
+        JOptionPane.showMessageDialog(null,"Please fill all the details");  
+    }
     }
 
     public static String getDay(Date d){

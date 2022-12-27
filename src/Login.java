@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 import java.util.Random;
 
 public class Login extends JFrame implements ActionListener {
-    JTextField userName, password,captchaText;
-    JButton login,register;
+
+    JTextField userName,captchaText;
+    JPasswordField  password;
+    JButton login,register,back;
     JLabel captchaValue;            //label for displaying selected captcha
-    String captcha[]={"12345","lksdj","sldkj","ksljfh"};        //storing captcha values
+    String captcha[]={"12345","lksdj","sldkj","kslfh","78dhr","*&ghg"};        //storing captcha values
     String selectedCaptcha;     //to store selected captcha
 
     Login() {
@@ -16,60 +19,95 @@ public class Login extends JFrame implements ActionListener {
 
         //Main frame image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/login.png"));
-        Image i2 = i1.getImage().getScaledInstance(1000, 700, Image.SCALE_DEFAULT);
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel image = new JLabel(i3);
-        image.setBounds(0, 0, 1000, 700);
+        image.setBounds(0, 0, 983, 660);
         add(image);
 
         //username text feild
         userName = new JTextField("User Name");
-        userName.setBounds(260, 219, 500, 40);
-        userName.setFont(new Font("Raleway", Font.BOLD, 15));
+        userName.setBounds(254, 205, 500, 40);
+        userName.setFont(new Font("Raleway", Font.BOLD, 20));
         userName.setForeground(Color.gray);
         userName.setBorder(null);
         image.add(userName);
+        // userName.addMouseListener(new MouseAdapter() {
+        //     public void mouseClicked(MouseEvent e) {
+        //         userName.setText("");
+        //     }
+        //     });
+
+        
+    userName.addFocusListener(new FocusAdapter() {
+        public void focusGained(FocusEvent e) {
+        // Clear the text when the field gains focus
+        userName.setText("");
+        }
+        
+        public void focusLost(FocusEvent e) {
+        // Set the initial text when the field loses focus
+        if (userName.getText().isEmpty()) {
+            userName.setText("User Name");
+        }
+        }
+    });
 
         //password text feild
-        password = new JTextField("Password");
-        password.setBounds(260, 278, 500, 40);
-        password.setFont(new Font("Raleway", Font.BOLD, 15));
+        password = new JPasswordField("Password");
+        password.setBounds(254, 260, 500, 40);
+        password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);
         password.setBorder(null);
         image.add(password);
 
         //login button
-        login = new JButton("Login");
-        login.setBounds(687, 417, 76, 30);
+        login = new JButton("LOGIN");
+        login.setBounds(678, 370, 80, 30);
         login.setForeground(Color.white);
         login.setBackground(Color.ORANGE);
-        login.setFont(new Font("Raleway", Font.BOLD, 16));
+        login.setFont(new Font("Raleway", Font.BOLD, 24));
         login.setBorder(null);
+        login.setOpaque(false);
         login.addActionListener(this);
         image.add(login);
 
         //generate random captcha and display
         selectedCaptcha=getRandom(captcha);
         captchaValue=new JLabel(selectedCaptcha);
-        captchaValue.setBounds(270,370,50,50);
+        captchaValue.setBounds(286,355,100,50);
+        captchaValue.setForeground(Color.white);
+        captchaValue.setFont(new Font("Raleway", Font.BOLD, 23));
         image.add(captchaValue);
 
         //enter captcha
-        captchaText=new JTextField();
-        captchaText.setBounds(450, 385, 200, 40);
-        captchaText.setFont(new Font("Raleway", Font.BOLD, 15));
+        captchaText=new JTextField("Captcha");
+        captchaText.setBounds(415, 359, 180, 40);
+        captchaText.setFont(new Font("Raleway", Font.BOLD, 20));
         captchaText.setForeground(Color.gray);
+        captchaText.setBorder(null);
         captchaText.addActionListener(this);
         image.add(captchaText);
 
         register=new JButton("Register User");
-        register.setBounds(387, 617, 90, 30);
-        register.setForeground(Color.white);
-        register.setBackground(Color.ORANGE);
-        register.setFont(new Font("Raleway", Font.BOLD, 16));
+        register.setBounds(415, 440, 170, 30);
+        register.setForeground(Color.decode("#E87020"));
+        register.setFont(new Font("Raleway", Font.BOLD, 25));
+        register.setBackground(Color.white);
         register.setBorder(null);
+        register.setOpaque(false);
         register.addActionListener(this);
         image.add(register);
+        
+        back=new JButton("BACK");
+        back.setBounds(678,440,70,30);
+        back.setFont(new Font("Raleway", Font.BOLD, 20));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
+        back.addActionListener(this);
+        image.add(back);
 
         getContentPane().setBackground(Color.white);
 
@@ -84,7 +122,6 @@ public class Login extends JFrame implements ActionListener {
         return array[rnd];
     }
     public void actionPerformed(ActionEvent e) {
-
         //check for login
         if(e.getSource()==login){
             //check if all the details are entered
@@ -96,19 +133,21 @@ public class Login extends JFrame implements ActionListener {
                 String enteredCaptcha=captchaText.getText();
                 if(selectedCaptcha.equals(enteredCaptcha)){
                     try{
-                            Conn c=new Conn();
-                            String query=" SELECT COUNT(user_name) FROM user_login WHERE user_name='suchith' and password='s';";
-                            c.s.executeUpdate(query);
-            
-                            setVisible(false);
-                            // new Profile(formNumber+"").setVisible(true);
-
+                        Conn c=new Conn();
+                        ResultSet rs=c.s.executeQuery("SELECT COUNT(user_name) as valid FROM user_login WHERE user_name='"+userName.getText()+"' and password='"+password.getText()+"';");
+                        if(rs.next()){
+                            if(rs.getInt("valid")!=0){
+                                setVisible(false);
+                                new HomePage(userName.getText()).setVisible(true);
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Incorrect User Name or Password"); 
+                                setVisible(false);
+                                new Login().setVisible(true);
+                            }
+                        }
                     }catch(Exception error){
                         System.out.println(error);
                     }
-
-                    setVisible(false);
-                    new HomePage(userName.getText()).setVisible(true);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Invalid Captcha");  
@@ -119,6 +158,10 @@ public class Login extends JFrame implements ActionListener {
         else if(e.getSource()==register){
             setVisible(false);
             new Register().setVisible(true);
+        }
+        else if(e.getSource()==back){
+            setVisible(false);
+            new Main().setVisible(true);
         }
         
     }
