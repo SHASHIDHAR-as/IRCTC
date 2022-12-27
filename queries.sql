@@ -132,7 +132,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  (300,4,'chi','1:00',30),
  (300,5,'ypr','1:00',40);
  
- select * from `500`;
+ select * from `200`;
  
 -- create tupes of source and destination
  select t1.station_id,t2.station_id
@@ -153,10 +153,10 @@ select train_no,train_name
  from trains where trains.train_no= 
 (select t.train_no from 
 (select t1.train_no,t1.station_id as source,t2.station_id as destination 
-from `300` as t1 
-cross join `300` as t2 
+from `100` as t1 
+cross join `100` as t2 
 where t1.stop_no < t2.stop_no) as t 
-where t.source='del' and t.destination='ypr');
+where t.source='ypr' and t.destination='bay');
 
 -- create a schedule table 
 create table schedule(
@@ -201,7 +201,7 @@ create table bookings(
 booking_id int primary key,
 pnr_no bigint,
 user_name varchar(50),
-date varchar(15),
+date varchar(50),
 ticket_cost decimal,
 foreign key (user_name) references user_login(user_name),
 foreign key(pnr_no) references pnr_status(pnr_no)
@@ -210,9 +210,11 @@ foreign key(pnr_no) references pnr_status(pnr_no)
 create table passengers(
 name varchar(20),
 age int,
-gender char(5),
+gender char(30),
 pnr_no bigint
 );
+
+drop table passengers;
 
 insert into pnr_status values(1111111111,100,'hampi','ypr','bay');
 insert into pnr_status values(2111111111,200,'bay','gsdfg','oo');
@@ -287,3 +289,8 @@ Insert into `500` values ('500','1','bay','time',1);
 insert into trains values ('1000','1000',1000);
 
 delete from trains where train_no='1000';
+
+drop table bookings;
+
+
+SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='Admin Id' and password='Password';

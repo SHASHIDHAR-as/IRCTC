@@ -1,11 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.transform.Source;
+
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 import java.sql.*;
+import java.io.File;
 
 
 public class ConfirmBooking extends JFrame implements ActionListener {
@@ -26,22 +32,24 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String destinationTime ;
         String user_name;
         String timeStamp;
+        String email,genOtp;
+        boolean buttonPressed = false;
 
         ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
 
-            train_no = details.train_no;
-            train_name = details.train_name;
-            source = details.source;
-            destination =details. destination;  
-            // System.out.println(train_no); 
-            arrivalTime = details.arrivalTime;
-            this.destinationTime = destination;
-            this.Pnrnum=Pnrnum;
-            total=details.cost;
-            this.seats=seats;
-            this.user_name=user_name;
-        // System.out.println(train_name);
+        train_no = details.train_no;
+        train_name = details.train_name;
+        source = details.source;
+        destination =details. destination;  
+        // System.out.println(train_no); 
+        arrivalTime = details.arrivalTime;
+        this.destinationTime = destination;
+        this.Pnrnum=Pnrnum;
+        total=details.cost;
+        this.seats=seats;
+        this.user_name=user_name;
         setTitle("IRCTC");
+
         // to show the selectd train
         Container c = getContentPane();
         JPanel panel = new JPanel();
@@ -134,33 +142,29 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == show) {
+        
+        // if (!buttonPressed) {
+        if (e.getSource() == show & !buttonPressed) {
                 try{
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
-                    ResultSet rs = c.s.executeQuery("select * from Passengers where pnr_no = '" + Pnrnum + "'");
-
-                // Printing ID, name, email of customers
-                // of the SQL command above
-                // System.out.println("Name\t\t\tage\t\tGender\t\tPNR");
-
-                // Condition check
+                    ResultSet rs = c.s.executeQuery("select * from Passengers where pnr_num = '" + Pnrnum + "'");
                 while (rs.next()) {
 
                     String name = rs.getString("Name");
                     String age = rs.getString("Age");
                     String Gender = rs.getString("Gender");
-                    String pnr = rs.getString("pnr_no");
-                    // int Pnr = rs.getInt("pnr_no");
-                    System.out.println(name + "\t\t" + age
-                            + "\t\t" + Gender+"\t\t"+pnr);
-                            model.addRow(new Object[] { name,age,Gender,pnr });
+                    String pnr = rs.getString("pnr_num");
+                    model.addRow(new Object[] { name,age,Gender,pnr });
                 }
+                
             }
                 catch (Exception error) {
                     System.out.println(error);
                 }
+                buttonPressed = true;
                 }
+            // }
             
             
         else if (e.getSource() == confirm) {
@@ -173,26 +177,67 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                         int rows = table.getRowCount();
                         System.out.println(rows);
         
-                        String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
-                        c.s.executeUpdate(query);
+                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+
+                                    c.s.executeUpdate(query);
+                                    //insert into booking
+                                    
+                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                                    c.s.executeUpdate(query2);
+
+                        ArrayList<String> details=new ArrayList<String>();
+                        details.add("PNR NUM    :"+Pnrnum);
+                        details.add("USER NAME  :"+user_name);
+                        details.add("SOURCE     :"+source);
+                        details.add("DESTINATION:"+destination);
+                        details.add("TIME       :"+timeStamp);
+                        details.add("BOOKING ID :"+booking_id);
+                        details.add("NUM SEATS  :"+String.valueOf(seats));
+                        details.add("TOTAL FAIR :"+String.valueOf(total));
                         
-                        String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
-                        c.s.executeUpdate(query2);
+                        ResultSet rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+user_name+"';");
                         
-                        JOptionPane.showMessageDialog(null, "Tickets confirmed\n"+"BOOKING ID:"+booking_id);
-        
-                        // setVisible(false);
-        
+                        if(rs.next()){
+                            email=rs.getString("email");
+                            System.out.println(email);
+                            genOtp=String.copyValueOf(OTP(4));
+                            SendOTP.sendOTP(genOtp,email);
+                            String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email to confirm tickets "); 
+                            System.out.println(enteredOtp);
+                            if(genOtp.equals(enteredOtp)){
+                                JOptionPane.showMessageDialog(null,"Your tickets are being confirmed \nwait for 5 seconds");
+                                MailAttachment.sendConfirmation(email,user_name,details);
+                                JOptionPane.showMessageDialog(null, "Tickets confirmed \nBooking details are sent to your email\n"+"BOOKING ID:"+booking_id);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
+                            }
+                        }
+
                     } catch (Exception error) {
                         System.out.println(error);
                     }
+                    setVisible(false);
+                    new HomePage(user_name).setVisible(true);
         } 
-
         else if (e.getSource() == back) {
             setVisible(false);
             new HomePage(user_name).setVisible(true);
-        
         } 
+
+
+    }
+    static char[] OTP(int len)
+    {
+        System.out.print("You OTP is : ");
+        String numbers = "0123456789";
+        Random rndm_method = new Random();
+        char[] otp = new char[len];
+        for (int i = 0; i < len; i++)
+        {
+            otp[i] =numbers.charAt(rndm_method.nextInt(numbers.length()));
+        }
+        return otp;
     }
 
     public static void main(String[] args) {
