@@ -81,7 +81,7 @@ public class HomePage extends JFrame implements ActionListener{
         setVisible(true);
         setLocation(180, 20);
     }
- 
+
     public void actionPerformed(ActionEvent e) {
 
         //check for login

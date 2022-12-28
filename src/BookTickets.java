@@ -97,7 +97,7 @@ public class BookTickets extends JFrame implements ActionListener{
 
         setLocation(180, 20);
         setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
     void addPanel(JLabel label,int i){
@@ -115,12 +115,23 @@ public class BookTickets extends JFrame implements ActionListener{
         for(int i=0;i<book.size();i++){
             if(e.getSource()==book.get(i)){
                 BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
-
+                
                 setVisible(false);
                 new Addpassengers(details,userName).setVisible(true);
             }
         }
         if(e.getSource()==back){
+            // panels.removeAll(panels);
+            // train_no.removeAll(train_no);
+            // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            // removeAll();//or remove(JComponent)
+            // revalidate();
+            // repaint();
+
+            removeAll();
+            // loadComponents();
+            repaint();
+            pack();
             setVisible(false);
             new SearchTrains(userName);
         }
