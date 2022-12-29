@@ -20,6 +20,7 @@ public class BookTickets extends JFrame implements ActionListener{
     ArrayList<String> arrivalTime=new ArrayList<String>();
     ArrayList<String> destinationTime=new ArrayList<String>();
     ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
+    ArrayList<Integer> seatsAvailable=new ArrayList<Integer>();
 
     JButton back;
     
@@ -56,6 +57,9 @@ public class BookTickets extends JFrame implements ActionListener{
                 if(rs.next()){
                     train_no.add(rs.getInt("train_no"));
                     train_name.add(rs.getString("train_name"));
+                    int startSeat=rs.getInt("start_seat");
+                    int endSeat=rs.getInt("end_seat");
+                    seatsAvailable.add(endSeat-startSeat);
                 }
             }
 
@@ -78,7 +82,7 @@ public class BookTickets extends JFrame implements ActionListener{
                 System.out.println("Travelling trains are: ");
                 System.out.println(train_no.get(i)+" "+train_name.get(i));              
                 
-                JLabel label=new JLabel(train_no.get(i)+"  "+train_name.get(i)+"  "+source+"  "+destination+"  "+arrivalTime.get(i)+"  "+destinationTime.get(i)+"  "+costOfTravel.get(i));
+                JLabel label=new JLabel(train_no.get(i)+"  "+train_name.get(i)+"  "+source+"  "+destination+"  "+arrivalTime.get(i)+"  "+destinationTime.get(i)+"  "+costOfTravel.get(i)+" "+seatsAvailable.get(i));
                 addPanel(label, i);
                 
             }
