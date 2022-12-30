@@ -34,13 +34,16 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String timeStamp;
         String email,genOtp;
         boolean buttonPressed = false;
+        int seatsAvailable;
+        BookedTrain details;
 
         ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
-
+        this.details=details;
         train_no = details.train_no;
         train_name = details.train_name;
         source = details.source;
-        destination =details. destination;  
+        destination =details. destination; 
+        seatsAvailable=details.seatsAvailable; 
         // System.out.println(train_no); 
         arrivalTime = details.arrivalTime;
         this.destinationTime = destination;
@@ -110,7 +113,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         panel3.setBackground(Color.green);
         panel3.setBounds(0, 200, 1000, 800);
 
-        cols = new String[] { "Name", "AGE", "GENDER","PNR" };
+        cols = new String[] { "Name", "AGE", "GENDER","PNR","SEAT_NO" };
 
         model = (DefaultTableModel) table.getModel();
 
@@ -148,14 +151,15 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                 try{
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
-                    ResultSet rs = c.s.executeQuery("select * from Passengers where pnr_num = '" + Pnrnum + "'");
+                    ResultSet rs = c.s.executeQuery("select * from Passenger where pnr_num = '" + Pnrnum + "'");
                 while (rs.next()) {
 
                     String name = rs.getString("Name");
                     String age = rs.getString("Age");
                     String Gender = rs.getString("Gender");
                     String pnr = rs.getString("pnr_num");
-                    model.addRow(new Object[] { name,age,Gender,pnr });
+                    int Seat_num = rs.getInt("seat_no");
+                    model.addRow(new Object[] { name,age,Gender,pnr,Seat_num });
                 }
                 
             }
@@ -221,8 +225,17 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     new HomePage(user_name).setVisible(true);
         } 
         else if (e.getSource() == back) {
+            try{
+                Conn c=new Conn();
+                String query="delete from passenger where pnr_num='"+Pnrnum+"';";
+                String query1="update trains set start_seat=start_seat-"+seats+ " where train_no="+train_no+";";
+                c.s.executeUpdate(query1);
+                c.s.executeUpdate(query);
+            }catch(Exception error){
+                System.out.println(error);
+            }
             setVisible(false);
-            new HomePage(user_name).setVisible(true);
+            new Addpassengers(details,user_name).setVisible(true);
         } 
 
 
@@ -241,7 +254,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
+        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10,10);
 
         new ConfirmBooking(details,"54654655","shashi",40);
     }

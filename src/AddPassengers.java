@@ -1,10 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.xdevapi.Result;
+
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Addpassengers  extends JFrame implements ActionListener {
+public class Addpassengers extends JFrame implements ActionListener {
     JTextField PassengerName, Age;
     JRadioButton male, female, other;
     JButton Add, back, delete, submit;
@@ -14,30 +19,55 @@ public class Addpassengers  extends JFrame implements ActionListener {
     DefaultTableModel model;
     static Box vertical = Box.createVerticalBox();
     String Pnrnum;
-    int train_no,seats=0;
+    int train_no, seats = 0;
     String train_name;
-    String source ;
+    String source;
     String destination;
     String arrivalTime;
-        
+    int start = 0, end = 0;
     String destinationTime;
     int cost;
-    int pass_num=0;
+    int pass_num = 0;
     String user_name;
-    Addpassengers(BookedTrain details,String user_name) {
-        this.user_name=user_name;
+    int seatsAvailable;
+    ArrayList<String> Pnrlist=new ArrayList<String>();
 
+    Addpassengers(BookedTrain details, String user_name) {
+        this.user_name = user_name;
+        
+        train_no = details.train_no;
+        train_name = details.train_name;
+        source = details.source;
+        destination = details.destination;
+        arrivalTime = details.arrivalTime;
+        destinationTime = details.destination;
+        cost = details.cost;
+        seatsAvailable = details.seatsAvailable;
+
+        //to generate pnr number
+        
+        try{
+            Conn c=new Conn();
+            // ResultSet rs=c.s.
+            ResultSet rs=c.s.executeQuery("select * from pnr_status");
+            while(rs.next()){
+                Pnrlist.add(rs.getString("pnr_no"));
+            }
+            // System.out.println(Pnrlist);
+
+        }
+        catch(Exception error){
+            System.out.println(error);
+        }
+        while(true){
         Random ran = new Random();
         long first7 = (ran.nextLong() % 90000000L) + 2356000000L;
         Pnrnum = "" + Math.abs(first7);
-        System.out.println(Pnrnum);
-            train_no = details.train_no;
-            train_name = details.train_name;
-            source = details.source;
-            destination = details.destination;
-            arrivalTime = details.arrivalTime;
-            destinationTime = details.destination;
-            cost=details.cost;
+        if(!Pnrlist.contains(Pnrnum)){
+            System.out.println(Pnrnum);
+            break;
+        }
+        }
         // System.out.println(train_name);
         setTitle("IRCTC");
         // to show the selectd train
@@ -54,13 +84,17 @@ public class Addpassengers  extends JFrame implements ActionListener {
         label.setBounds(310, 20, 200, 50);
         panel.add(label);
 
-        JLabel label3 = new JLabel("PNR NUMBER :");
+        JLabel label3 = new JLabel("PNR NUMBER : "+Pnrnum);
         label3.setBounds(190, 50, 200, 50);
         panel.add(label3);
 
-        JLabel labelN = new JLabel(Pnrnum);
-        labelN.setBounds(300, 50, 200, 50);
-        panel.add(labelN);
+        JLabel label4 = new JLabel("SEATS AVAILABLE : "+seatsAvailable);
+        label4.setBounds(390, 50, 200, 50);
+        panel.add(label4);
+
+        // JLabel labelN = new JLabel(Pnrnum);
+        // labelN.setBounds(300, 50, 200, 50);
+        // panel.add(labelN);
 
         panel.setBackground(Color.yellow);
         panel.setBounds(0, 0, 1000, 100);
@@ -80,11 +114,13 @@ public class Addpassengers  extends JFrame implements ActionListener {
 
         PassengerName = new JTextField("Passenger Name");
         PassengerName.setBounds(10, 55, 200, 30);
+        TextAnimator.textAnimator(PassengerName,"Passenger Name");
         panel2.add(PassengerName);
 
         // TO ADD AGE
         Age = new JTextField("Age");
         Age.setBounds(10, 90, 200, 30);
+        TextAnimator.textAnimator(Age,"Age");
         panel2.add(Age);
 
         // to select the gender
@@ -131,7 +167,7 @@ public class Addpassengers  extends JFrame implements ActionListener {
         panel3.setBackground(Color.green);
         panel3.setBounds(0, 200, 1000, 800);
 
-        cols = new String[] { "Name", "AGE", "GENDER","PNR","Ticket cost" };
+        cols = new String[] { "Name", "AGE", "GENDER", "PNR", "Ticket cost" };
 
         model = (DefaultTableModel) table.getModel();
 
@@ -163,7 +199,7 @@ public class Addpassengers  extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == Add) {
             String gender = null;
             if (male.isSelected())
@@ -176,7 +212,7 @@ public class Addpassengers  extends JFrame implements ActionListener {
             if (PassengerName.getText().equals("") || Age.getText().equals("") || gender == null) {
                 JOptionPane.showMessageDialog(null, "Please fill all the details");
             } else {
-                model.addRow(new Object[] { PassengerName.getText(), Age.getText(), gender,Pnrnum ,cost});
+                model.addRow(new Object[] { PassengerName.getText(), Age.getText(), gender, Pnrnum, cost });
                 pass_num++;
                 seats++;
             }
@@ -189,45 +225,72 @@ public class Addpassengers  extends JFrame implements ActionListener {
                 seats--;
             }
         } else if (e.getSource() == back) {
+            
             setVisible(false);
             new SearchTrains(user_name).setVisible(true);
         } else if (e.getSource() == submit) {
+
             try {
                 Conn c = new Conn();
                 int rows = table.getRowCount();
                 System.out.println(rows);
-                int total=pass_num*cost;
-                System.out.println("Total cost"+total);
-                System.out.println(seats);
-                for (int row = 0; row < rows; row++) {
-                    String PName = (String) table.getValueAt(row, 0);
-                    int age = Integer.parseInt(table.getValueAt(row, 1).toString());
-                    String gen = (String) table.getValueAt(row, 2);
-                    long Pnr =Long.parseLong(table.getValueAt(row, 3).toString());
+                ResultSet rs = c.s.executeQuery("select * from trains where train_no ='" + train_no + "'");
+                if (rs.next()) {
+                    start = rs.getInt("start_seat");
+                    end = rs.getInt("end_seat");
 
-                            String query1= "Insert into Passengers(Name,Age,gender,pnr_no) values ('"+PName+"',"+age+",'"+gen+"',"+Pnr+")";
-                    c.s.executeUpdate(query1);
-                    // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
+                    int avail = end - start;
+                    int seat[] = new int[pass_num];
+                    if (avail >= pass_num) {
+                        // for (int i = start + 1; i <= pass_num; i++) {
+                        //     System.out.println("Seat numbers are" + i);
+                        //     seat[i - 1] = i;
+                        // }
+                        // start = start + pass_num;
+                        // to update the start_seat every time after the user books train for the
+                        // passenger
+
+                        int total = pass_num * cost;
+                        System.out.println("Total cost" + total);
+                        System.out.println(seats);
+                        for (int row = 0; row < rows; row++) {
+                            String PName = (String) table.getValueAt(row, 0);
+                            String age = (String) table.getValueAt(row, 1);
+                            String gen = (String) table.getValueAt(row, 2);
+                            String Pnr = (String) table.getValueAt(row, 3);
+
+                            String query = "Insert into Passengers(Name,Age,gender,pnr_num,seat_no) values ('" + PName
+                                    + "','" + age + "','" + gen + "','" + Pnr + "','" + (++start) + "')";
+                            c.s.executeUpdate(query);
+                            // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
+                        }
+                        JOptionPane.showMessageDialog(null, "Successfully Saved");
+                        String query1 = "Update Trains set start_seat='" + start + "' where train_no='" + train_no
+                        + "'";
+                        c.s.executeUpdate(query1);
+                        setVisible(false);
+                        // new
+                        // ConfirmBooking(train_no,train_name,source,destination,arrivalTime,destinationTime,Pnrnum,total,seats,user_name).setVisible(true);
+
+                        BookedTrain details = new BookedTrain(train_no, train_name, source, destination, arrivalTime,destinationTime, total, seatsAvailable);
+                        new ConfirmBooking(details, Pnrnum, user_name, seats);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No seats available \n only  " + avail + " are available");
+                        // setVisible(false);
+                    }
+
+                    // System.out.println(avail+"seats");
+                    // setVisible(false);
                 }
-                JOptionPane.showMessageDialog(null, "Successfully Saved");
-                setVisible(false);
-                
-                BookedTrain details=new BookedTrain(train_no, train_name, source, destination, arrivalTime, destinationTime, total);
-
-
-
-                new ConfirmBooking(details,Pnrnum,user_name,seats);
-                // setVisible(false);
-
             } catch (Exception error) {
-                error.printStackTrace();
                 System.out.println(error);
             }
         }
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(100, "hampi", "ksr", "ypr", "sd", "sd", 10);
-        new Addpassengers(details,"sukanya");
-    }    
+        BookedTrain details = new BookedTrain(100, "hampi", "ksr", "ypr", "sd", "sd", 10, 10);
+        new Addpassengers(details, "shas");
+    }
 }

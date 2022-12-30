@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public class BookTickets extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<book.size();i++){
             if(e.getSource()==book.get(i)){
-                BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
+                BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i),seatsAvailable.get(i));
 
                 setVisible(false);
                 new Addpassengers(details,userName).setVisible(true);

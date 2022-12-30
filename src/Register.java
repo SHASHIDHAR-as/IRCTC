@@ -30,6 +30,7 @@ public class Register extends JFrame implements ActionListener{
         firstName.setFont(new Font("Raleway", Font.PLAIN, 17));
         firstName.setForeground(Color.gray);
         firstName.setBorder(null);
+        TextAnimator.textAnimator(firstName,"First Name");
         image.add(firstName);
 
         lastName=new JTextField("Last Name");
@@ -37,6 +38,7 @@ public class Register extends JFrame implements ActionListener{
         lastName.setFont(new Font("Raleway", Font.PLAIN, 17));
         lastName.setForeground(Color.gray);
         lastName.setBorder(null);
+        TextAnimator.textAnimator(lastName,"Last Name");
         image.add(lastName);
 
         userName=new JTextField("User Name");
@@ -44,6 +46,7 @@ public class Register extends JFrame implements ActionListener{
         userName.setFont(new Font("Raleway", Font.PLAIN, 17));
         userName.setForeground(Color.gray);
         userName.setBorder(null);
+        TextAnimator.textAnimator(userName,"User Name");
         image.add(userName);
 
         password=new JTextField("password");
@@ -51,6 +54,7 @@ public class Register extends JFrame implements ActionListener{
         password.setFont(new Font("Raleway", Font.PLAIN, 17));
         password.setForeground(Color.gray);
         password.setBorder(null);
+        TextAnimator.textAnimator(password,"password");
         image.add(password);
 
         reEnterPassword=new JTextField("Re-Enter password");
@@ -58,6 +62,7 @@ public class Register extends JFrame implements ActionListener{
         reEnterPassword.setFont(new Font("Raleway", Font.PLAIN, 17));
         reEnterPassword.setForeground(Color.gray);
         reEnterPassword.setBorder(null);
+        TextAnimator.textAnimator(reEnterPassword,"Re-Enter password");
         image.add(reEnterPassword);
 
         email=new JTextField("Email");
@@ -65,6 +70,7 @@ public class Register extends JFrame implements ActionListener{
         email.setFont(new Font("Raleway", Font.PLAIN, 17));
         email.setForeground(Color.gray);
         email.setBorder(null);
+        TextAnimator.textAnimator(email,"Email");
         image.add(email);
 
         address=new JTextField("Address");
@@ -72,6 +78,7 @@ public class Register extends JFrame implements ActionListener{
         address.setFont(new Font("Raleway", Font.PLAIN, 17));
         address.setForeground(Color.gray);
         address.setBorder(null);
+        TextAnimator.textAnimator(address,"Address");
         image.add(address);
 
         phone=new JTextField("Phone");
@@ -79,6 +86,7 @@ public class Register extends JFrame implements ActionListener{
         phone.setFont(new Font("Raleway", Font.PLAIN, 17));
         phone.setForeground(Color.gray);
         phone.setBorder(null);
+        TextAnimator.textAnimator(phone,"Phone");
         image.add(phone);
 
         JLabel dob=new JLabel("DOB");

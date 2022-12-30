@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import java.awt.*;
@@ -131,33 +133,33 @@ public class SearchTrains extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         try{
-            //check for login
-            if(e.getSource()==Search){
-                //check if all the details are entered
-                if(From.getSelectedItem().equals("") || To.getSelectedItem().equals("") ||getDay(dateChooser.getDate())==""){
-                    JOptionPane.showMessageDialog(null,"Please fill all the details");  
-                }
-                else{
-                    String source=(String)From.getSelectedItem();
-                    String destination=(String)To.getSelectedItem();
-                    String day=getDay(dateChooser.getDate());
-                    setVisible(false);
-                    new BookTickets(source, destination,day,userName).setVisible(true);
-                    // System.out.println(source);
-                }
+        //check for login
+        if(e.getSource()==Search){
+            //check if all the details are entered
+            if(From.getSelectedItem().equals("") || To.getSelectedItem().equals("") ||getDay(dateChooser.getDate())==""){
+                JOptionPane.showMessageDialog(null,"Please fill all the details");  
             }
-            else if(e.getSource()==Clear){
-                From.setSelectedItem("");
-                To.setSelectedItem("");
-            }
-
-            else if(e.getSource()==back){
+            else{
+                String source=(String)From.getSelectedItem();
+                String destination=(String)To.getSelectedItem();
+                String day=getDay(dateChooser.getDate());
                 setVisible(false);
-                new HomePage(userName);
-            } 
-        }catch(Exception error){
-            JOptionPane.showMessageDialog(null,"Please fill all the details");  
+                new BookTickets(source, destination,day,userName).setVisible(true);
+                // System.out.println(source);
+            }
         }
+        else if(e.getSource()==Clear){
+            From.setSelectedItem("");
+            To.setSelectedItem("");
+        }
+
+        else if(e.getSource()==back){
+            setVisible(false);
+            new HomePage(userName).setVisible(true);
+        } 
+    }catch(Exception error){
+        JOptionPane.showMessageDialog(null,"Please fill all the details");  
+    }
     }
 
     public static String getDay(Date d){
@@ -166,6 +168,6 @@ public class SearchTrains extends JFrame implements ActionListener{
         return dow.name();
     }
     public static void main(String args[]) {
-        new SearchTrains("suchith");
+        new SearchTrains("shas");
     }
 }

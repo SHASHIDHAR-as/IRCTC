@@ -4,44 +4,42 @@ import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
-public class PNRStatus extends JFrame implements ActionListener{
+public class PNRStatus extends JFrame implements ActionListener {
     JLabel label;
     Box pnrPanel = Box.createVerticalBox();
     JTextField pnrNo;
-    JButton search,back;
+    JButton search, back;
     String userName;
-    
+
     DefaultTableModel model = new DefaultTableModel();
     JTable jtbl = new JTable(model);
 
-    PNRStatus(String userName){
-        this.userName=userName;
+    PNRStatus(String userName) {
+        this.userName = userName;
         setTitle("IRCTC");
         setLayout(null);
 
-        pnrNo =new JTextField("PNR Number");
-        pnrNo.setBounds(50,50,200,50);
+        pnrNo = new JTextField("PNR Number");
+        pnrNo.setBounds(50, 50, 200, 50);
         add(pnrNo);
 
-        search =new JButton("Search");
-        search.setBounds(50,100,100,50);
+        search = new JButton("Search");
+        search.setBounds(50, 100, 100, 50);
         search.addActionListener(this);
         add(search);
 
-        back=new JButton("Back");
-        back.setBounds(200,100,100,50);
+        back = new JButton("Back");
+        back.setBounds(200, 100, 100, 50);
         back.addActionListener(this);
         add(back);
 
-        label=new JLabel("PNR details are :");
+        label = new JLabel("PNR details are :");
         label.setVisible(false);
         pnrPanel.add(label);
 
-        pnrPanel.setBounds(50,180,500,200);
+        pnrPanel.setBounds(50, 180, 500, 200);
         pnrPanel.setVisible(false);
         add(pnrPanel);
-
-
 
         getContentPane().setBackground(Color.white);
 
@@ -51,24 +49,25 @@ public class PNRStatus extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==search){
+        if (e.getSource() == search) {
             label.setVisible(true);
             pnrPanel.setVisible(true);
-            try{
-                Conn c=new Conn();
-                ResultSet rs=c.s.executeQuery("select * from pnr_status where pnr_no='"+pnrNo.getText()+"';");
-                while(rs.next()){
-                    long pnr_no=rs.getLong("pnr_no");
-                    int train_no=rs.getInt("train_no");
-                    String train_name=rs.getString("train_name");
-                    String from_station=rs.getString("from_station");
-                    String to_station=rs.getString("to_station");
-                    
-                    JLabel pnr_noL=new JLabel("PNR Number : "+pnr_no);
-                    JLabel train_noL=new JLabel("Train Number : "+train_no);
-                    JLabel train_nameL=new JLabel("Train Name : "+train_name);
-                    JLabel from_stationL=new JLabel("From : "+from_station);
-                    JLabel to_stationL=new JLabel("To : "+to_station);
+            try {
+                Conn c = new Conn();
+                ResultSet rs = c.s.executeQuery("select * from pnr_status where pnr_no='" + pnrNo.getText() + "';");
+                while (rs.next()) {
+                    String pnr_no = rs.getString("pnr_no");
+                    int train_no = rs.getInt("train_no");
+                    String train_name = rs.getString("train_name");
+                    String from_station = rs.getString("from_station");
+                    String to_station = rs.getString("to_station");
+                    // int seat_num=rs.getInt("")
+
+                    JLabel pnr_noL = new JLabel("PNR Number : " + pnr_no);
+                    JLabel train_noL = new JLabel("Train Number : " + train_no);
+                    JLabel train_nameL = new JLabel("Train Name : " + train_name);
+                    JLabel from_stationL = new JLabel("From : " + from_station);
+                    JLabel to_stationL = new JLabel("To : " + to_station);
 
                     pnrPanel.add(pnr_noL);
                     pnrPanel.add(train_noL);
@@ -76,30 +75,29 @@ public class PNRStatus extends JFrame implements ActionListener{
                     pnrPanel.add(from_stationL);
                     pnrPanel.add(to_stationL);
                 }
-                                
+
                 model.addColumn("Name");
                 model.addColumn("age");
                 model.addColumn("gender");
-                rs=c.s.executeQuery("select name,age,gender from passengers where pnr_no='"+pnrNo.getText()+"';");
-                while(rs.next()){
-                    model.addRow(new Object[]{rs.getString("name"), rs.getString("age"),rs.getString("gender")});
+                rs = c.s.executeQuery("select Name,Age,Gender from passenger where Pnr_num='" + pnrNo.getText() + "';");
+                while (rs.next()) {
+                    model.addRow(new Object[] { rs.getString("Name"), rs.getString("Age"), rs.getString("Gender") });
                 }
                 JScrollPane pg = new JScrollPane(jtbl);
                 pnrPanel.add(pg);
                 // pnrPanel.add(jtbl);
-            }catch(Exception error){
+            } catch (Exception error) {
                 System.out.println(error);
             }
-        }
-        else if(e.getSource()==back){
+        } else if (e.getSource() == back) {
             setVisible(false);
             new HomePage(userName);
         }
-        
+
     }
-    public static void main(String args[])
-    {
-        new PNRStatus("suchith");
+
+    public static void main(String args[]) {
+        new PNRStatus("shashi");
     }
- 
+
 }

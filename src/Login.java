@@ -6,14 +6,15 @@ import java.util.Random;
 
 public class Login extends JFrame implements ActionListener {
 
-    JTextField userName, password,captchaText;
+    JTextField userName,captchaText;
+    JPasswordField  password;
     JButton login,register,back;
     JLabel captchaValue;            //label for displaying selected captcha
     String captcha[]={"12345","lksdj","sldkj","kslfh","78dhr","*&ghg"};        //storing captcha values
     String selectedCaptcha;     //to store selected captcha
 
     Login() {
-        setTitle("IRCTC");//
+        setTitle("IRCTC");
         setLayout(null);
 
         //Main frame image
@@ -30,14 +31,16 @@ public class Login extends JFrame implements ActionListener {
         userName.setFont(new Font("Raleway", Font.BOLD, 20));
         userName.setForeground(Color.gray);
         userName.setBorder(null);
+        TextAnimator.textAnimator(userName,"User Name");
         image.add(userName);
-
+        
         //password text feild
-        password = new JTextField("Password");
+        password = new JPasswordField("Password");
         password.setBounds(254, 260, 500, 40);
         password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);
         password.setBorder(null);
+        TextAnimator.textAnimator(password,"Password");
         image.add(password);
 
         //login button
@@ -66,6 +69,7 @@ public class Login extends JFrame implements ActionListener {
         captchaText.setForeground(Color.gray);
         captchaText.setBorder(null);
         captchaText.addActionListener(this);
+        TextAnimator.textAnimator(captchaText,"Captcha");
         image.add(captchaText);
 
         register=new JButton("Register User");
@@ -100,8 +104,8 @@ public class Login extends JFrame implements ActionListener {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
+    
     public void actionPerformed(ActionEvent e) {
-
         //check for login
         if(e.getSource()==login){
             //check if all the details are entered
