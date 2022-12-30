@@ -49,8 +49,7 @@ public class Addpassengers extends JFrame implements ActionListener {
         label1.setBounds(190, 20, 200, 50);
         panel.add(label1);
 
-        JLabel label = new JLabel(train_no + " " + train_name + " " + source + " " + destination + " " + arrivalTime
-                + " " + destinationTime);
+        JLabel label = new JLabel(train_no + " " + train_name + " " + source + " " + destination + " " + arrivalTime+ "  " + destinationTime);
         label.setBounds(310, 20, 200, 50);
         panel.add(label);
 
@@ -80,11 +79,13 @@ public class Addpassengers extends JFrame implements ActionListener {
 
         PassengerName = new JTextField("Passenger Name");
         PassengerName.setBounds(10, 55, 200, 30);
+        TextAnimator.textAnimator(PassengerName,"Passenger Name");
         panel2.add(PassengerName);
 
         // TO ADD AGE
         Age = new JTextField("Age");
         Age.setBounds(10, 90, 200, 30);
+        TextAnimator.textAnimator(Age,"Age");
         panel2.add(Age);
 
         // to select the gender
@@ -205,10 +206,12 @@ public class Addpassengers extends JFrame implements ActionListener {
                     String gen = (String) table.getValueAt(row, 2);
                     String Pnr = (String) table.getValueAt(row, 3);
 
-                            String query = "Insert into Passenger(Name,Age,gender,pnr_num) values ('"+PName+"','"+age+"','"+gen+"','"+Pnr+"')";
+                    String query = "Insert into Passenger(Name,Age,gender,pnr_num) values ('"+PName+"','"+age+"','"+gen+"','"+Pnr+"')";
                     c.s.executeUpdate(query);
+                    
                     // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);
                 }
+
                 JOptionPane.showMessageDialog(null, "Successfully Saved");
                 setVisible(false);
                 

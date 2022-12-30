@@ -27,16 +27,19 @@ public class AddTrains  extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        trainNo=new JTextField("train no");
+        trainNo=new JTextField("Train No");
         trainNo.setBounds(20,20,100,50);
+        TextAnimator.textAnimator(trainNo,"Train NO");
         add(trainNo);
 
-        trainName=new JTextField("train name");
+        trainName=new JTextField("Train Name");
         trainName.setBounds(120,20,100,50);
+        TextAnimator.textAnimator(trainName,"Train Name");
         add(trainName);
 
-        seats=new JTextField("seats");
+        seats=new JTextField("Seats");
         seats.setBounds(240,20,100,50);
+        TextAnimator.textAnimator(seats,"Seats");
         add(seats);
 
         saveTrain=new JButton("save trian");
@@ -54,8 +57,9 @@ public class AddTrains  extends JFrame implements ActionListener {
         label2.setBounds(10, 0, 200, 50);
         panel2.add(label2);
 
-        stopNo = new JTextField("stop number");
+        stopNo = new JTextField("Stop Number");
         stopNo.setBounds(10, 55, 200, 30);
+        TextAnimator.textAnimator(stopNo,"Stop Number");
         panel2.add(stopNo);
 
 
@@ -96,12 +100,14 @@ public class AddTrains  extends JFrame implements ActionListener {
         });
         panel2.add(stationId);
 
-        time = new JTextField("time");
+        time = new JTextField("Time");
         time.setBounds(10, 120, 200, 30);
+        TextAnimator.textAnimator(time,"Time");
         panel2.add(time);
 
-        cost = new JTextField("cost");
+        cost = new JTextField("Cost");
         cost.setBounds(10, 150, 200, 30);
+        TextAnimator.textAnimator(cost,"Cost");
         panel2.add(cost);
 
         Add = new JButton("ADD");

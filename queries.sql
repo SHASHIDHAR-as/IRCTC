@@ -29,13 +29,15 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  values ('suchith','suchith','kumar','male','al;kd','indian',';','k;asflk');
  
  -- insert values in user_login table
- insert into user_login(user_name,password,email) values('suchith','s','adsf');
+ insert into user_login(user_name,password,email) values('suchith','ss12','suchithkumar2910@gmail.com');
  
  -- fetch user details
  select * from user;
  
  -- fetch user_login details
  select * from user_login;
+ delete from user_login where user_name='suchith';
+ select email from user_login where user_name="suchith";
  
  -- query to check whether user can login or not
  SELECT COUNT(user_name) FROM user_login WHERE user_name='suchith' and password='s';
@@ -60,6 +62,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  station_id char(3) primary key,
  station_name varchar(50)
  );
+ select *from trains;
  
  -- insert values in station table
  insert into station values('ksr','ksr bengaluru');
@@ -73,6 +76,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  insert into station values('chi','chintamani');
  
  select * from station;
+ select count(station_id) as count from station;
  
  -- create table for each train_no
   create table `100`(
@@ -234,12 +238,18 @@ foreign key(pnr_no) references pnr_status(pnr_no)
 );
 drop table bookings;
 select *from pnr_status;
+select *from bookings;
+
+delete from bookings;
 desc pnr_status;
 desc passenger;
 select Name ,age,gender from passenger where pnr_num=2413536473;
 select *from `200`;
 show tables;
 select *from bookings;
+
+truncate table passenger;
+truncate table bookings;
 
 use irctc;
 create table admin(
@@ -264,3 +274,20 @@ insert into admin_login values(11111,'12345','shashidhar.shivaraj715@gmail.com')
 insert into admin_login values(22222,'12345','suchithkumar2910@gmail.com');
 insert into admin_login values(33333,'12345','suchithkumaryt@gmail.com');
 insert into admin_login values(44444,'12345','sukanyam287@gmail.com');
+
+create table  if not exists `500`(
+train_no int ,
+stop_no int,
+station_id varchar(30),
+time varchar(20),
+cost int ,
+foreign key (station_id) references station(station_id),
+foreign key (train_no) references trains(train_no));
+
+create  database irctc1;
+
+show databases;
+drop database irctc1;
+use irctc2;
+show tables;
+

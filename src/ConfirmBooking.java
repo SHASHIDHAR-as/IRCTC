@@ -168,7 +168,9 @@ public class ConfirmBooking extends JFrame implements ActionListener {
             
             
         else if (e.getSource() == confirm) {
-            try {       int booking_id;
+            try {       
+                int booking_id;
+                System.out.println("booking olag idhini");
 
                 Random ran = new Random();
                 booking_id= ran.nextInt(3000);
@@ -177,12 +179,12 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                         int rows = table.getRowCount();
                         System.out.println(rows);
         
-                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                        String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
 
-                                    c.s.executeUpdate(query);
+                        c.s.executeUpdate(query);
                                     //insert into booking
                                     
-                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                        String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
                                     c.s.executeUpdate(query2);
 
                         ArrayList<String> details=new ArrayList<String>();

@@ -31,34 +31,16 @@ public class Login extends JFrame implements ActionListener {
         userName.setFont(new Font("Raleway", Font.BOLD, 20));
         userName.setForeground(Color.gray);
         userName.setBorder(null);
+        TextAnimator.textAnimator(userName,"User Name");
         image.add(userName);
-        // userName.addMouseListener(new MouseAdapter() {
-        //     public void mouseClicked(MouseEvent e) {
-        //         userName.setText("");
-        //     }
-        //     });
-
         
-    userName.addFocusListener(new FocusAdapter() {
-        public void focusGained(FocusEvent e) {
-        // Clear the text when the field gains focus
-        userName.setText("");
-        }
-        
-        public void focusLost(FocusEvent e) {
-        // Set the initial text when the field loses focus
-        if (userName.getText().isEmpty()) {
-            userName.setText("User Name");
-        }
-        }
-    });
-
         //password text feild
         password = new JPasswordField("Password");
         password.setBounds(254, 260, 500, 40);
         password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);
         password.setBorder(null);
+        TextAnimator.textAnimator(password,"Password");
         image.add(password);
 
         //login button
@@ -87,6 +69,7 @@ public class Login extends JFrame implements ActionListener {
         captchaText.setForeground(Color.gray);
         captchaText.setBorder(null);
         captchaText.addActionListener(this);
+        TextAnimator.textAnimator(captchaText,"Captcha");
         image.add(captchaText);
 
         register=new JButton("Register User");
@@ -121,6 +104,7 @@ public class Login extends JFrame implements ActionListener {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
+    
     public void actionPerformed(ActionEvent e) {
         //check for login
         if(e.getSource()==login){
