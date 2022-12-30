@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import java.awt.*;
@@ -30,9 +28,6 @@ public class SearchTrains extends JFrame implements ActionListener{
         image.setBounds(0, 0, 983, 660);
         add(image);
 
-        //username text feild
-        // String fromstations[]={"bay","chi","del","dev","ham","kdy","ken","ksr","sol","ypr"};
-        
         try{
         Conn c=new Conn();
         int count=0;

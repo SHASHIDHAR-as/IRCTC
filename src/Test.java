@@ -35,12 +35,17 @@ public class Test extends JFrame implements ActionListener{
         JPanel panel=new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-
         JLabel label=new JLabel(htmlContent, JLabel.CENTER);
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setBackground(Color.white);
         label.setOpaque(true);
-        panel.add(label);
+        JButton book=new JButton("BOOK");
+        JPanel ex1=new JPanel();
+        ex1.add(label);
+        ex1.add(book);
+        panel.add(ex1);
+        // label.add(book);
+        // panel.add(label);
         
         label=new JLabel(htmlContent, JLabel.CENTER);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -51,6 +51,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  insert into trains values(100,'hampi express',10);
  insert into trains values(200,'kar express',0);
  insert into trains values(300,'kannada express',40);
+ insert into trains values(700,'sisya express',0,10);
  
  select * from trains;
  
@@ -132,7 +133,14 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  (300,4,'chi','1:00',30),
  (300,5,'ypr','1:00',40);
  
- select * from `200`;
+  insert into `700` values 
+ (700,1,'ypr','1:00',0),
+ (700,2,'sol','1:00',10),
+ (700,3,'bay','1:00',20),
+ (700,4,'chi','1:00',30),
+ (700,5,'del','1:00',40); 
+truncate table `700`;
+ select * from `700`;
  
 -- create tupes of source and destination
  select t1.station_id,t2.station_id
@@ -143,18 +151,18 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  
  -- select train_no where source and destination mathces
 select t.train_no from (select t1.train_no,t1.station_id as source,t2.station_id as destination
- from `100` as t1
- cross join `100` as t2
+ from `700` as t1
+ cross join `700` as t2
  where
- t1.stop_no < t2.stop_no) as t where t.source='ypr' and t.destination='yel';
+ t1.stop_no < t2.stop_no) as t where t.source='ypr' and t.destination='bay';
 
 -- select train_no which travels from the given source to destination
 select train_no,train_name
  from trains where trains.train_no= 
 (select t.train_no from 
 (select t1.train_no,t1.station_id as source,t2.station_id as destination 
-from `100` as t1 
-cross join `100` as t2 
+from `700` as t1 
+cross join `700` as t2 
 where t1.stop_no < t2.stop_no) as t 
 where t.source='ypr' and t.destination='bay');
 
@@ -175,6 +183,9 @@ insert into schedule values
 (100,'y','y','y','y','y','n','n'),
 (200,'n','y','y','n','y','n','n'),
 (300,'y','n','y','n','n','y','y');
+select * from trains;
+insert into schedule values
+(700,'y','y','y','y','y','y','y');
 
 select * from schedule;
 
@@ -294,3 +305,9 @@ drop table bookings;
 
 
 SELECT COUNT(login_id) as valid FROM admin_login WHERE login_id='Admin Id' and password='Password';
+
+
+select * from trains where train_no= 
+(select t.train_no from (select t1.train_no,t1.station_id as source,t2.station_id as 
+destination from `700` as t1 cross join `700` as t2 where t1.stop_no < t2.stop_no) as 
+t where t.source='ypr' and t.destination='bay');
