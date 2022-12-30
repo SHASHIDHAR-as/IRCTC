@@ -168,6 +168,6 @@ public class SearchTrains extends JFrame implements ActionListener{
         return dow.name();
     }
     public static void main(String args[]) {
-        new SearchTrains("shashi");
+        new SearchTrains("shas");
     }
 }

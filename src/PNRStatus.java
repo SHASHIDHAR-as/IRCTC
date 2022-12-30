@@ -61,6 +61,7 @@ public class PNRStatus extends JFrame implements ActionListener {
                     String train_name = rs.getString("train_name");
                     String from_station = rs.getString("from_station");
                     String to_station = rs.getString("to_station");
+                    // int seat_num=rs.getInt("")
 
                     JLabel pnr_noL = new JLabel("PNR Number : " + pnr_no);
                     JLabel train_noL = new JLabel("Train Number : " + train_no);

@@ -34,13 +34,16 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         String timeStamp;
         String email,genOtp;
         boolean buttonPressed = false;
+        int seatsAvailable;
+        BookedTrain details;
 
         ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
-
+        this.details=details;
         train_no = details.train_no;
         train_name = details.train_name;
         source = details.source;
-        destination =details. destination;  
+        destination =details. destination; 
+        seatsAvailable=details.seatsAvailable; 
         // System.out.println(train_no); 
         arrivalTime = details.arrivalTime;
         this.destinationTime = destination;
@@ -110,7 +113,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         panel3.setBackground(Color.green);
         panel3.setBounds(0, 200, 1000, 800);
 
-        cols = new String[] { "Name", "AGE", "GENDER","PNR" };
+        cols = new String[] { "Name", "AGE", "GENDER","PNR","SEAT_NO" };
 
         model = (DefaultTableModel) table.getModel();
 
@@ -155,7 +158,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     String age = rs.getString("Age");
                     String Gender = rs.getString("Gender");
                     String pnr = rs.getString("pnr_num");
-                    model.addRow(new Object[] { name,age,Gender,pnr });
+                    int Seat_num = rs.getInt("seat_no");
+                    model.addRow(new Object[] { name,age,Gender,pnr,Seat_num });
                 }
                 
             }
@@ -168,9 +172,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
             
             
         else if (e.getSource() == confirm) {
-            try {       
-                int booking_id;
-                System.out.println("booking olag idhini");
+            try {       int booking_id;
 
                 Random ran = new Random();
                 booking_id= ran.nextInt(3000);
@@ -179,12 +181,12 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                         int rows = table.getRowCount();
                         System.out.println(rows);
         
-                        String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
 
-                        c.s.executeUpdate(query);
+                                    c.s.executeUpdate(query);
                                     //insert into booking
                                     
-                        String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
                                     c.s.executeUpdate(query2);
 
                         ArrayList<String> details=new ArrayList<String>();
@@ -223,8 +225,17 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     new HomePage(user_name).setVisible(true);
         } 
         else if (e.getSource() == back) {
+            try{
+                Conn c=new Conn();
+                String query="delete from passenger where pnr_num='"+Pnrnum+"';";
+                String query1="update trains set start_seat=start_seat-"+seats+ " where train_no="+train_no+";";
+                c.s.executeUpdate(query1);
+                c.s.executeUpdate(query);
+            }catch(Exception error){
+                System.out.println(error);
+            }
             setVisible(false);
-            new HomePage(user_name).setVisible(true);
+            new Addpassengers(details,user_name).setVisible(true);
         } 
 
 
@@ -243,7 +254,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10);
+        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10,10);
 
         new ConfirmBooking(details,"54654655","shashi",40);
     }

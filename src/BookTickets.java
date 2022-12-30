@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class BookTickets extends JFrame implements ActionListener{
     ArrayList<String> arrivalTime=new ArrayList<String>();
     ArrayList<String> destinationTime=new ArrayList<String>();
     ArrayList<Integer> costOfTravel=new ArrayList<Integer>();
+    ArrayList<Integer> seatsAvailable=new ArrayList<Integer>();
 
     JButton back;
     
@@ -56,6 +58,9 @@ public class BookTickets extends JFrame implements ActionListener{
                 if(rs.next()){
                     train_no.add(rs.getInt("train_no"));
                     train_name.add(rs.getString("train_name"));
+                    int startSeat=rs.getInt("start_seat");
+                    int endSeat=rs.getInt("end_seat");
+                    seatsAvailable.add(endSeat-startSeat);
                 }
             }
 
@@ -78,7 +83,7 @@ public class BookTickets extends JFrame implements ActionListener{
                 System.out.println("Travelling trains are: ");
                 System.out.println(train_no.get(i)+" "+train_name.get(i));              
                 
-                JLabel label=new JLabel(train_no.get(i)+"  "+train_name.get(i)+"  "+source+"  "+destination+"  "+arrivalTime.get(i)+"  "+destinationTime.get(i)+"  "+costOfTravel.get(i));
+                JLabel label=new JLabel(train_no.get(i)+"  "+train_name.get(i)+"  "+source+"  "+destination+"  "+arrivalTime.get(i)+"  "+destinationTime.get(i)+"  "+costOfTravel.get(i)+" "+seatsAvailable.get(i));
                 addPanel(label, i);
                 
             }
@@ -97,7 +102,7 @@ public class BookTickets extends JFrame implements ActionListener{
 
         setLocation(180, 20);
         setSize(1000, 700);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
     void addPanel(JLabel label,int i){
@@ -114,24 +119,13 @@ public class BookTickets extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<book.size();i++){
             if(e.getSource()==book.get(i)){
-                BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i));
-                
+                BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i),seatsAvailable.get(i));
+
                 setVisible(false);
                 new Addpassengers(details,userName).setVisible(true);
             }
         }
         if(e.getSource()==back){
-            // panels.removeAll(panels);
-            // train_no.removeAll(train_no);
-            // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            // removeAll();//or remove(JComponent)
-            // revalidate();
-            // repaint();
-
-            removeAll();
-            // loadComponents();
-            repaint();
-            pack();
             setVisible(false);
             new SearchTrains(userName);
         }
