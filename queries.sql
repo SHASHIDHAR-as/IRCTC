@@ -311,3 +311,26 @@ select * from trains where train_no=
 (select t.train_no from (select t1.train_no,t1.station_id as source,t2.station_id as 
 destination from `700` as t1 cross join `700` as t2 where t1.stop_no < t2.stop_no) as 
 t where t.source='ypr' and t.destination='bay');
+
+
+select * from trains;
+
+select * from schedule;
+
+insert into schedule values
+(100014,'y','y','y','y','y','y','y');
+
+select * from `100`;
+
+select * from 
+(select t.train_no,t.train_name,t.start_seat,t.end_seat from 
+(select * from trains where train_no in
+(select t1.train_no from `100` as t1 inner join `100` as t2 where 
+t1.station_id='ypr' and t2.station_id='bay' and t1.stop_no<t2.stop_no)) 
+as t inner join schedule as s where
+t.train_no =s.train_no and s.wednesday='y') as main 
+inner join 
+(select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost 
+from `100` as t1 inner join `100` as t2 inner join schedule as s
+where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y') as main2
+using (train_no);

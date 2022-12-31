@@ -47,11 +47,12 @@ public class BookTickets extends JFrame implements ActionListener{
                 trains.add(rs.getInt("train_no"));
                 System.out.println(trains.get(i));
             }
-
-            
+  
             for(int i=0;i<trains.size();i++){
-                String query="select * from trains where train_no= (select t.train_no from (select t1.train_no,t1.station_id as source,t2.station_id as destination from `"+trains.get(i)+"` as t1 cross join `"+trains.get(i)+"` as t2 where t1.stop_no < t2.stop_no) as t where t.source='"+source+"' and t.destination='"+destination+"');";
+                String query="select * from (select t.train_no,t.train_name,t.start_seat,t.end_seat from (select * from trains where train_no in (select t1.train_no from `"+trains.get(i)+"` as t1 inner join `"+trains.get(i)+"` as t2 where t1.station_id='"+source+"' and t2.station_id='"+destination+"' and t1.stop_no<t2.stop_no)) as t inner join schedule as s where t.train_no =s.train_no and s.wednesday='y') as sample1 inner join (select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost from `"+trains.get(i)+"` as t1 inner join `"+trains.get(i)+"` as t2 inner join schedule as s where t1.station_id='"+source+"' and t2.station_id='"+destination+"' and s.train_no="+trains.get(i)+" and s."+day+"='y' ) as sample2 where sample1.train_no=sample2.train_no;";
                 
+                System.out.println(query);
+
                 rs=c.s.executeQuery(query);
                 if(rs.next()){
                     train_no.add(rs.getInt("train_no"));
@@ -59,21 +60,8 @@ public class BookTickets extends JFrame implements ActionListener{
                     int startSeat=rs.getInt("start_seat");
                     int endSeat=rs.getInt("end_seat");
                     seatsAvailable.add(endSeat-startSeat);
-                }
-            }
-
-            for(int i=0;i<train_no.size();i++){
-                System.out.println(train_no.size());
-                String query="select distinct(t1.time) as arrival,t2.time as destination, (t2.cost-t1.cost)as cost "+
-                " from (`"+ train_no.get(i)+"` as t1, `"+ train_no.get(i)+"` as t2) inner join schedule "+
-                "where t1.station_id='"+source+"' and t2.station_id='"+destination+"' and schedule.train_no="+train_no.get(i)+" and schedule."+day+"='y';";
-                System.out.println(query);
-
-                rs=c.s.executeQuery(query);
-
-                if(rs.next()){
-                    arrivalTime.add(rs.getString("arrival"));
-                    destinationTime.add(rs.getString("destination"));
+                    arrivalTime.add(rs.getString("arrival_time"));
+                    destinationTime.add(rs.getString("reach_time"));
                     costOfTravel.add(rs.getInt("cost"));
                 }
             }
@@ -182,7 +170,7 @@ public class BookTickets extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","tuesday","suchith");
+        new BookTickets("ypr","bay","wednesday","suchith");
 
     }
 
