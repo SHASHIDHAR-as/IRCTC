@@ -79,7 +79,7 @@ public class PNRStatus extends JFrame implements ActionListener {
                 model.addColumn("Name");
                 model.addColumn("age");
                 model.addColumn("gender");
-                rs = c.s.executeQuery("select Name,Age,Gender from passenger where Pnr_num='" + pnrNo.getText() + "';");
+                rs = c.s.executeQuery("select Name,Age,Gender from passengers where Pnr_no='" + pnrNo.getText() + "';");
                 while (rs.next()) {
                     model.addRow(new Object[] { rs.getString("Name"), rs.getString("Age"), rs.getString("Gender") });
                 }
@@ -97,7 +97,7 @@ public class PNRStatus extends JFrame implements ActionListener {
     }
 
     public static void main(String args[]) {
-        new PNRStatus("shashi");
+        new PNRStatus("suchithkumar");
     }
 
 }

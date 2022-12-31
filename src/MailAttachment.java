@@ -5,7 +5,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class MailAttachment {
-    public static void sendConfirmation(String email,String UserName,ArrayList<String> details){
+    public static void sendConfirmation(String email,String UserName,ArrayList<String> details,String msg,String fileMsg){
         Customerfile c=new Customerfile();
         String from = "suchithkumar2910@gmail.com";
 
@@ -57,11 +57,11 @@ public class MailAttachment {
                 
                 File f =new File(UserName+".txt");
                 c.createfile(UserName);
-                c.writefile(details,UserName);
+                c.writefile(details,UserName,fileMsg);
                 
                 attachmentPart.attachFile(f);
                 
-                textPart.setText("Railway tickets booking confirmation");
+                textPart.setText(msg);
                 multipart.addBodyPart(textPart);
                 multipart.addBodyPart(attachmentPart);
                 
@@ -94,7 +94,7 @@ public class MailAttachment {
         details.add("9108733565");
 
         // Sender's email ID needs to be mentioned
-        sendConfirmation(to,name,details);
+        sendConfirmation(to,name,details,"sample","\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
     
     }
 }

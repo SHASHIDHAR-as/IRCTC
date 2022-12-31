@@ -139,6 +139,10 @@ public class SearchTrains extends JFrame implements ActionListener{
                 String destination=(String)To.getSelectedItem();
                 String day=getDay(dateChooser.getDate());
                 setVisible(false);
+                System.out.println(source);
+                System.out.println(destination);
+                System.out.println(day);
+                System.out.println(userName);
                 new BookTickets(source, destination,day,userName).setVisible(true);
                 // System.out.println(source);
             }
@@ -163,6 +167,6 @@ public class SearchTrains extends JFrame implements ActionListener{
         return dow.name();
     }
     public static void main(String args[]) {
-        new SearchTrains("shas");
+        new SearchTrains("suchith");
     }
 }

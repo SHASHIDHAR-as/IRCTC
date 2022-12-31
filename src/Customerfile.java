@@ -16,11 +16,11 @@ public class Customerfile{
         }
     }
     public void writefile(ArrayList<String> details,
-    String name){
+    String name,String msg){
         try{
             FileWriter fileWriter=new FileWriter(name+".txt");
             fileWriter.write("               IRCTC RAILWAY RESERVATION            \n\n");
-            fileWriter.write("Hi,"+name+"\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
+            fileWriter.write("Hi,"+name+" "+msg);
             for(String detail : details) {
                 
                 fileWriter.write("\n"+detail.toString()+System.lineSeparator());
@@ -51,7 +51,7 @@ public class Customerfile{
         details.add(name);
         Customerfile c=new Customerfile();
         c.createfile(name);
-        c.writefile(details,name);
+        c.writefile(details,name,"\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
         c.deletefile(name);
     }
 }

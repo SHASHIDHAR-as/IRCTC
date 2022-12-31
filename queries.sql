@@ -334,3 +334,13 @@ inner join
 from `100` as t1 inner join `100` as t2 inner join schedule as s
 where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y') as main2
 using (train_no);
+
+select * from passengers;
+
+alter table passengers add seat_no integer;
+
+select * from user_login;
+
+select * from user;
+
+delete from user where user_name='such';

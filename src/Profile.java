@@ -68,9 +68,6 @@ public class Profile extends JFrame implements ActionListener {
         pho.setBounds(300, 140, 200, 50);
         add(pho);
 
-
-
-
         try{
             Conn c=new Conn();
 
@@ -117,6 +114,6 @@ public class Profile extends JFrame implements ActionListener {
 }
 
     public static void main(String[] args) {
-        new Profile("sf");
+        new Profile("suchithkumar");
     }
 }

@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-
-import com.mysql.cj.xdevapi.Result;
-
 import java.awt.event.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -60,13 +57,13 @@ public class Addpassengers extends JFrame implements ActionListener {
             System.out.println(error);
         }
         while(true){
-        Random ran = new Random();
-        long first7 = (ran.nextLong() % 90000000L) + 2356000000L;
-        Pnrnum = "" + Math.abs(first7);
-        if(!Pnrlist.contains(Pnrnum)){
-            System.out.println(Pnrnum);
-            break;
-        }
+            Random ran = new Random();
+            long first7 = (ran.nextLong() % 90000000L) + 2356000000L;
+            Pnrnum = "" + Math.abs(first7);
+            if(!Pnrlist.contains(Pnrnum)){
+                System.out.println(Pnrnum);
+                break;
+            }
         }
         // System.out.println(train_name);
         setTitle("IRCTC");
@@ -242,13 +239,6 @@ public class Addpassengers extends JFrame implements ActionListener {
                     int avail = end - start;
                     int seat[] = new int[pass_num];
                     if (avail >= pass_num) {
-                        // for (int i = start + 1; i <= pass_num; i++) {
-                        //     System.out.println("Seat numbers are" + i);
-                        //     seat[i - 1] = i;
-                        // }
-                        // start = start + pass_num;
-                        // to update the start_seat every time after the user books train for the
-                        // passenger
 
                         int total = pass_num * cost;
                         System.out.println("Total cost" + total);
@@ -259,7 +249,7 @@ public class Addpassengers extends JFrame implements ActionListener {
                             String gen = (String) table.getValueAt(row, 2);
                             String Pnr = (String) table.getValueAt(row, 3);
 
-                            String query = "Insert into Passengers(Name,Age,gender,pnr_num,seat_no) values ('" + PName
+                            String query = "Insert into Passengers(Name,Age,gender,pnr_no,seat_no) values ('" + PName
                                     + "','" + age + "','" + gen + "','" + Pnr + "','" + (++start) + "')";
                             c.s.executeUpdate(query);
                             // System.out.println(PName+ " "+age+ " "+gen+" "+Pnrnum);

@@ -1,18 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.transform.Source;
-
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;  
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 import java.sql.*;
-import java.io.File;
-
 
 public class ConfirmBooking extends JFrame implements ActionListener {
     JTextField PassengerName, Age;
@@ -151,13 +145,13 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                 try{
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
-                    ResultSet rs = c.s.executeQuery("select * from Passenger where pnr_num = '" + Pnrnum + "'");
+                    ResultSet rs = c.s.executeQuery("select * from Passengers where pnr_no = '" + Pnrnum + "'");
                 while (rs.next()) {
 
                     String name = rs.getString("Name");
                     String age = rs.getString("Age");
                     String Gender = rs.getString("Gender");
-                    String pnr = rs.getString("pnr_num");
+                    String pnr = rs.getString("pnr_no");
                     int Seat_num = rs.getInt("seat_no");
                     model.addRow(new Object[] { name,age,Gender,pnr,Seat_num });
                 }
@@ -171,72 +165,84 @@ public class ConfirmBooking extends JFrame implements ActionListener {
             // }
             
             
-        else if (e.getSource() == confirm) {
-            try {       int booking_id;
+            else if (e.getSource() == confirm) {
+                try {       
+                    ArrayList<Integer> bookingList=new ArrayList<>();
+                Conn c = new Conn();
+                ResultSet rs=c.s.executeQuery("select booking_id from bookings");
+                while(rs.next()){
+                    bookingList.add(rs.getInt("booking_id"));
+                }
 
-                Random ran = new Random();
-                booking_id= ran.nextInt(3000);
-                System.out.println("bookin_id"+booking_id);
-                        Conn c = new Conn();
-                        int rows = table.getRowCount();
-                        System.out.println(rows);
-        
-                                    String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                int booking_id;
+                while(true){
+                    Random ran = new Random();
+                    booking_id= ran.nextInt(3000);
+                    if(!bookingList.contains(booking_id)){
+                        System.out.println("bookin_id "+booking_id);
+                        break;
+                    }
+                }
+                
+                int rows = table.getRowCount();
+                System.out.println(rows);
 
-                                    c.s.executeUpdate(query);
-                                    //insert into booking
-                                    
-                                    String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
-                                    c.s.executeUpdate(query2);
+                String query = "Insert into pnr_status(pnr_no,train_no,train_name,from_station,to_station) values ('"+Pnrnum+"','"+train_no+"','"+train_name+"','"+source+"','"+destination+"')";
+                            c.s.executeUpdate(query);
+                            //insert into booking
+                            
+                String query2 = "Insert into bookings(booking_id,pnr_no,user_name,date,ticket_cost) values ('"+booking_id+"','"+Pnrnum+"','"+user_name+"','"+timeStamp+"','"+total+"')";
+                
+                c.s.executeUpdate(query2);
 
-                        ArrayList<String> details=new ArrayList<String>();
-                        details.add("PNR NUM    :"+Pnrnum);
-                        details.add("USER NAME  :"+user_name);
-                        details.add("SOURCE     :"+source);
-                        details.add("DESTINATION:"+destination);
-                        details.add("TIME       :"+timeStamp);
-                        details.add("BOOKING ID :"+booking_id);
-                        details.add("NUM SEATS  :"+String.valueOf(seats));
-                        details.add("TOTAL FAIR :"+String.valueOf(total));
-                        
-                        ResultSet rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+user_name+"';");
-                        
-                        if(rs.next()){
-                            email=rs.getString("email");
-                            System.out.println(email);
-                            genOtp=String.copyValueOf(OTP(4));
-                            SendOTP.sendOTP(genOtp,email);
-                            String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email to confirm tickets "); 
-                            System.out.println(enteredOtp);
-                            if(genOtp.equals(enteredOtp)){
-                                JOptionPane.showMessageDialog(null,"Your tickets are being confirmed \nwait for 5 seconds");
-                                MailAttachment.sendConfirmation(email,user_name,details);
-                                JOptionPane.showMessageDialog(null, "Tickets confirmed \nBooking details are sent to your email\n"+"BOOKING ID:"+booking_id);
-                            }
-                            else{
-                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
-                            }
-                        }
-
-                    } catch (Exception error) {
+                ArrayList<String> details=new ArrayList<String>();
+                details.add("PNR NUM    :"+Pnrnum);
+                details.add("USER NAME  :"+user_name);
+                details.add("SOURCE     :"+source);
+                details.add("DESTINATION:"+destination);
+                details.add("TIME       :"+timeStamp);
+                details.add("BOOKING ID :"+booking_id);
+                details.add("NUM SEATS  :"+String.valueOf(seats));
+                details.add("TOTAL FAIR :"+String.valueOf(total));
+                
+                rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+user_name+"';");
+                
+                if(rs.next()){
+                    email=rs.getString("email");
+                    System.out.println(email);
+                    genOtp=String.copyValueOf(OTP(4));
+                    SendOTP.sendOTP(genOtp,email);
+                    String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email to confirm tickets "); 
+                    System.out.println(enteredOtp);
+                    if(genOtp.equals(enteredOtp)){
+                        JOptionPane.showMessageDialog(null,"Your tickets are being confirmed \nwait for 5 seconds");
+                        MailAttachment.sendConfirmation(email,user_name,details,"Railway tickets booking confirmation","\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
+                        JOptionPane.showMessageDialog(null, "Tickets confirmed \nBooking details are sent to your email\n"+"BOOKING ID:"+booking_id);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
+                    }
+                    }
+                } catch (Exception error) {
+                    
                         System.out.println(error);
                     }
                     setVisible(false);
                     new HomePage(user_name).setVisible(true);
         } 
-        else if (e.getSource() == back) {
-            try{
-                Conn c=new Conn();
-                String query="delete from passenger where pnr_num='"+Pnrnum+"';";
-                String query1="update trains set start_seat=start_seat-"+seats+ " where train_no="+train_no+";";
-                c.s.executeUpdate(query1);
-                c.s.executeUpdate(query);
-            }catch(Exception error){
-                System.out.println(error);
-            }
-            setVisible(false);
-            new Addpassengers(details,user_name).setVisible(true);
-        } 
+            else if (e.getSource() == back) {
+                try{
+                    Conn c=new Conn();
+                    String query="delete from passengers where pnr_no='"+Pnrnum+"';";
+                    String query1="update trains set start_seat=start_seat-"+seats+ " where train_no="+train_no+";";
+                    c.s.executeUpdate(query1);
+                    c.s.executeUpdate(query);
+                }catch(Exception error){
+                    System.out.println(error);
+                }
+                setVisible(false);
+                new Addpassengers(details,user_name).setVisible(true);
+            } 
 
 
     }
@@ -256,6 +262,6 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     public static void main(String[] args) {
         BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10,10);
 
-        new ConfirmBooking(details,"54654655","shashi",40);
+        new ConfirmBooking(details,"54654655","suchith",40);
     }
 }
