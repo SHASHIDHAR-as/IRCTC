@@ -210,7 +210,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                             System.out.println(enteredOtp);
                             if(genOtp.equals(enteredOtp)){
                                 JOptionPane.showMessageDialog(null,"Your tickets are being confirmed \nwait for 5 seconds");
-                                MailAttachment.sendConfirmation(email,user_name,details);
+                                // MailAttachment.sendConfirmation(email,user_name,details);
+                                MailAttachment.sendConfirmation(email,user_name,details,"Railway tickets booking confirmation","\n\nYour Train tickets are booked \n\nDETAILS :\n\n");
                                 JOptionPane.showMessageDialog(null, "Tickets confirmed \nBooking details are sent to your email\n"+"BOOKING ID:"+booking_id);
                             }
                             else{

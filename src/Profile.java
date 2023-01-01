@@ -1,20 +1,18 @@
 import javax.swing.*;
 import java.awt.event.*;
-
-import java.awt.*;
 import java.sql.*;
 
 public class Profile extends JFrame implements ActionListener {
     JButton back;
-    String user_name, Name, gender, address, nationality, dob, phone;
+    String userName, Name, gender, address, nationality, dob, phone;
     JLabel user,na,gen,add,nat,bir,pho;
-    Profile(String user_name) {
-        this.user_name=user_name;
+    Profile(String userName) {
+        this.userName=userName;
 
         setTitle("IRCTC");
         setLayout(null);
 
-        JLabel label1 = new JLabel("User_name :");
+        JLabel label1 = new JLabel("userName :");
         label1.setBounds(190, 20, 200, 50);
         add(label1);
 
@@ -70,26 +68,23 @@ public class Profile extends JFrame implements ActionListener {
         pho.setBounds(300, 140, 200, 50);
         add(pho);
 
-
-
-
         try{
             Conn c=new Conn();
 
-            ResultSet rs=c.s.executeQuery("select user_name ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where user_name='shashi';");
+            ResultSet rs=c.s.executeQuery("select user_name ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where user_name='"+userName+"';");
 
             System.out.println("the details are:");
                 while(rs.next()){
-                user_name=rs.getString("user_name");
+                userName=rs.getString("user_name");
                 Name=rs.getString("Name");
                 gender=rs.getString("gender");
                 address=rs.getString("address");
                 nationality=rs.getString("nationality");
                 dob=rs.getString("dob");
                 phone=rs.getString("phone");
-                // System.out.println(user_name+" "+Name+ " "+gender+" "+address+" "+nationality+" "+dob+ " "+phone);
+                // System.out.println(userName+" "+Name+ " "+gender+" "+address+" "+nationality+" "+dob+ " "+phone);
                 }
-                user.setText(user_name);
+                user.setText(userName);
                 na.setText(Name);
                 gen.setText(gender);
                 add.setText(address);
@@ -114,11 +109,11 @@ public class Profile extends JFrame implements ActionListener {
     public void actionPerformed( ActionEvent e){
         if(e.getSource()==back){
             setVisible(false);
-            new HomePage(user_name).setVisible(true);
+            new HomePage(userName).setVisible(true);
     }
 }
 
     public static void main(String[] args) {
-        new Profile("shashi");
+        new Profile("shas");
     }
 }

@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import com.toedter.calendar.JDateChooser;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -222,20 +223,44 @@ public class Register extends JFrame implements ActionListener{
                             String enteredOtp= JOptionPane.showInputDialog("Enter the otp sent to your email "); 
                             System.out.println(enteredOtp);
                             if(genOtp.equals(enteredOtp)){
+                                System.out.println("correct");
                                 String query1="insert into user(user_name,first_name,last_name,gender,address,nationality,dob,phone)values ('"+userNameText+"','"+firstNameText+"','"+lastNameText+"','"+gender+"','"+addressText+"','"+natiolaity+"','"+dob+"','"+phoneText+"')";
                                 String query2="insert into user_login(user_name,password,email) values('"+userNameText+"','"+passwordText+"','"+emailText+"')";
                                 c.s.executeUpdate(query1);
                                 c.s.executeUpdate(query2);
     
-                                JOptionPane.showMessageDialog(null,"Registration successfull...please login"); 
-                                setVisible(false);
-                                new Login().setVisible(true);
-                            }
-                            else{
-                                JOptionPane.showMessageDialog(null,"Incorrect OTP. please try again"); 
-                            }                            
+                                JOptionPane.showMessageDialog(null,"Please wait we register your account"); 
+
+                                ArrayList<String> details=new ArrayList<String>();
+                                details.add("USER NAME   : "+userNameText);
+                                details.add("FIRST NAME  : "+firstNameText);
+                                details.add("LAST NAME   : "+lastNameText);
+                                details.add("PASSWORD    : "+passwordText);
+                                details.add("EMAIL       : "+emailText);
+                                details.add("GENDER      : "+gender);
+                                details.add("ADDRESS     : "+addressText);
+                                details.add("NATIONALITY : "+natiolaity);
+                                details.add("DOB         : "+dob);
+                                details.add("PHONE       : "+phoneText);
+                                
+                                rs = c.s.executeQuery("SELECT email  FROM user_login WHERE user_name='"+userNameText+"';");
+                                
+                                if(rs.next()){
+                                    emailText=rs.getString("email");
+                                    System.out.println(email);
+                                    MailAttachment.sendConfirmation(emailText,userNameText,details,"Registration successfull","\n\nYour Account is successfully created in IRCTC \n\nDETAILS :\n\n");
+                                    JOptionPane.showMessageDialog(null,"Registration successfull...Details are sent to your mail ...Please login"); 
+                                    setVisible(false);
+                                    new Login().setVisible(true);
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null,"Sorry!! There was some error..Please try again"); 
+                                        setVisible(false);
+                                        new Login().setVisible(true);
+                                    }
+                                    }
+                            }                          
                         }
-                    }
                 }catch(Exception error){
                     JOptionPane.showMessageDialog(null,"Invalid Entries..Please Try again"); 
                     System.out.println(error);
