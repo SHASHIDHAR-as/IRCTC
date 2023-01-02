@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.awt.*;
@@ -33,6 +35,17 @@ public class BookTickets extends JFrame implements ActionListener{
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        JPanel headerPanel=new JPanel();
+        String content="<html><p class=\"head\">"+source.toUpperCase()+" TO "+destination.toUpperCase()+"</p><br> </html>";
+        JLabel header=new JLabel(content,JLabel.CENTER);
+        header.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        headerPanel.setBackground(Color.decode("#e87020"));
+        header.setForeground(Color.white);
+        header.setFont(new Font("Raleway", Font.BOLD, 20));
+        headerPanel.add(header);
+        headerPanel.setMaximumSize( new Dimension(  983, 200) );
+        mainPanel.add(headerPanel);
+
         try{
             Conn c=new Conn();
 
@@ -50,8 +63,6 @@ public class BookTickets extends JFrame implements ActionListener{
   
             for(int i=0;i<trains.size();i++){
                 String query="select * from (select t.train_no,t.train_name,t.start_seat,t.end_seat from (select * from trains where train_no in (select t1.train_no from `"+trains.get(i)+"` as t1 inner join `"+trains.get(i)+"` as t2 where t1.station_id='"+source+"' and t2.station_id='"+destination+"' and t1.stop_no<t2.stop_no)) as t inner join schedule as s where t.train_no =s.train_no and s.wednesday='y') as sample1 inner join (select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost from `"+trains.get(i)+"` as t1 inner join `"+trains.get(i)+"` as t2 inner join schedule as s where t1.station_id='"+source+"' and t2.station_id='"+destination+"' and s.train_no="+trains.get(i)+" and s."+day+"='y' ) as sample2 where sample1.train_no=sample2.train_no;";
-                
-                System.out.println(query);
 
                 rs=c.s.executeQuery(query);
                 if(rs.next()){
@@ -127,18 +138,12 @@ public class BookTickets extends JFrame implements ActionListener{
         String str10="<h3> &emsp; &emsp; &emsp; Ticket Cost : "+details.cost+" &emsp; &emsp; Available Seats : "+details.seatsAvailable+"</h3><div></html>";
         String htmlContent=str1+str2+str3+str4+str5+str6+str7+str8+str9+str10;
 
-        System.out.println(htmlContent);
-
         JPanel panel=new JPanel();
 
         JLabel label=new JLabel(htmlContent, JLabel.CENTER);
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setBackground(Color.white);
         label.setOpaque(true);
-
-        // JButton button=new JButton("BOOK");
-        // button.addActionListener(this);
-        // book.add(button);
 
         JButton button=new JButton("BOOK");
         button.setFont(new Font("Raleway", Font.BOLD, 20));
@@ -166,36 +171,6 @@ public class BookTickets extends JFrame implements ActionListener{
             }
         }
         if(e.getSource()==back){
-            dispose();
-            getContentPane().removeAll();
-            repaint();
-
-            System.out.println(trains);
-            System.out.println(train_no);
-            System.out.println(train_name);
-            System.out.println(arrivalTime);
-            System.out.println(destinationTime);
-            System.out.println(costOfTravel);
-            System.out.println(seatsAvailable);
-            System.out.println(details);
-
-            trains.removeAll(trains);
-            train_no.removeAll(train_no);
-            train_name.removeAll(train_name);
-            arrivalTime.removeAll(arrivalTime);
-            destinationTime.removeAll(destinationTime);
-            costOfTravel.removeAll(costOfTravel);
-            seatsAvailable.removeAll(seatsAvailable);
-            details.removeAll(details);
-
-            System.out.println(trains);
-            System.out.println(train_no);
-            System.out.println(train_name);
-            System.out.println(arrivalTime);
-            System.out.println(destinationTime);
-            System.out.println(costOfTravel);
-            System.out.println(seatsAvailable);
-            System.out.println(details);
 
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setVisible(false);
@@ -204,7 +179,7 @@ public class BookTickets extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new BookTickets("ypr","bay","wednesday","suchith");
+        new BookTickets("yel","bay","wednesday","suchith");
 
     }
 

@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
@@ -17,7 +16,9 @@ public class AddTrains  extends JFrame implements ActionListener {
     DefaultTableModel model;
     String userName;
     String FromStations[];
-    String loginId,train_no,train_name,Seats;
+    String loginId,train_no,train_name,End_seats;
+    JRadioButton Mon,Tue,Wed,Thur,Fri,Sat,Sun;
+    String Monday="n",Tuesday="n",Wednesday="n",Thursday="n",Friday="n",Saturday="n",Sunday="n";
     static Box vertical = Box.createVerticalBox();
         
     AddTrains(String loginId) {
@@ -42,8 +43,57 @@ public class AddTrains  extends JFrame implements ActionListener {
         TextAnimator.textAnimator(seats,"Seats");
         add(seats);
 
+        Mon=new JRadioButton("MON");
+        Mon.setBounds(20,80,60,30);
+        Mon.setBackground(Color.white);
+        Mon.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Mon.setForeground(Color.gray);
+        add(Mon);
+
+        Tue=new JRadioButton("Tue");
+        Tue.setBounds(100,80,60,30);
+        Tue.setBackground(Color.white);
+        Tue.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Tue.setForeground(Color.gray);
+        add(Tue);
+
+        Wed=new JRadioButton("Wed");
+        Wed.setBounds(180,80,60,30);
+        Wed.setBackground(Color.white);
+        Wed.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Wed.setForeground(Color.gray);
+        add(Wed);
+
+        Thur=new JRadioButton("Thur");
+        Thur.setBounds(260,80,60,30);
+        Thur.setBackground(Color.white);
+        Thur.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Thur.setForeground(Color.gray);
+        add(Thur);
+
+        Fri=new JRadioButton("Fri");
+        Fri.setBounds(350,80,60,30);
+        Fri.setBackground(Color.white);
+        Fri.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Fri.setForeground(Color.gray);
+        add(Fri);
+
+        Sat=new JRadioButton("Sat");
+        Sat.setBounds(430,80,60,30);
+        Sat.setBackground(Color.white);
+        Sat.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Sat.setForeground(Color.gray);
+        add(Sat);
+
+        Sun=new JRadioButton("Sun");
+        Sun.setBounds(500,80,60,30);
+        Sun.setBackground(Color.white);
+        Sun.setFont(new Font("Raleway", Font.PLAIN, 15));
+        Sun.setForeground(Color.gray);
+        add(Sun);
+
         saveTrain=new JButton("save trian");
-        saveTrain.setBounds(50,80,100,30);
+        saveTrain.setBounds(50,130,100,30);
         saveTrain.addActionListener(this);
         add(saveTrain);
 
@@ -121,14 +171,14 @@ public class AddTrains  extends JFrame implements ActionListener {
         panel2.add(delete);
 
         panel2.setBackground(Color.red);
-        panel2.setBounds(0, 100, 1000, 220);
+        panel2.setBounds(0, 150, 1000, 220);
         c2.add(panel2);
 
         Container c3 = getContentPane();
         JPanel panel3 = new JPanel();
         panel3.setLayout(null);
         panel3.setBackground(Color.green);
-        panel3.setBounds(0, 200, 1000, 800);
+        panel3.setBounds(0, 250, 1000, 800);
 
         cols = new String[] { "stop number", "station id", "time","cost"};
 
@@ -174,8 +224,32 @@ public class AddTrains  extends JFrame implements ActionListener {
         }
         if(e.getSource()==saveTrain){
             train_no=trainNo.getText();
-            train_name=trainNo.getText();
-            Seats=trainNo.getText();
+            train_name=trainName.getText();
+            End_seats=seats.getText();
+            if(Mon.isSelected()){
+                Monday="y";
+            }
+
+            if(Tue.isSelected()){
+                Tuesday="y";
+            }
+            if(Wed.isSelected()){
+                Wednesday="y";
+            }
+            if(Thur.isSelected()){
+                Thursday="y";
+            }
+            if(Fri.isSelected()){
+                Friday="y";
+            }
+            if(Sat.isSelected()){
+                Saturday="y";
+            }
+            if(Sun.isSelected()){
+                Sunday="y";
+            }
+            System.out.println(Monday+Tuesday+Wednesday+Thursday+Friday+Saturday+Sunday);
+
             JOptionPane.showMessageDialog(null, "train saved successfully");
         }
 
@@ -200,10 +274,12 @@ public class AddTrains  extends JFrame implements ActionListener {
             setVisible(false);
             new Admin(loginId);
         } else if (e.getSource() == submit) {
-            try {
+            try {int start_seat=0;
                 Conn c = new Conn();
-                String query1="insert into trains values ("+Integer.parseInt(train_no)+",'"+train_name+"',"+Integer.parseInt(Seats)+");";
+                String query1="insert into trains values ("+Integer.parseInt(train_no)+",'"+train_name+"',"+start_seat+","+Integer.parseInt(End_seats)+",'"+loginId+"');";
                 c.s.executeUpdate(query1);
+                String query ="insert into schedule values("+Integer.parseInt(train_no)+",'"+Monday+"','"+Tuesday+"','"+Wednesday+"','"+Thursday+"','"+Friday+"','"+Saturday+"','"+Sunday+"');";
+                c.s.executeUpdate(query);
                 int rows = table.getRowCount();
                 System.out.println(rows);
                 for (int row = 0; row < rows; row++) {
