@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.awt.*;
