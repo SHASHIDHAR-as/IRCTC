@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class BookTickets extends JFrame implements ActionListener{
 
-    String source,destination,userName;
+    String source,destination,userName,sourceName,destinationName;
 
     JPanel mainPanel=new JPanel();
     
@@ -47,7 +47,19 @@ public class BookTickets extends JFrame implements ActionListener{
         try{
             Conn c=new Conn();
 
-            ResultSet rs=c.s.executeQuery("select train_no from trains");
+            ResultSet rs=c.s.executeQuery("select station_name from station where station_id='"+source+"';");
+            if(rs.next()){
+                sourceName=rs.getString("station_name");
+                System.out.println(sourceName);
+            }
+
+            rs=c.s.executeQuery("select station_name from station where station_id='"+destination+"';");
+            if(rs.next()){
+                destinationName=rs.getString("station_name");
+                System.out.println(destinationName);
+            }
+
+            rs=c.s.executeQuery("select train_no from trains");
 
             if(rs==null){
                 System.out.println("null");
@@ -98,14 +110,14 @@ public class BookTickets extends JFrame implements ActionListener{
         setLayout(new BorderLayout());
         add(Jscroll, BorderLayout.CENTER);
 
-        // back=new JButton("BACK");
-        // back.setFont(new Font("Raleway", Font.BOLD, 24));
-        // back.setForeground(Color.decode("#E87020"));
-        // back.setBackground(Color.black);
-        // back.setBorder(null);
-        // back.setOpaque(false);
-        // back.addActionListener(this);
-        // mainPanel.add(back);
+        back=new JButton("BACK");
+        back.setFont(new Font("Raleway", Font.BOLD, 24));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
+        back.addActionListener(this);
+        mainPanel.add(back);
 
         setLocation(180, 20);
         setSize(1000, 700);
@@ -113,51 +125,80 @@ public class BookTickets extends JFrame implements ActionListener{
         setVisible(true);
     }
     void addPanel(BookedTrain details,int i){
-        String str1="""
-            <html><style>
-                .heading{
-                    width:460px ;
-                    height:30px;
-                }
-            </style>
-            <div><div class="heading"><h1> &ensp; &ensp;"""+details.train_name.toUpperCase();                
-        String str2="&ensp;("+details.train_no+")</h1>";
-        String str3="""
-                </div><hr>
-                <div ><h2>&emsp; &emsp; """;
-        String str4=details.source;
-        String str5="&emsp; &emsp; &emsp; &emsp; &emsp; &#8594; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; "+details.destination; 
-        String str6="""
-            </h2></div><h3> &emsp;&emsp;&emsp; &emsp; &emsp; """;
-        String str7=details.arrivalTime;
-        String str8="""
-            &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  &emsp; &emsp; &emsp;&emsp; &emsp; &emsp; &emsp; """;
-        String str9=details.destinationTime+"</h3>";
-        String str10="<h3> &emsp; &emsp; &emsp; Ticket Cost : "+details.cost+" &emsp; &emsp; Available Seats : "+details.seatsAvailable+"</h3><div></html>";
-        String htmlContent=str1+str2+str3+str4+str5+str6+str7+str8+str9+str10;
-
         JPanel panel=new JPanel();
 
-        JLabel label=new JLabel(htmlContent, JLabel.CENTER);
-        label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        label.setBackground(Color.white);
-        label.setOpaque(true);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/booktickets.png"));
+        Image i2 = i1.getImage().getScaledInstance(580, 200, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(0, 0, 983, 660);
+        add(image);
 
+        JLabel trainLabel=new JLabel(train_name.get(i).toUpperCase()+" ("+train_no.get(i)+")");
+        trainLabel.setFont(new Font("Raleway", Font.BOLD, 20));
+        trainLabel.setBounds(25,10,550,40);
+        trainLabel.setBackground(Color.white);
+        trainLabel.setOpaque(true);
+
+        JLabel sourcLabel=new JLabel(sourceName.toUpperCase());
+        sourcLabel.setFont(new Font("Raleway", Font.BOLD, 20));
+        sourcLabel.setBounds(25,80,200,40);
+        sourcLabel.setBackground(Color.white);
+        sourcLabel.setOpaque(true);
+
+        JLabel arrivalLabel=new JLabel(arrivalTime.get(i));
+        arrivalLabel.setFont(new Font("Raleway", Font.PLAIN, 16));
+        arrivalLabel.setBounds(25,110,100,30);
+        arrivalLabel.setBackground(Color.white);
+        arrivalLabel.setOpaque(true);
+
+        JLabel destinLabel=new JLabel(destinationName.toUpperCase());
+        destinLabel.setFont(new Font("Raleway", Font.BOLD, 20));
+        destinLabel.setBounds(390,80,200,40);
+        destinLabel.setBackground(Color.white);
+        destinLabel.setOpaque(true);
+
+        JLabel reachLabel=new JLabel(destinationTime.get(i));
+        reachLabel.setFont(new Font("Raleway", Font.PLAIN, 16));
+        reachLabel.setBounds(390,110,100,30);
+        reachLabel.setBackground(Color.white);
+        reachLabel.setOpaque(true);
+
+        JLabel costLabel=new JLabel(costOfTravel.get(i)+"");
+        costLabel.setFont(new Font("Raleway", Font.PLAIN, 16));
+        costLabel.setBounds(100,140,100,30);
+        costLabel.setBackground(Color.white);
+        costLabel.setOpaque(true);
+
+        JLabel seatsLabel=new JLabel(seatsAvailable.get(i)+"");
+        seatsLabel.setFont(new Font("Raleway", Font.PLAIN, 16));
+        seatsLabel.setBounds(100,170,100,30);
+        seatsLabel.setBackground(Color.white);
+        seatsLabel.setOpaque(true);
+        
         JButton button=new JButton("BOOK");
         button.setFont(new Font("Raleway", Font.BOLD, 20));
         button.setForeground(Color.decode("#E87020"));
-        button.setBackground(Color.black);
+        button.setBackground(Color.white);
+        button.setBounds(480,150,100,30);
         button.setBorder(null);
-        button.setOpaque(false);
         button.addActionListener(this);
         book.add(button);
 
-        JPanel subPanel=new JPanel();
-        subPanel.add(label);
-        subPanel.add(button);
-        panel.add(subPanel);
+        image.add(button);
+        image.add(trainLabel);
+        image.add(sourcLabel);
+        image.add(destinLabel);
+        image.add(arrivalLabel);
+        image.add(reachLabel);
+        image.add(costLabel);
+        image.add(seatsLabel);
+
+        panel.add(image);
 
         panels.add(panel);
+
+        mainPanel.add(panel);
     }
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<book.size();i++){
