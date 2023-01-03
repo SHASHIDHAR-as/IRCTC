@@ -10,7 +10,9 @@ public class AllBookings extends JFrame implements ActionListener{
     
     static ArrayList<JPanel> panels=new ArrayList<JPanel>();
     JButton back;
-    AllBookings(){
+    String loginId;
+    AllBookings(String loginId){
+        this.loginId=loginId;
         setTitle("IRCTC");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -110,6 +112,6 @@ public class AllBookings extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new AllBookings();
+        new AllBookings("11111");
     }
 }
