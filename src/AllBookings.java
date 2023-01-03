@@ -47,11 +47,15 @@ public class AllBookings extends JFrame implements ActionListener{
                 JLabel bookingLabel=new JLabel(bookingId);
                 bookingLabel.setBounds(170,16,50,15);
                 bookingLabel.setFont(new Font("Raleway", Font.BOLD, 14));
+
+                JLabel userLabel=new JLabel("User Name:");
+                userLabel.setBounds(86,39,85,15);
+                userLabel.setFont(new Font("Raleway", Font.BOLD, 14));
                 
-                JLabel userLabel=new JLabel( "User Name : "+userName);
-                userLabel.setBounds(352,36,100,15);
-                userLabel.setFont(new Font("Raleway", Font.BOLD, 16));
-                userLabel.setForeground(Color.decode("#e87020"));
+                JLabel userNameLabel=new JLabel(userName);
+                userNameLabel.setBounds(175,39,100,15);
+                userNameLabel.setFont(new Font("Raleway", Font.BOLD, 14));
+                userNameLabel.setForeground(Color.decode("#e87020"));
     
                 JLabel pnrLabel=new JLabel(pnrNo);
                 pnrLabel.setBounds(352,16,100,15);
@@ -63,11 +67,11 @@ public class AllBookings extends JFrame implements ActionListener{
                 bookedOn.setFont(new Font("Raleway", Font.BOLD, 14));
                 
                 JLabel trianNameLabel=new JLabel(train_name.toUpperCase()+"("+train_no+")");
-                trianNameLabel.setBounds(86,40,200,25);
+                trianNameLabel.setBounds(86,60,400,25);
                 trianNameLabel.setFont(new Font("Raleway", Font.BOLD, 20));
 
                 JLabel costLabel=new JLabel("₹ "+ticket);
-                costLabel.setBounds(86,70,100,25);
+                costLabel.setBounds(86,80,100,25);
                 costLabel.setFont(new Font("Raleway", Font.BOLD, 14));
 
                 JPanel panel=new JPanel();
@@ -82,6 +86,7 @@ public class AllBookings extends JFrame implements ActionListener{
                 image.add(bookingLabel);
                 image.add(pnrLabel);
                 image.add(userLabel);
+                image.add(userNameLabel);
                 image.add(bookedOn);
                 image.add(trianNameLabel);
                 image.add(costLabel);
@@ -94,7 +99,14 @@ public class AllBookings extends JFrame implements ActionListener{
             System.out.println(e);
         }
 
-
+        back=new JButton("BACK");
+        back.setFont(new Font("Raleway", Font.BOLD, 24));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
+        back.addActionListener(this);
+        mainPanel.add(back);
         
         JScrollPane Jscroll = new JScrollPane(mainPanel); 
 
@@ -107,8 +119,12 @@ public class AllBookings extends JFrame implements ActionListener{
         setVisible(true);
         setLocation(180, 20);
     }
+    
     public void actionPerformed(ActionEvent e) {
-        
+        if(e.getSource()==back)    {
+            setVisible(false);
+            new Admin(loginId);
+        }
     }
     public static void main(String args[])
     {

@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MyBookings extends JFrame implements ActionListener{
-
     JPanel mainPanel=new JPanel();
     
     static ArrayList<JPanel> panels=new ArrayList<JPanel>();
@@ -87,7 +86,14 @@ public class MyBookings extends JFrame implements ActionListener{
             System.out.println(e);
         }
 
-
+        back=new JButton("BACK");
+        back.setFont(new Font("Raleway", Font.BOLD, 24));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
+        back.addActionListener(this);
+        mainPanel.add(back);
         
         JScrollPane Jscroll = new JScrollPane(mainPanel); 
 
@@ -101,7 +107,10 @@ public class MyBookings extends JFrame implements ActionListener{
         setLocation(180, 20);
     }
     public void actionPerformed(ActionEvent e) {
-        
+        if(e.getSource()==back){
+            setVisible(false);
+            new HomePage(userName);
+        }
     }
     public static void main(String args[])
     {
