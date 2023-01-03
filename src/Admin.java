@@ -1,16 +1,31 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.*;
 
 public class Admin extends JFrame implements ActionListener{
-    JButton profile,addTrain,bookings,logout;
+    JButton profile,addTrain,bookings,logout,askDisha;
     String loginId;
     Admin(String loginId){
         this.loginId=loginId;
 
         setTitle("IRCTC");
         setLayout(null);
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/admin.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(0, 0, 983, 660);
+        add(image);  
+
+        JLabel name=new JLabel(loginId);
+        name.setBounds(440,14,300,40);
+        name.setFont(new Font("Raleway", Font.BOLD, 24));
+        name.setForeground(Color.white);
+        name.setBackground(Color.decode("#e87020"));
+        image.add(name);
 
         try{
             Conn c=new Conn();
@@ -26,26 +41,50 @@ public class Admin extends JFrame implements ActionListener{
         catch (Exception error) {
             System.out.println(error);
         }
-        
-        profile =new JButton("view profile");
-        profile.setBounds(100,0,100,50);
-        profile.addActionListener(this);
-        add(profile);
-        
-        addTrain =new JButton("Add train");
-        addTrain.setBounds(100,100,100,50);
+        addTrain=new JButton("");
+        addTrain.setBounds(105, 200, 170, 230);
+        addTrain.setBackground(Color.ORANGE);
+        addTrain.setOpaque(false);
+        addTrain.setFont(new Font("Raleway", Font.BOLD, 16));
+        addTrain.setBorder(null);
         addTrain.addActionListener(this);
-        add(addTrain);
+        image.add(addTrain);
         
-        bookings =new JButton("view bookings");
-        bookings.setBounds(100,200,100,50);
+        bookings=new JButton("");
+        bookings.setBounds(400, 200, 170, 225);
+        bookings.setBackground(Color.ORANGE);
+        bookings.setOpaque(false);
+        bookings.setFont(new Font("Raleway", Font.BOLD, 16));
+        bookings.setBorder(null);
         bookings.addActionListener(this);
-        add(bookings);
+        image.add(bookings);
         
-        logout =new JButton("Logout");
-        logout.setBounds(100,500,100,50);
+        profile=new JButton("");
+        profile.setBounds(705, 210, 170, 220);
+        profile.setBackground(Color.ORANGE);
+        profile.setOpaque(false);
+        profile.setFont(new Font("Raleway", Font.BOLD, 16));
+        profile.setBorder(null);
+        profile.addActionListener(this);
+        image.add(profile);
+
+        logout=new JButton("LOGOUT");
+        logout.setBounds(816, 566, 100, 30);
+        logout.setForeground(Color.decode("#e87020"));
+        logout.setBackground(Color.white);
+        logout.setFont(new Font("Raleway", Font.BOLD, 23));
+        logout.setBorder(null);
         logout.addActionListener(this);
-        add(logout);
+        image.add(logout);
+
+        askDisha=new JButton("ASK DISHA");
+        askDisha.setBounds(65,568,130,30);
+        askDisha.setForeground(Color.decode("#e87020"));
+        askDisha.setFont(new Font("Raleway", Font.BOLD, 23));
+        askDisha.setBorder(null);
+        askDisha.setBackground(Color.white);
+        askDisha.addActionListener(this);
+        image.add(askDisha);
 
         getContentPane().setBackground(Color.white);
 
@@ -71,9 +110,14 @@ public class Admin extends JFrame implements ActionListener{
         else if(e.getSource()==logout){
             setVisible(false);
             new AdminLogin();
+        }else if(e.getSource()==askDisha){
+            try {
+                Runtime.getRuntime().exec("cmd.exe /c start chrome https://irctc.corover.ai/eticket/");
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
-
-        
     }
     public static void main(String args[])
     {
