@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -16,8 +15,8 @@ public class Getdays
 String date=sc.next();
 String output = 
 LocalDate.parse(                               // Generate `LocalDate` object from String input.
-            date ,
-            DateTimeFormatter.ofPattern( "d/M/uuuu" ) 
+        date ,
+        DateTimeFormatter.ofPattern( "d/M/uuuu" ) 
         )                                    
          .getDayOfWeek()                       // Get `DayOfWeek` enum object.
          .getDisplayName(                      // Localize. Generate a String to represent this day-of-week.

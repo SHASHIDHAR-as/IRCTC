@@ -36,6 +36,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         boolean buttonPressed = false;
         int seatsAvailable;
         BookedTrain details;
+        JPanel panel3;
 
         ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
         this.details=details;
@@ -108,9 +109,10 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         c.add(panel);
 
         Container c3 = getContentPane();
-        JPanel panel3 = new JPanel();
+        panel3 = new JPanel();
         panel3.setLayout(null);
         panel3.setBackground(Color.green);
+        panel3.setVisible(false);
         panel3.setBounds(0, 200, 1000, 800);
 
         cols = new String[] { "Name", "AGE", "GENDER","PNR","SEAT_NO" };
@@ -138,7 +140,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
 
         c3.add(panel3);
         setLayout(null);
-        setLocation(180, 20);
+        setLocation(280, 80);
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -149,6 +151,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         // if (!buttonPressed) {
         if (e.getSource() == show & !buttonPressed) {
                 try{
+                    panel3.setVisible(true);
                     Conn c = new Conn();
                     // String Pnrnum="2276717745";
                     ResultSet rs = c.s.executeQuery("select * from Passenger where pnr_num = '" + Pnrnum + "'");

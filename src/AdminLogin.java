@@ -25,6 +25,7 @@ public class AdminLogin extends JFrame implements ActionListener{
         loginId.setFont(new Font("Raleway", Font.BOLD, 20));
         loginId.setForeground(Color.gray);
         loginId.setBorder(null);
+        TextAnimator.textAnimator(loginId,"Admin Id");
         image.add(loginId);
 
         password =new JTextField("Password");
@@ -32,6 +33,7 @@ public class AdminLogin extends JFrame implements ActionListener{
         password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);
         password.setBorder(null);
+        TextAnimator.textAnimator(password,"Password");
         image.add(password);
 
         login=new JButton("LOGIN");
@@ -56,7 +58,7 @@ public class AdminLogin extends JFrame implements ActionListener{
 
         setSize(1000, 700);
         setVisible(true);
-        setLocation(180, 20);
+        setLocation(280, 80);
     }
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==login){

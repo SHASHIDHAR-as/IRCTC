@@ -5,8 +5,9 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
 public class PNRStatus extends JFrame implements ActionListener {
-    JLabel label;
+    JLabel label,label2;
     Box pnrPanel = Box.createVerticalBox();
+    Box pnrPanel1 = Box.createVerticalBox();
     JTextField pnrNo;
     JButton search, back;
     String userName;
@@ -19,19 +20,27 @@ public class PNRStatus extends JFrame implements ActionListener {
         setTitle("IRCTC");
         setLayout(null);
 
+        Container c=getContentPane();
+        JPanel panel=new JPanel();
+        panel.setLayout(null);
+
         pnrNo = new JTextField("PNR Number");
-        pnrNo.setBounds(50, 50, 200, 50);
-        add(pnrNo);
+        pnrNo.setBounds(50, 60, 200, 40);
+        panel.add(pnrNo);
 
         search = new JButton("Search");
-        search.setBounds(50, 100, 100, 50);
+        search.setBounds(50, 110, 100, 40);
         search.addActionListener(this);
-        add(search);
+        panel.add(search);
 
         back = new JButton("Back");
-        back.setBounds(200, 100, 100, 50);
+        back.setBounds(200, 110, 100, 40);
         back.addActionListener(this);
-        add(back);
+        panel.add(back);
+
+        panel.setBackground(Color.yellow);
+        panel.setBounds(0, 0, 1000, 180);
+        c.add(panel);
 
         label = new JLabel("PNR details are :");
         label.setVisible(false);
@@ -41,15 +50,25 @@ public class PNRStatus extends JFrame implements ActionListener {
         pnrPanel.setVisible(false);
         add(pnrPanel);
 
+
+        label2 = new JLabel("PNR details are : shasdfhkashfjkhas");
+        label2.setVisible(true);
+        pnrPanel1.add(label2);
+
+        pnrPanel1.setBounds(50, 180, 500, 200);
+        pnrPanel1.setVisible(true);
+        add(pnrPanel1);
         getContentPane().setBackground(Color.white);
 
         setSize(1000, 700);
         setVisible(true);
-        setLocation(180, 20);
+        setLocation(280, 80);
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == search) {
+            label2.setVisible(false);
+            pnrPanel1.setVisible(false);
             label.setVisible(true);
             pnrPanel.setVisible(true);
             try {

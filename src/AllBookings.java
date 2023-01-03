@@ -51,7 +51,7 @@ public class AllBookings extends JFrame implements ActionListener{
 
         setSize(1000, 700);
         setVisible(true);
-        setLocation(180, 20);
+        setLocation(280, 80);
 
     }
     public static void main(String args[])

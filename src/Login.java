@@ -96,7 +96,7 @@ public class Login extends JFrame implements ActionListener {
 
         setSize(1000, 700);
         setVisible(true);
-        setLocation(180, 20);
+        setLocation(280, 80);
     }
 
     //function to pick random captcha values

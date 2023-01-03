@@ -48,7 +48,19 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  train_name varchar(50),
  seats_available int
  );
- 
+ drop table trains;
+ truncate trains;
+ select *from trains;
+ alter table trains add column start_seat int ;
+ alter table trains add column end_seat int ;
+ alter table trains add column login_id varchar(10) references admin (login_id) ;
+ select *from admin;
+ desc admin;
+  delete from trains;
+ SET SQL_SAFE_UPDATES=0;
+  update  trains set start_seat=0 , end_seat=10 where train_no =300;
+  
+   update trains set start_seat =0 where train_no=100;
  -- insert values into train table
  insert into trains values(100,'hampi express',10);
  insert into trains values(200,'kar express',0);
@@ -63,6 +75,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  station_name varchar(50)
  );
  select *from trains;
+delete from trains where train_no=10;
  
  -- insert values in station table
  insert into station values('ksr','ksr bengaluru');
@@ -89,7 +102,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  foreign key (train_no) references trains(train_no)
  );
  
- create table `200`(
+ create table `1234`(
  train_no int ,
  stop_no int,
  station_id varchar(30),
@@ -99,9 +112,10 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
   foreign key (train_no) references trains(train_no)
  );
  select *from `200`;
+ select *from trains;
+ show tables;
  
- 
-  create table `300`(
+  create table `12`(
  train_no int ,
  stop_no int,
  station_id varchar(30),
@@ -121,7 +135,7 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  (100,5,'dev','5:00',40),
  (100,6,'bay','6:00',50);
  
- select * from `100`;
+ select * from `0012`;
  
   insert into `200` values 
   (200,1,'ypr','1:00',0),
@@ -140,6 +154,8 @@ insert into user(user_name,first_name,last_name,gender,address,nationality,dob,p
  (300,5,'ypr','1:00',40);
  
  select * from `300`;
+ show tables;
+ drop table `999`;
  
 -- create tupes of source and destination
  select t1.station_id,t2.station_id
@@ -203,6 +219,8 @@ Age varchar(10),
 Gender varchar(20),
 Pnr_num varchar(10));
 
+alter  table passenger add column seat_no int;
+
 SET SQL_SAFE_UPDATES = 0;
 delete from Passenger;
 select *from Passenger; 
@@ -216,11 +234,13 @@ from_station varchar(20),
 to_station varchar(20),
 foreign key (train_no) references trains(train_no)
 );
-
+alter table pnr_status modify column train_name varchar(28) set on delete cascade;
+truncate pnr_status;
 drop  table pnr_status;
 
 insert into pnr_status values(4565644,100,'hampi','ksr','ypr');
 select *from pnr_status;
+select pnr_no from pnr_status ;
 select *from pnr_status where pnr_no=2279320292;
 select *from user where user_name='shashi';
 select user_name ,concat(first_name,last_name) as Name,gender,address,nationality,dob,phone from user where user_name='shashi';
@@ -270,6 +290,7 @@ password varchar(20),
 email_id varchar(50),
 foreign key (login_id) references admin(login_id)
 );
+drop table admin_lo;
 insert into admin_login values(11111,'12345','shashidhar.shivaraj715@gmail.com');
 insert into admin_login values(22222,'12345','suchithkumar2910@gmail.com');
 insert into admin_login values(33333,'12345','suchithkumaryt@gmail.com');
@@ -288,6 +309,48 @@ create  database irctc1;
 
 show databases;
 drop database irctc1;
-use irctc2;
+use irctc;
 show tables;
+
+
+select * from 
+(select t.train_no,t.train_name,t.start_seat,t.end_seat from 
+(select * from trains where train_no in
+(select t1.train_no from `100` as t1 inner join `100` as t2 where 
+t1.station_id='ypr' and t2.station_id='bay' and t1.stop_no<t2.stop_no)) 
+as t inner join schedule as s where
+t.train_no =s.train_no and s.wednesday='y') as main 
+inner join 
+(select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost 
+from `100` as t1 inner join `100` as t2 inner join schedule as s
+where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y') as main2
+On main.train_no= main2.train_no;
+
+select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost 
+from `100` as t1 inner join `100` as t2 inner join schedule as s
+where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y'
+
+select * from (select t.train_no,t.train_name,t.start_seat,t.end_seat from 
+(select * from trains where train_no in
+(select t1.train_no from `100` as t1 inner join `100` as t2 where 
+t1.station_id='ypr' and t2.station_id='bay' and t1.stop_no<t2.stop_no)) 
+as t inner join schedule as s where
+t.train_no =s.train_no and s.wednesday='y') as sample
+inner join
+select * from(
+select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost 
+from `100` as t1 inner join `100` as t2 inner join schedule as s
+where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y' )as sample2 on sample.train_no=sample2.train_no;
+
+select * from (select t.train_no,t.train_name,t.start_seat,t.end_seat from 
+(select * from trains where train_no in
+(select t1.train_no from `300` as t1 inner join `300` as t2 where 
+t1.station_id='ypr' and t2.station_id='bay' and t1.stop_no<t2.stop_no)) 
+as t inner join schedule as s where
+t.train_no =s.train_no and s.wednesday='y') as sample1
+inner join 
+(select t1.train_no,t1.time as arrival_time,t2.time as reach_time,(t2.cost-t1.cost) as cost 
+from `300` as t1 inner join `300` as t2 inner join schedule as s
+where t1.station_id='ypr' and t2.station_id='bay' and s.train_no=100 and s.wednesday='y' ) as sample2
+where sample1.train_no=sample2.train_no;
 

@@ -66,6 +66,16 @@ public class BookTickets extends JFrame implements ActionListener{
                 }
             }
 
+            if(train_no.size()==0){
+                JLabel label=new JLabel("Sorry!! No Trains available");
+                label.setBounds(240,100,800,200);
+                label.setFont(new Font("Raleway", Font.BOLD, 40));
+                add(label);
+    
+                setVisible(false);
+                new SearchTrains(userName);
+            }
+
             //create a train details panel
             for(int i=0;i<arrivalTime.size();i++){
                 System.out.println("Travelling trains are: ");
@@ -98,7 +108,7 @@ public class BookTickets extends JFrame implements ActionListener{
         back.addActionListener(this);
         mainPanel.add(back);
 
-        setLocation(180, 20);
+        setLocation(280, 80);
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -126,8 +136,6 @@ public class BookTickets extends JFrame implements ActionListener{
         String str9=details.destinationTime+"</h3>";
         String str10="<h3> &emsp; &emsp; &emsp; Ticket Cost : "+details.cost+" &emsp; &emsp; Available Seats : "+details.seatsAvailable+"</h3><div></html>";
         String htmlContent=str1+str2+str3+str4+str5+str6+str7+str8+str9+str10;
-
-        System.out.println(htmlContent);
 
         JPanel panel=new JPanel();
 
@@ -166,37 +174,6 @@ public class BookTickets extends JFrame implements ActionListener{
             }
         }
         if(e.getSource()==back){
-            dispose();
-            getContentPane().removeAll();
-            repaint();
-
-            System.out.println(trains);
-            System.out.println(train_no);
-            System.out.println(train_name);
-            System.out.println(arrivalTime);
-            System.out.println(destinationTime);
-            System.out.println(costOfTravel);
-            System.out.println(seatsAvailable);
-            System.out.println(details);
-
-            trains.removeAll(trains);
-            train_no.removeAll(train_no);
-            train_name.removeAll(train_name);
-            arrivalTime.removeAll(arrivalTime);
-            destinationTime.removeAll(destinationTime);
-            costOfTravel.removeAll(costOfTravel);
-            seatsAvailable.removeAll(seatsAvailable);
-            details.removeAll(details);
-
-            System.out.println(trains);
-            System.out.println(train_no);
-            System.out.println(train_name);
-            System.out.println(arrivalTime);
-            System.out.println(destinationTime);
-            System.out.println(costOfTravel);
-            System.out.println(seatsAvailable);
-            System.out.println(details);
-
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setVisible(false);
             new SearchTrains(userName);

@@ -20,6 +20,7 @@ public class AddTrains  extends JFrame implements ActionListener {
     String loginId,train_no,train_name,End_seats;
     JRadioButton Mon,Tue,Wed,Thur,Fri,Sat,Sun;
     String Monday="n",Tuesday="n",Wednesday="n",Thursday="n",Friday="n",Saturday="n",Sunday="n";
+    JPanel panel2,panel3;
     static Box vertical = Box.createVerticalBox();
         
     AddTrains(String loginId) {
@@ -100,7 +101,8 @@ public class AddTrains  extends JFrame implements ActionListener {
 
         Container c2 = getContentPane();
         // Creating a JPanel for the JFrame
-        JPanel panel2 = new JPanel();
+        panel2 = new JPanel();
+        panel2.setVisible(false);
         // setting the panel layout as null
         panel2.setLayout(null);
         // adding a label element to the panel
@@ -176,7 +178,8 @@ public class AddTrains  extends JFrame implements ActionListener {
         c2.add(panel2);
 
         Container c3 = getContentPane();
-        JPanel panel3 = new JPanel();
+        panel3 = new JPanel();
+        panel3.setVisible(false);
         panel3.setLayout(null);
         panel3.setBackground(Color.green);
         panel3.setBounds(0, 250, 1000, 800);
@@ -206,7 +209,7 @@ public class AddTrains  extends JFrame implements ActionListener {
 
         c3.add(panel3);
         setLayout(null);
-        setLocation(180, 20);
+        setLocation(280, 80);
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -214,6 +217,7 @@ public class AddTrains  extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         ArrayList<String> stations=new ArrayList<>();
+        int n=0;
         try{
             Conn c = new Conn();
             ResultSet rs=c.s.executeQuery("select station_id from station;");
@@ -230,7 +234,7 @@ public class AddTrains  extends JFrame implements ActionListener {
             if(Mon.isSelected()){
                 Monday="y";
             }
-
+            
             if(Tue.isSelected()){
                 Tuesday="y";
             }
@@ -250,11 +254,14 @@ public class AddTrains  extends JFrame implements ActionListener {
                 Sunday="y";
             }
             System.out.println(Monday+Tuesday+Wednesday+Thursday+Friday+Saturday+Sunday);
-
+            
             JOptionPane.showMessageDialog(null, "train saved successfully");
+            panel2.setVisible(true);
         }
 
         if (e.getSource() == Add) {
+            panel3.setVisible(true);
+            n++;
 
             if (stopNo.getText().equals("") || stationId.getSelectedItem().equals("") ||  time.getText().equals("") || cost.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please fill all the details");
@@ -270,6 +277,9 @@ public class AddTrains  extends JFrame implements ActionListener {
                 // remove selected row from the model
                 model.removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+            }
+            if(n<1){
+                panel3.setVisible(false);
             }
         } else if (e.getSource() == back) {
             setVisible(false);
