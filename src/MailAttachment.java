@@ -59,7 +59,7 @@ public class MailAttachment {
                 
                 File f =new File(UserName+".txt");
                 c.createfile(UserName);
-                c.writefile(details,UserName);
+                c.writefile(details,UserName,fileMsg);
                 
                 attachmentPart.attachFile(f);
                 

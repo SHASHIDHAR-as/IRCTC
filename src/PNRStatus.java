@@ -7,57 +7,88 @@ import java.sql.*;
 public class PNRStatus extends JFrame implements ActionListener {
     JLabel label,label2;
     Box pnrPanel = Box.createVerticalBox();
-    Box pnrPanel1 = Box.createVerticalBox();
+    // Box pnrPanel1 = Box.createVerticalBox();
     JTextField pnrNo;
     JButton search, back;
     String userName;
 
     DefaultTableModel model = new DefaultTableModel();
     JTable jtbl = new JTable(model);
+    JPanel pnrPanel1;
 
     PNRStatus(String userName) {
         this.userName = userName;
         setTitle("IRCTC");
         setLayout(null);
 
-        Container c=getContentPane();
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/Pnr.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(0, 0, 983, 660);
+        add(image);
+
+        // Container c=getContentPane();
         JPanel panel=new JPanel();
         panel.setLayout(null);
 
         pnrNo = new JTextField("PNR Number");
-        pnrNo.setBounds(50, 60, 200, 40);
+        pnrNo.setFont(new Font("Raleway", Font.PLAIN, 17));
+        pnrNo.setBounds(270, 30, 400, 40);
+        TextAnimator.textAnimator(pnrNo,"PNR NUMBER");
+        pnrNo.setBorder(null);
         panel.add(pnrNo);
 
         search = new JButton("Search");
-        search.setBounds(50, 110, 100, 40);
+        search.setBounds(270, 100, 100, 40);
+        search.setFont(new Font("Raleway", Font.BOLD, 23));
+        search.setForeground(Color.decode("#E87020"));
+        search.setBackground(Color.black);
+        search.setBorder(null);
+        search.setOpaque(false);
         search.addActionListener(this);
         panel.add(search);
 
         back = new JButton("Back");
-        back.setBounds(200, 110, 100, 40);
+        back.setBounds(800, 110, 100, 40);
+        back.setFont(new Font("Raleway", Font.BOLD, 23));
+        back.setForeground(Color.decode("#E87020"));
+        back.setBackground(Color.black);
+        back.setBorder(null);
+        back.setOpaque(false);
         back.addActionListener(this);
         panel.add(back);
+        panel.setBorder(null);
+        panel.setForeground(Color.gray);
+        // panel.setBackground(Color.decode("#e87020"));
 
-        panel.setBackground(Color.yellow);
-        panel.setBounds(0, 0, 1000, 180);
-        c.add(panel);
+        // panel.setBackground(Color.yellow);
+        panel.setBounds(0, 70, 1000, 190);
+        // c.add(panel);
+        image.add(panel);
 
         label = new JLabel("PNR details are :");
         label.setVisible(false);
         pnrPanel.add(label);
-
-        pnrPanel.setBounds(50, 180, 500, 200);
+        pnrPanel.setBounds(200, 350, 500, 200);
         pnrPanel.setVisible(false);
-        add(pnrPanel);
+        image.add(pnrPanel);
 
-
-        label2 = new JLabel("PNR details are : shasdfhkashfjkhas");
+        pnrPanel1=new JPanel();
+        String content="<html><p>NOTE : :</p><br> </html>";
+        pnrPanel1.setLayout(null);
+        label2 = new JLabel(content);
+        // label2.setAlignmentX(TOP_ALIGNMENT);
+        label2.setBounds(20,10,200,100);
+        label2.setFont(new Font("Raleway", Font.BOLD, 20));
         label2.setVisible(true);
         pnrPanel1.add(label2);
-
-        pnrPanel1.setBounds(50, 180, 500, 200);
+        pnrPanel1.setBounds(0, 260, 1000, 500);
+        // pnrPanel1.setBackground(Color.gray);
+        pnrPanel1.setBackground(Color.decode("#D9D9D9"));
         pnrPanel1.setVisible(true);
-        add(pnrPanel1);
+        pnrPanel1.setOpaque(true);
+        image.add(pnrPanel1);
         getContentPane().setBackground(Color.white);
 
         setSize(1000, 700);
