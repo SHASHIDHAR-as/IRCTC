@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Addpassengers extends JFrame implements ActionListener {
+public class AddPassengers extends JFrame implements ActionListener {
     JTextField PassengerName, Age;
     JRadioButton male, female, other;
     JButton Add, back, delete, submit;
@@ -29,7 +29,7 @@ public class Addpassengers extends JFrame implements ActionListener {
     int seatsAvailable;
     ArrayList<String> Pnrlist=new ArrayList<String>();
 
-    Addpassengers(BookedTrain details, String user_name) {
+    AddPassengers(BookedTrain details, String user_name) {
         this.user_name = user_name;
         
         train_no = details.train_no;
@@ -281,6 +281,6 @@ public class Addpassengers extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         BookedTrain details = new BookedTrain(100, "hampi", "ksr", "ypr", "sd", "sd", 10, 10);
-        new Addpassengers(details, "shas");
+        new AddPassengers(details, "shas");
     }
 }

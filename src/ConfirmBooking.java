@@ -241,7 +241,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                     System.out.println(error);
                 }
                 setVisible(false);
-                new Addpassengers(details,user_name).setVisible(true);
+                new AddPassengers(details,user_name).setVisible(true);
             } 
 
 

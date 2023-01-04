@@ -206,7 +206,7 @@ public class BookTickets extends JFrame implements ActionListener{
                 BookedTrain details=new BookedTrain(train_no.get(i),train_name.get(i),source,destination,arrivalTime.get(i),destinationTime.get(i),costOfTravel.get(i),seatsAvailable.get(i));
 
                 setVisible(false);
-                new Addpassengers(details,userName).setVisible(true);
+                new AddPassengers(details,userName).setVisible(true);
             }
         }
         if(e.getSource()==back){
@@ -218,7 +218,7 @@ public class BookTickets extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new BookTickets("yel","bay","wednesday","suchith");
+        new BookTickets("ye","bay","wednesday","suchith");
 
     }
 
