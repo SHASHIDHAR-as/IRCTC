@@ -218,7 +218,7 @@ public class BookTickets extends JFrame implements ActionListener{
     }
     public static void main(String args[])
     {
-        new BookTickets("ye","bay","wednesday","suchith");
+        new BookTickets("ypr","bay","wednesday","suchith");
 
     }
 
