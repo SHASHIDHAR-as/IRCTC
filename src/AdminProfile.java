@@ -23,7 +23,7 @@ public class AdminProfile extends JFrame implements ActionListener {
         admin.setBounds(400, 75, 500, 50);
         admin.setFont(new Font("Raleway", Font.BOLD, 20));
         admin.setBackground(Color.decode("#e87020"));
-        admin.setForeground(Color.black);
+        admin.setForeground(Color.WHITE);
         admin.setBorder(null);
         admin.setOpaque(true);
         image.add(admin);
@@ -32,7 +32,7 @@ public class AdminProfile extends JFrame implements ActionListener {
         emailid.setBounds(400, 125, 500, 50);
         emailid.setFont(new Font("Raleway", Font.BOLD, 20));
         emailid.setBackground(Color.decode("#e87020"));
-        emailid.setForeground(Color.black);
+        emailid.setForeground(Color.WHITE);
         emailid.setBorder(null);
         emailid.setOpaque(true);
         image.add(emailid);

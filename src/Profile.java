@@ -23,7 +23,7 @@ public class Profile extends JFrame implements ActionListener {
         user.setBounds(400, 75, 500, 50);
         user.setFont(new Font("Raleway", Font.BOLD, 20));
         user.setBackground(Color.decode("#e87020"));
-        user.setForeground(Color.black);
+        user.setForeground(Color.WHITE);
         user.setBorder(null);
         user.setOpaque(true);
         image.add(user);
@@ -32,7 +32,7 @@ public class Profile extends JFrame implements ActionListener {
         emailid.setBounds(400, 125, 500, 50);
         emailid.setFont(new Font("Raleway", Font.BOLD, 20));
         emailid.setBackground(Color.decode("#e87020"));
-        emailid.setForeground(Color.black);
+        emailid.setForeground(Color.WHITE);
         emailid.setBorder(null);
         emailid.setOpaque(true);
         image.add(emailid);

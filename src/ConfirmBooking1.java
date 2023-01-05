@@ -14,7 +14,7 @@ import java.sql.*;
 import java.io.File;
 
 
-public class ConfirmBooking extends JFrame implements ActionListener {
+public class ConfirmBooking1 extends JFrame implements ActionListener {
     JTextField PassengerName, Age;
     JRadioButton male, female, other;
     JButton Add, back, delete, submit,show,confirm;
@@ -38,7 +38,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         BookedTrain details;
         JPanel panel3;
 
-        ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
+        ConfirmBooking1(BookedTrain details,String Pnrnum,String user_name,int seats){
         this.details=details;
         train_no = details.train_no;
         train_name = details.train_name;
@@ -71,71 +71,61 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        JLabel label1 = new JLabel("TRAIN SELECTED :");
-        label1.setBounds(190, 15, 200, 50);
+        JLabel label1 = new JLabel("___________________________________________");
+        label1.setBounds(190, 30, 800, 50);
         label1.setFont(new Font("Raleway", Font.BOLD, 20));
         panel.add(label1);
 
         JLabel label = new JLabel( train_name + " ("+train_no+")" );
         // + " " + source + " " + destination + " " + arrivalTime
         //         + " " + destinationTime
-        label.setBounds(410, 15, 500, 50);
-        label.setFont(new Font("Raleway", Font.PLAIN, 20));
+        label.setBounds(190, 10, 500, 50);
+        label.setFont(new Font("Raleway", Font.BOLD, 20));
         panel.add(label);
-        JLabel froms = new JLabel("FROM                     :");
-        froms.setBounds(190, 45, 200, 50);
-        froms.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(froms);
-
-        JLabel from1 = new JLabel( source+" ("+arrivalTime+")" );
+        JLabel FROM = new JLabel(source+"("+arrivalTime+")" );
         // + " " + source + " " + destination + " " + arrivalTime
         //         + " " + destinationTime
-        from1.setBounds(410, 45, 500, 50);
-        from1.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(from1);
-        JLabel tod = new JLabel("TO                           :");
-        tod.setBounds(190, 75, 200, 50);
-        tod.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(tod);
- 
-        JLabel to1 = new JLabel( destination+" ("+destinationTime+")");
+        FROM.setBounds(190, 55, 500, 50);
+        FROM.setFont(new Font("Raleway", Font.BOLD, 20));
+        panel.add(FROM);
+        JLabel TO = new JLabel( destination+"("+destinationTime+")");
         // + " " + source + " " + destination + " " + arrivalTime
         //         + " " + destinationTime
-        to1.setBounds(410, 75, 500, 50);
-        to1.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(to1);
+        TO.setBounds(570, 55, 500, 50);
+        TO.setFont(new Font("Raleway", Font.BOLD, 20));
+        panel.add(TO);
 
         JLabel label02 = new JLabel("DATE - TIME          :");
-        label02.setBounds(190, 108, 200, 50);
+        label02.setBounds(190, 80, 200, 50);
         label02.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(label02);
+        // panel.add(label02);
 
         timeStamp = new SimpleDateFormat("dd/MM/yyyy \n HH-mm-ss").format(Calendar.getInstance().getTime());
         JLabel label01 = new JLabel(timeStamp);
-        label01.setFont(new Font("Raleway", Font.PLAIN, 20));
-        label01.setBounds(400, 108, 300, 50);
+        label01.setFont(new Font("Raleway", Font.BOLD, 20));
+        label01.setBounds(190, 85, 300, 50);
         panel.add(label01);
 
-        JLabel label05 = new JLabel("SEATS BOOKED   :");
+        JLabel label05 = new JLabel("Seats booked   ");
         label05.setFont(new Font("Raleway", Font.BOLD, 20));
-        label05.setBounds(190, 140, 300, 50);
+        label05.setBounds(190, 115, 200, 50);
         panel.add(label05);
         JLabel label06 = new JLabel(seats+" ");
-        label06.setBounds(400, 140, 200, 50);
-        label06.setFont(new Font("Raleway", Font.PLAIN, 20));
+        label06.setBounds(350, 115, 200, 50);
+        label06.setFont(new Font("Raleway", Font.BOLD, 20));
         panel.add(label06);
 
-        JLabel label03 = new JLabel("TOTAL FARE         :");
-        label03.setBounds(190, 173, 200, 50);
+        JLabel label03 = new JLabel("Total Fare");
+        label03.setBounds(190, 140, 200, 50);
         label03.setFont(new Font("Raleway", Font.BOLD, 20));
         panel.add(label03);
         JLabel label04 = new JLabel(total+" ");
-        label04.setBounds(400, 173, 200, 50);
-        label04.setFont(new Font("Raleway", Font.PLAIN, 20));
+        label04.setBounds(350, 140, 200, 50);
+        label04.setFont(new Font("Raleway", Font.BOLD, 20));
         panel.add(label04);
 
         show = new JButton("Show passengers");
-        show.setBounds(240, 218, 300, 30);
+        show.setBounds(250, 200, 300, 30);
         show.setForeground(Color.decode("#e87020"));
         show.setFont(new Font("Raleway", Font.BOLD, 20));
         show.setBorder(null);
@@ -182,7 +172,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         c3.add(panel3);
 
         back = new JButton("Back");
-        back.setBounds(780, 250, 100, 30);
+        back.setBounds(580, 250, 100, 30);
         back.setForeground(Color.decode("#e87020"));
         back.setFont(new Font("Raleway", Font.BOLD, 20));
         back.setBorder(null);
@@ -310,8 +300,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(101, "HAMPI EXPRESS", "YESHWANTHPUR", "DEVANAHALLI", "11:00", "2:00", 10,10);
+        BookedTrain details = new BookedTrain(1101, "HAMPI EXPRESS", "YESHWANTHPUR", "KSR", "1:00", "3:00", 10,10);
 
-        new ConfirmBooking(details,"54654655","shashi",40);
+        new ConfirmBooking1(details,"54654655","shashi",4);
     }
 }

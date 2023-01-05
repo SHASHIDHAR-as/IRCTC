@@ -15,7 +15,7 @@ public class PNRStatus extends JFrame implements ActionListener {
     JPanel mainPanel=new JPanel();
     DefaultTableModel model = new DefaultTableModel();
     JTable jtbl = new JTable(model);
-    JPanel pnrPanel1,panel;
+    JPanel pnrPanel1,searchpanel;
 
     PNRStatus(String userName) {
         this.userName = userName;
@@ -31,17 +31,17 @@ public class PNRStatus extends JFrame implements ActionListener {
         image.setBounds(0, 0, 983, 660);
         add(image);
 
-        panel=new JPanel();
-        panel.setLayout(null);
+        searchpanel=new JPanel();
+        searchpanel.setLayout(null);
 
         pnrNo = new JTextField("PNR Number");
         pnrNo.setFont(new Font("Raleway", Font.PLAIN, 17));
         pnrNo.setBounds(270, 30, 400, 40);
         TextAnimator.textAnimator(pnrNo,"PNR NUMBER");
         pnrNo.setBorder(null);
-        panel.add(pnrNo);
+        searchpanel.add(pnrNo);
 
-        search = new JButton("Search");
+        search = new JButton("SEARCH");
         search.setBounds(270, 100, 100, 40);
         search.setFont(new Font("Raleway", Font.BOLD, 23));
         search.setForeground(Color.decode("#E87020"));
@@ -49,25 +49,26 @@ public class PNRStatus extends JFrame implements ActionListener {
         search.setBorder(null);
         search.setOpaque(false);
         search.addActionListener(this);
-        panel.add(search);
+        searchpanel.add(search);
 
-        back = new JButton("Back");
-        back.setBounds(800, 110, 100, 40);
+        back = new JButton("BACK");
+        back.setBounds(650, 110, 100, 40);
         back.setFont(new Font("Raleway", Font.BOLD, 23));
         back.setForeground(Color.decode("#E87020"));
         back.setBackground(Color.black);
         back.setBorder(null);
         back.setOpaque(false);
         back.addActionListener(this);
-        panel.add(back);
-        panel.setBorder(null);
-        panel.setForeground(Color.gray);
-        panel.setBounds(0, 70, 1000, 190);
+        searchpanel.add(back);
+        searchpanel.setBorder(null);
+        searchpanel.setForeground(Color.gray);
+        searchpanel.setBounds(0, 70, 1000, 190);
 
-        image.add(panel);
+        image.add(searchpanel);
 
         String content1="<html><p>PNR details are :</p><br> </html>";
         label = new JLabel(content1);
+        // label.setVerticalAlignment(JLabel.TOP);
         label.setBounds(0,10,200,100);
         label.setFont(new Font("Raleway", Font.BOLD, 20));
         label.setVisible(false);
@@ -124,22 +125,22 @@ public class PNRStatus extends JFrame implements ActionListener {
                     JLabel pnr_noL = new JLabel("PNR Number : " + pnr_no);
                     // JLabel pnr_noL = new JLabel("<html><p>PNR Number :</p><br> </html> : " + pnr_no);
                     pnr_noL.setFont(new Font("Raleway", Font.BOLD, 20));
-                    JLabel dates = new JLabel("Date : " + date);
+                    JLabel dates = new JLabel("DATE : " + date);
                     // JLabel pnr_noL = new JLabel("<html><p>PNR Number :</p><br> </html> : " + pnr_no);
                     dates.setFont(new Font("Raleway", Font.BOLD, 20));
 
-                    JLabel train_noL = new JLabel("Train Number : " + train_no);
+                    JLabel train_noL = new JLabel("TRAIN NUMBER : " + train_no);
                     train_noL.setFont(new Font("Raleway", Font.BOLD, 20));
                     // JLabel dates = new JLabel("Date : " + date);
                     // dates.setFont(new Font("Raleway", Font.BOLD, 20));
 
-                    JLabel train_nameL = new JLabel("Train Name : " + train_name);
+                    JLabel train_nameL = new JLabel("TRAIN NAME: " + train_name);
                     train_nameL.setFont(new Font("Raleway", Font.BOLD, 20));
 
-                    JLabel from_stationL = new JLabel("From : " + from_station);
+                    JLabel from_stationL = new JLabel("FROM : " + from_station);
                     from_stationL.setFont(new Font("Raleway", Font.BOLD, 20));
 
-                    JLabel to_stationL = new JLabel("To : " + to_station);
+                    JLabel to_stationL = new JLabel("TO : " + to_station);
                     to_stationL.setFont(new Font("Raleway", Font.BOLD, 20));
 
                     mainPanel.add(pnr_noL);
@@ -163,7 +164,7 @@ public class PNRStatus extends JFrame implements ActionListener {
                 JTableHeader Theader=jtbl.getTableHeader();
                 Theader.setBackground(Color.decode("#e87020"));
                 Theader.setFont(new Font("Raleway", Font.BOLD, 20));
-                jtbl.setFont(new Font("Raleway", Font.BOLD, 16));
+                jtbl.setFont(new Font("Raleway", Font.PLAIN, 16));
                 buttonPressed = true;
                 // pnrPanel.add(jtbl);
             } catch (Exception error) {
