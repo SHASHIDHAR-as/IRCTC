@@ -320,7 +320,7 @@ public class AddPassengers extends JFrame implements ActionListener {
                         // ConfirmBooking(train_no,train_name,source,destination,arrivalTime,destinationTime,Pnrnum,total,seats,user_name).setVisible(true);
 
                         BookedTrain details = new BookedTrain(train_no, train_name, source, destination, arrivalTime,destinationTime, total, seatsAvailable);
-                        new ConfirmBooking(details, Pnrnum, user_name, seats);
+                        new ConfirmBooking(details, Pnrnum, user_name, seats,sourceName,destinationName);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "No seats available \n only  " + avail + " are available");

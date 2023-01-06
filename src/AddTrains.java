@@ -312,6 +312,7 @@ public class AddTrains  extends JFrame implements ActionListener {
             try {int start_seat=0;
                 Conn c = new Conn();
                 String query1="insert into trains values ("+Integer.parseInt(train_no)+",'"+train_name+"',"+start_seat+","+Integer.parseInt(End_seats)+",'"+loginId+"');";
+                System.out.println(query1);
                 c.s.executeUpdate(query1);
                 String query ="insert into schedule values("+Integer.parseInt(train_no)+",'"+Monday+"','"+Tuesday+"','"+Wednesday+"','"+Thursday+"','"+Friday+"','"+Saturday+"','"+Sunday+"');";
                 c.s.executeUpdate(query);
@@ -323,7 +324,7 @@ public class AddTrains  extends JFrame implements ActionListener {
                     String time= (String) table.getValueAt(row, 2);
                     String cost = (String) table.getValueAt(row, 3);
                     String query2= "create table  if not exists `"+train_no+"`("+
-                        "train_no int ,"+
+                    "train_no int ,"+
                     "stop_no int,"+
                     "station_id varchar(30),"+
                     "time varchar(20),"+
@@ -338,12 +339,12 @@ public class AddTrains  extends JFrame implements ActionListener {
                     c.s.executeUpdate(query3);
                     }
                 
-                    JOptionPane.showMessageDialog(null, "train added successfully");
+                    JOptionPane.showMessageDialog(null, "Train added successfully");
                     setVisible(false);
                     new Admin(loginId);
 
             } catch (Exception error) {
-                System.out.println(error);
+                error.printStackTrace();
             }
         }
     }

@@ -6,7 +6,8 @@ import java.util.Random;
 
 public class AdminLogin extends JFrame implements ActionListener{
     String genOtp,email;
-    JTextField loginId,password,otp;
+    JTextField loginId,otp;
+    JPasswordField password;
     JButton login,back;
     AdminLogin(){
         setTitle("IRCTC");
@@ -28,7 +29,7 @@ public class AdminLogin extends JFrame implements ActionListener{
         textAnimator(loginId,"Admin Id");
         image.add(loginId);
 
-        password =new JTextField("Password");
+        password =new JPasswordField("Password");
         password.setBounds(250,318,490,30);
         password.setFont(new Font("Raleway", Font.BOLD, 20));
         password.setForeground(Color.gray);

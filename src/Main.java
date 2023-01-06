@@ -8,27 +8,32 @@ public class Main extends JFrame implements ActionListener{
         setTitle("IRCTC");
         setLayout(null);
 
-        JLabel label=new JLabel("WELCOME TO IRCTC");    
-        label.setBounds(350,50,400,100);
-        label.setFont(new Font("Raleway", Font.BOLD, 20));
-        add(label);
-
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/train.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(700, 450, Image.SCALE_DEFAULT);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/main.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel image = new JLabel(i3);
-        image.setBounds(80, 100, 800, 500);
+        image.setBounds(0, 0, 983, 660);
         add(image);
         
         admin=new JButton("ADMIN");
-        admin.setBounds(300,600,100,50);
+        admin.setBounds(80,540,150,40);
+        admin.setFont(new Font("Raleway", Font.BOLD,36));
+        admin.setBackground(Color.decode("#E87020"));
+        admin.setForeground(Color.white);
+        admin.setBorder(null);
+        admin.setOpaque(true);
         admin.addActionListener(this);
-        add(admin);
+        image.add(admin);
 
         user=new JButton("USER");
-        user.setBounds(600,600,100,50);
+        user.setBounds(758,540,150,40);
+        user.setFont(new Font("Raleway", Font.BOLD, 36));
+        user.setBackground(Color.decode("#E87020"));
+        user.setForeground(Color.white);
+        user.setBorder(null);
+        user.setOpaque(true);
         user.addActionListener(this);
-        add(user);
+        image.add(user);
 
         getContentPane().setBackground(Color.white);
 

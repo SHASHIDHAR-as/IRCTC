@@ -20,177 +20,172 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     static Box vertical = Box.createVerticalBox();
     String Pnrnum;
     int train_no,total,seats;
-    String train_name ;
-        String source;
-        String destination ;
-        String arrivalTime ;
-        String destinationTime ;
-        String user_name;
-        String timeStamp;
-        String email,genOtp;
-        boolean buttonPressed = false;
-        int seatsAvailable;
-        BookedTrain details;
-        JPanel panel3;
+    String train_name ,source,destination ,arrivalTime ,destinationTime ,user_name,timeStamp;
+    String email,genOtp;
+    boolean buttonPressed = false;
+    int seatsAvailable;
+    BookedTrain details;
+    JPanel panel3;
 
-        ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats){
-        this.details=details;
-        train_no = details.train_no;
-        train_name = details.train_name;
-        source = details.source;
-        destination =details. destination; 
-        seatsAvailable=details.seatsAvailable; 
-        // System.out.println(train_no); 
-        arrivalTime = details.arrivalTime;
-        destinationTime = details.destinationTime;
-        this.Pnrnum=Pnrnum;
-        total=details.cost;
-        this.seats=seats;
-        this.user_name=user_name;
-        setTitle("IRCTC");
+        ConfirmBooking(BookedTrain details,String Pnrnum,String user_name,int seats,String sourceName,String destinationName){
 
-        JPanel headerPanel=new JPanel();
-        String content="<html><p>CONFIRM BOOKING</p><br> </html>";
-        JLabel header=new JLabel(content,JLabel.CENTER);
-        header.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        headerPanel.setBackground(Color.decode("#e87020"));
-        header.setForeground(Color.white);
-        header.setFont(new Font("Raleway", Font.BOLD, 20));
-        headerPanel.add(header);
-        // headerPanel.setMaximumSize( new Dimension(  983, 200) );
-        headerPanel.setBounds(0, 0, 1000, 60);
-        add(headerPanel);
+            this.details=details;
+            train_no = details.train_no;
+            train_name = details.train_name;
+            source = details.source;
+            destination =details. destination; 
+            seatsAvailable=details.seatsAvailable; 
+            // System.out.println(train_no); 
+            arrivalTime = details.arrivalTime;
+            destinationTime = details.destinationTime;
+            this.Pnrnum=Pnrnum;
+            total=details.cost;
+            this.seats=seats;
+            this.user_name=user_name;
+            setTitle("IRCTC");
 
-        // to show the selectd train
-        Container c = getContentPane();
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
+            JPanel headerPanel=new JPanel();
+            String content="<html><p>CONFIRM BOOKING</p><br> </html>";
+            JLabel header=new JLabel(content,JLabel.CENTER);
+            header.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            headerPanel.setBackground(Color.decode("#e87020"));
+            header.setForeground(Color.white);
+            header.setFont(new Font("Raleway", Font.BOLD, 20));
+            headerPanel.add(header);
+            // headerPanel.setMaximumSize( new Dimension(  983, 200) );
+            headerPanel.setBounds(0, 0, 1000, 60);
+            add(headerPanel);
 
-        JLabel label1 = new JLabel("TRAIN SELECTED :");
-        label1.setBounds(190, 15, 200, 50);
-        label1.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(label1);
+            // to show the selectd train
+            Container c = getContentPane();
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
 
-        JLabel label = new JLabel( train_name + " ("+train_no+")" );
-        // + " " + source + " " + destination + " " + arrivalTime
-        //         + " " + destinationTime
-        label.setBounds(410, 15, 500, 50);
-        label.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(label);
-        JLabel froms = new JLabel("FROM                     :");
-        froms.setBounds(190, 45, 200, 50);
-        froms.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(froms);
+            JLabel label1 = new JLabel("TRAIN SELECTED :");
+            label1.setBounds(190, 15, 200, 50);
+            label1.setFont(new Font("Raleway", Font.BOLD, 20));
+            panel.add(label1);
 
-        JLabel from1 = new JLabel( source+" ("+arrivalTime+")" );
-        // + " " + source + " " + destination + " " + arrivalTime
-        //         + " " + destinationTime
-        from1.setBounds(410, 45, 500, 50);
-        from1.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(from1);
-        JLabel tod = new JLabel("TO                           :");
-        tod.setBounds(190, 75, 200, 50);
-        tod.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(tod);
- 
-        JLabel to1 = new JLabel( destination+" ("+destinationTime+")");
-        // + " " + source + " " + destination + " " + arrivalTime
-        //         + " " + destinationTime
-        to1.setBounds(410, 75, 500, 50);
-        to1.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(to1);
+            JLabel label = new JLabel( train_name + " ("+train_no+")" );
+            // + " " + source + " " + destination + " " + arrivalTime
+            //         + " " + destinationTime
+            label.setBounds(410, 15, 500, 50);
+            label.setFont(new Font("Raleway", Font.PLAIN, 20));
+            panel.add(label);
+            JLabel froms = new JLabel("FROM                     :");
+            froms.setBounds(190, 45, 200, 50);
+            froms.setFont(new Font("Raleway", Font.BOLD, 20));
+            panel.add(froms);
 
-        JLabel label02 = new JLabel("DATE - TIME          :");
-        label02.setBounds(190, 108, 200, 50);
-        label02.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(label02);
+            JLabel from1 = new JLabel( sourceName+" ("+arrivalTime+")" );
+            // + " " + source + " " + destination + " " + arrivalTime
+            //         + " " + destinationTime
+            from1.setBounds(410, 45, 500, 50);
+            from1.setFont(new Font("Raleway", Font.PLAIN, 20));
+            panel.add(from1);
+            JLabel tod = new JLabel("TO                           :");
+            tod.setBounds(190, 75, 200, 50);
+            tod.setFont(new Font("Raleway", Font.BOLD, 20));
+            panel.add(tod);
+    
+            JLabel to1 = new JLabel( destinationName+" ("+destinationTime+")");
+            // + " " + source + " " + destination + " " + arrivalTime
+            //         + " " + destinationTime
+            to1.setBounds(410, 75, 500, 50);
+            to1.setFont(new Font("Raleway", Font.PLAIN, 20));
+            panel.add(to1);
 
-        timeStamp = new SimpleDateFormat("dd/MM/yyyy \n HH-mm-ss").format(Calendar.getInstance().getTime());
-        JLabel label01 = new JLabel(timeStamp);
-        label01.setFont(new Font("Raleway", Font.PLAIN, 20));
-        label01.setBounds(400, 108, 300, 50);
-        panel.add(label01);
+            JLabel label02 = new JLabel("DATE - TIME          :");
+            label02.setBounds(190, 108, 200, 50);
+            label02.setFont(new Font("Raleway", Font.BOLD, 20));
+            panel.add(label02);
 
-        JLabel label05 = new JLabel("SEATS BOOKED   :");
-        label05.setFont(new Font("Raleway", Font.BOLD, 20));
-        label05.setBounds(190, 140, 300, 50);
-        panel.add(label05);
-        JLabel label06 = new JLabel(seats+" ");
-        label06.setBounds(400, 140, 200, 50);
-        label06.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(label06);
+            timeStamp = new SimpleDateFormat("dd/MM/yyyy \n HH-mm-ss").format(Calendar.getInstance().getTime());
+            JLabel label01 = new JLabel(timeStamp);
+            label01.setFont(new Font("Raleway", Font.PLAIN, 20));
+            label01.setBounds(400, 108, 300, 50);
+            panel.add(label01);
 
-        JLabel label03 = new JLabel("TOTAL FARE         :");
-        label03.setBounds(190, 173, 200, 50);
-        label03.setFont(new Font("Raleway", Font.BOLD, 20));
-        panel.add(label03);
-        JLabel label04 = new JLabel(total+" ");
-        label04.setBounds(400, 173, 200, 50);
-        label04.setFont(new Font("Raleway", Font.PLAIN, 20));
-        panel.add(label04);
+            JLabel label05 = new JLabel("SEATS BOOKED   :");
+            label05.setFont(new Font("Raleway", Font.BOLD, 20));
+            label05.setBounds(190, 140, 300, 50);
+            panel.add(label05);
+            JLabel label06 = new JLabel(seats+" ");
+            label06.setBounds(400, 140, 200, 50);
+            label06.setFont(new Font("Raleway", Font.PLAIN, 20));
+            panel.add(label06);
 
-        show = new JButton("Show passengers");
-        show.setBounds(240, 218, 300, 30);
-        show.setForeground(Color.decode("#e87020"));
-        show.setFont(new Font("Raleway", Font.BOLD, 20));
-        show.setBorder(null);
-        show.setBackground(Color.white);
-        show.addActionListener(this);
-        panel.add(show);
+            JLabel label03 = new JLabel("TOTAL FARE         :");
+            label03.setBounds(190, 173, 200, 50);
+            label03.setFont(new Font("Raleway", Font.BOLD, 20));
+            panel.add(label03);
+            JLabel label04 = new JLabel(total+" ");
+            label04.setBounds(400, 173, 200, 50);
+            label04.setFont(new Font("Raleway", Font.PLAIN, 20));
+            panel.add(label04);
 
-        panel.setBackground(Color.WHITE);
-        panel.setBounds(0, 60, 1000, 250);
-        c.add(panel);
+            show = new JButton("SHOW PASSENGERS");
+            show.setBounds(240, 218, 300, 30);
+            show.setForeground(Color.decode("#e87020"));
+            show.setFont(new Font("Raleway", Font.BOLD, 20));
+            show.setBorder(null);
+            show.setBackground(Color.white);
+            show.addActionListener(this);
+            panel.add(show);
 
-        Container c3 = getContentPane();
-        panel3 = new JPanel();
-        panel3.setLayout(null);
-        panel3.setBackground(Color.WHITE);
-        panel3.setVisible(false);
-        panel3.setBounds(0, 310, 1000, 600);
+            panel.setBackground(Color.WHITE);
+            panel.setBounds(0, 60, 1000, 250);
+            c.add(panel);
 
-        cols = new String[] { "Name", "AGE", "GENDER","SEAT_NO" };
+            Container c3 = getContentPane();
+            panel3 = new JPanel();
+            panel3.setLayout(null);
+            panel3.setBackground(Color.WHITE);
+            panel3.setVisible(false);
+            panel3.setBounds(0, 310, 1000, 600);
 
-        model = (DefaultTableModel) table.getModel();
+            cols = new String[] { "Name", "AGE", "GENDER","SEAT_NO" };
 
-        model.setColumnIdentifiers(cols);
+            model = (DefaultTableModel) table.getModel();
 
-        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        JTableHeader Theader=table.getTableHeader();
-        Theader.setBackground(Color.decode("#e87020"));
-        Theader.setFont(new Font("Raleway", Font.BOLD, 20));
-        table.setFont(new Font("Raleway", Font.PLAIN, 16));
+            model.setColumnIdentifiers(cols);
 
-        pane = new JScrollPane(table);
-        pane.setBounds(100, 10, 800, 200);
-        pane.setBackground(Color.WHITE);
-        panel3.add(pane);
+            table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            JTableHeader Theader=table.getTableHeader();
+            Theader.setBackground(Color.decode("#e87020"));
+            Theader.setFont(new Font("Raleway", Font.BOLD, 20));
+            table.setFont(new Font("Raleway", Font.PLAIN, 16));
 
-        confirm = new JButton("CONFIRM");
-        confirm.setBounds(50, 250, 250, 30);
-        confirm.setForeground(Color.decode("#e87020"));
-        confirm.setFont(new Font("Raleway", Font.BOLD, 20));
-        confirm.setBorder(null);
-        confirm.setBackground(Color.white);
-        confirm.addActionListener(this);
-        panel3.add(confirm);
-        c3.add(panel3);
+            pane = new JScrollPane(table);
+            pane.setBounds(100, 10, 800, 200);
+            pane.setBackground(Color.WHITE);
+            panel3.add(pane);
 
-        back = new JButton("BACK");
-        back.setBounds(780, 250, 100, 30);
-        back.setForeground(Color.decode("#e87020"));
-        back.setFont(new Font("Raleway", Font.BOLD, 20));
-        back.setBorder(null);
-        back.setBackground(Color.white);
-        back.addActionListener(this);
-        panel3.add(back);
+            confirm = new JButton("CONFIRM");
+            confirm.setBounds(50, 250, 250, 30);
+            confirm.setForeground(Color.decode("#e87020"));
+            confirm.setFont(new Font("Raleway", Font.BOLD, 20));
+            confirm.setBorder(null);
+            confirm.setBackground(Color.white);
+            confirm.addActionListener(this);
+            panel3.add(confirm);
+            c3.add(panel3);
 
-        c3.add(panel3);
-        setLayout(null);
-        setLocation(280, 80);
-        setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+            back = new JButton("BACK");
+            back.setBounds(780, 250, 100, 30);
+            back.setForeground(Color.decode("#e87020"));
+            back.setFont(new Font("Raleway", Font.BOLD, 20));
+            back.setBorder(null);
+            back.setBackground(Color.white);
+            back.addActionListener(this);
+            panel3.add(back);
+
+            c3.add(panel3);
+            setLayout(null);
+            setLocation(180, 20);
+            setSize(1000, 700);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -278,7 +273,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
         else if (e.getSource() == back) {
             try{
                 Conn c=new Conn();
-                String query="delete from passenger where pnr_num='"+Pnrnum+"';";
+                String query="delete from passengers where pnr_no='"+Pnrnum+"';";
                 String query1="update trains set start_seat=start_seat-"+seats+ " where train_no="+train_no+";";
                 c.s.executeUpdate(query1);
                 c.s.executeUpdate(query);
@@ -286,6 +281,7 @@ public class ConfirmBooking extends JFrame implements ActionListener {
                 System.out.println(error);
             }
             setVisible(false);
+            System.out.println(source+"  "+destination);
             new AddPassengers(details,user_name).setVisible(true);
         } 
 
@@ -305,8 +301,8 @@ public class ConfirmBooking extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(101, "HAMPI EXPRESS", "YESHWANTHPUR", "DEVANAHALLI", "11:00", "2:00", 10,10);
+        BookedTrain details = new BookedTrain(101, "HAMPI EXPRESS", "ypr", "bay", "11:00", "2:00", 10,10);
 
-        new ConfirmBooking(details,"54654655","shashi",40);
+        new ConfirmBooking(details,"54654655","sukanya",40,"bellary","solapur");
     }
 }
