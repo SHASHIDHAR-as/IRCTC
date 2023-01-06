@@ -197,9 +197,10 @@ public class AddPassengers extends JFrame implements ActionListener {
         delete.setOpaque(true);
         delete.addActionListener(this);
         image.add(delete);
-
+    
         panel=new JPanel(new BorderLayout());
-        panel.setBounds(0,480,1000,300);
+        panel.setBounds(0,328,1000,360);
+        panel.setLayout(null);
         panel.setBackground(Color.white);
         //to add table
         cols = new String[] { "Name", "AGE", "GENDER", "PNR", "Ticket cost" };
@@ -215,11 +216,11 @@ public class AddPassengers extends JFrame implements ActionListener {
         table.setFont(new Font("Raleway", Font.PLAIN, 16));
 
         pane = new JScrollPane(table);
-        pane.setBounds(100, 10, 800, 100);
+        pane.setBounds(100, 150, 800, 120);
         panel.add(pane,BorderLayout.CENTER);
 
         submit = new JButton("SUBMIT");
-        submit.setBounds(200,600,100,30);
+        submit.setBounds(200,280,100,30);
         submit.setFont(new Font("Raleway", Font.BOLD, 24));
         submit.setForeground(Color.decode("#E87020"));
         submit.setBackground(Color.black);
@@ -227,17 +228,18 @@ public class AddPassengers extends JFrame implements ActionListener {
         submit.setOpaque(false);
         submit.setVisible(false);
         submit.addActionListener(this);
-        image.add(submit);
+        panel.add(submit);
         
         back=new JButton("BACK");
-        back.setBounds(600,600,100,30);
+        back.setBounds(600,280,100,30);
         back.setFont(new Font("Raleway", Font.BOLD, 24));
         back.setForeground(Color.decode("#E87020"));
         back.setBackground(Color.black);
         back.setBorder(null);
         back.setVisible(false);
         back.setOpaque(false);
-        image.add(back);
+        back.addActionListener(this);
+        panel.add(back);
 
         panel.setVisible(false);
         image.add(panel);

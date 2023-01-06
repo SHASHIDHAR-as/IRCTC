@@ -2,11 +2,14 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class AddTrains  extends JFrame implements ActionListener {
+    JPanel panel ;
     JTextField trainNo,trainName,seats,stopNo,time,cost;
     JComboBox stationId;
     JButton saveTrain,Add, back, delete, submit;
@@ -25,93 +28,102 @@ public class AddTrains  extends JFrame implements ActionListener {
         this.loginId=loginId;
         setTitle("IRCTC");
 
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/addTrains.png"));
+        Image i2 = i1.getImage().getScaledInstance(983, 660, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(0, 0, 983, 660);
+        add(image);   
 
         trainNo=new JTextField("Train No");
-        trainNo.setBounds(20,20,100,50);
+        trainNo.setBounds(45,95,200,40);
+        trainNo.setFont(new Font("Raleway", Font.PLAIN, 17));
+        trainNo.setForeground(Color.gray);
+        trainNo.setBorder(null);
         TextAnimator.textAnimator(trainNo,"Train NO");
-        add(trainNo);
+        image.add(trainNo);
 
         trainName=new JTextField("Train Name");
-        trainName.setBounds(120,20,100,50);
+        trainName.setBounds(290,95,250,40);
+        trainName.setFont(new Font("Raleway", Font.PLAIN, 17));
+        trainName.setForeground(Color.gray);
+        trainName.setBorder(null);
         TextAnimator.textAnimator(trainName,"Train Name");
-        add(trainName);
+        image.add(trainName);
 
         seats=new JTextField("Seats");
-        seats.setBounds(240,20,100,50);
+        seats.setBounds(585,95,100,40);
+        seats.setFont(new Font("Raleway", Font.PLAIN, 17));
+        seats.setForeground(Color.gray);
+        seats.setBorder(null);
         TextAnimator.textAnimator(seats,"Seats");
-        add(seats);
+        image.add(seats);
 
-        Mon=new JRadioButton("MON");
-        Mon.setBounds(20,80,60,30);
+        Mon=new JRadioButton("Mon");
+        Mon.setBounds(160,180,60,30);
         Mon.setBackground(Color.white);
         Mon.setFont(new Font("Raleway", Font.PLAIN, 15));
         Mon.setForeground(Color.gray);
-        add(Mon);
+        image.add(Mon);
 
         Tue=new JRadioButton("Tue");
-        Tue.setBounds(100,80,60,30);
+        Tue.setBounds(240,180,60,30);
         Tue.setBackground(Color.white);
         Tue.setFont(new Font("Raleway", Font.PLAIN, 15));
         Tue.setForeground(Color.gray);
-        add(Tue);
+        image.add(Tue);
 
         Wed=new JRadioButton("Wed");
-        Wed.setBounds(180,80,60,30);
+        Wed.setBounds(320,180,60,30);
         Wed.setBackground(Color.white);
         Wed.setFont(new Font("Raleway", Font.PLAIN, 15));
         Wed.setForeground(Color.gray);
-        add(Wed);
+        image.add(Wed);
 
         Thur=new JRadioButton("Thur");
-        Thur.setBounds(260,80,60,30);
+        Thur.setBounds(400,180,60,30);
         Thur.setBackground(Color.white);
         Thur.setFont(new Font("Raleway", Font.PLAIN, 15));
         Thur.setForeground(Color.gray);
-        add(Thur);
+        image.add(Thur);
 
         Fri=new JRadioButton("Fri");
-        Fri.setBounds(350,80,60,30);
+        Fri.setBounds(480,180,60,30);
         Fri.setBackground(Color.white);
         Fri.setFont(new Font("Raleway", Font.PLAIN, 15));
         Fri.setForeground(Color.gray);
-        add(Fri);
+        image.add(Fri);
 
         Sat=new JRadioButton("Sat");
-        Sat.setBounds(430,80,60,30);
+        Sat.setBounds(560,180,60,30);
         Sat.setBackground(Color.white);
         Sat.setFont(new Font("Raleway", Font.PLAIN, 15));
         Sat.setForeground(Color.gray);
-        add(Sat);
+        image.add(Sat);
 
         Sun=new JRadioButton("Sun");
-        Sun.setBounds(500,80,60,30);
+        Sun.setBounds(640,180,60,30);
         Sun.setBackground(Color.white);
         Sun.setFont(new Font("Raleway", Font.PLAIN, 15));
         Sun.setForeground(Color.gray);
-        add(Sun);
+        image.add(Sun);
 
-        saveTrain=new JButton("save trian");
-        saveTrain.setBounds(50,130,100,30);
+        saveTrain=new JButton("SAVE TRAIN");
+        saveTrain.setBounds(750,110,200,30);
+        saveTrain.setForeground(Color.decode("#e87020"));
+        saveTrain.setBackground(Color.white);
+        saveTrain.setFont(new Font("Raleway", Font.BOLD, 24));
+        saveTrain.setBorder(null);
         saveTrain.addActionListener(this);
-        add(saveTrain);
-
-        Container c2 = getContentPane();
-        // Creating a JPanel for the JFrame
-        JPanel panel2 = new JPanel();
-        // setting the panel layout as null
-        panel2.setLayout(null);
-        // adding a label element to the panel
-        JLabel label2 = new JLabel("ADD stations");
-        label2.setBounds(10, 0, 200, 50);
-        panel2.add(label2);
+        image.add(saveTrain);
 
         stopNo = new JTextField("Stop Number");
-        stopNo.setBounds(10, 55, 200, 30);
+        stopNo.setBounds(45, 303, 150, 30);
+        stopNo.setFont(new Font("Raleway", Font.PLAIN, 17));
+        stopNo.setForeground(Color.gray);
+        stopNo.setBorder(null);
         TextAnimator.textAnimator(stopNo,"Stop Number");
-        panel2.add(stopNo);
-
+        image.add(stopNo);
 
         try{
             Conn c=new Conn();
@@ -132,7 +144,7 @@ public class AddTrains  extends JFrame implements ActionListener {
             }
 
         stationId = new JComboBox(FromStations);
-        stationId.setBounds(10, 90, 200, 29);
+        stationId.setBounds(290, 303, 170, 30);
         stationId.setFont(new Font("Raleway", Font.BOLD, 15));
         DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
         listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
@@ -148,37 +160,46 @@ public class AddTrains  extends JFrame implements ActionListener {
                 return button;
             }
         });
-        panel2.add(stationId);
+        image.add(stationId);
 
         time = new JTextField("Time");
-        time.setBounds(10, 120, 200, 30);
+        time.setBounds(532, 303, 150, 30);
+        time.setFont(new Font("Raleway", Font.PLAIN, 17));
+        time.setForeground(Color.gray);
+        time.setBorder(null);
         TextAnimator.textAnimator(time,"Time");
-        panel2.add(time);
+        image.add(time);
 
         cost = new JTextField("Cost");
-        cost.setBounds(10, 150, 200, 30);
+        cost.setBounds(767, 303, 150, 30);
+        cost.setFont(new Font("Raleway", Font.PLAIN, 17));
+        cost.setForeground(Color.gray);
+        cost.setBorder(null);
         TextAnimator.textAnimator(cost,"Cost");
-        panel2.add(cost);
+        image.add(cost);
 
         Add = new JButton("ADD");
-        Add.setBounds(10, 180, 100, 30);
+        Add.setBounds(40, 360, 70, 30);
+        Add.setForeground(Color.decode("#e87020"));
+        Add.setBackground(Color.white);
+        Add.setFont(new Font("Raleway", Font.BOLD, 22));
+        Add.setBorder(null);
         Add.addActionListener(this);
-        panel2.add(Add);
+        image.add(Add);
 
-        delete = new JButton("Delete");
-        delete.setBounds(120, 180, 100, 30);
+        delete = new JButton("DELETE");
+        delete.setBounds(170, 360, 100, 30);
+        delete.setForeground(Color.decode("#e87020"));
+        delete.setBackground(Color.white);
+        delete.setFont(new Font("Raleway", Font.BOLD, 22));
+        delete.setBorder(null);
         delete.addActionListener(this);
-        panel2.add(delete);
+        image.add(delete);
 
-        panel2.setBackground(Color.red);
-        panel2.setBounds(0, 150, 1000, 220);
-        c2.add(panel2);
-
-        Container c3 = getContentPane();
-        JPanel panel3 = new JPanel();
-        panel3.setLayout(null);
-        panel3.setBackground(Color.green);
-        panel3.setBounds(0, 250, 1000, 800);
+        panel=new JPanel(new BorderLayout());
+        panel.setBounds(0,280,1000,360);
+        panel.setLayout(null);
+        panel.setBackground(Color.white);
 
         cols = new String[] { "stop number", "station id", "time","cost"};
 
@@ -187,24 +208,37 @@ public class AddTrains  extends JFrame implements ActionListener {
         model.setColumnIdentifiers(cols);
 
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        JTableHeader Theader=table.getTableHeader();
+        Theader.setBackground(Color.decode("#e87020"));
+        Theader.setFont(new Font("Raleway", Font.BOLD, 20));
+        table.setFont(new Font("Raleway", Font.PLAIN, 16));
 
         pane = new JScrollPane(table);
-        pane.setBounds(100, 150, 500, 200);
-        panel3.add(pane);
+        pane.setBounds(100, 150, 800, 120);
+        panel.add(pane,BorderLayout.CENTER);
 
-        submit = new JButton("Submit");
-        submit.setBounds(100, 360, 100, 30);
+        submit = new JButton("SUBMIT");
+        submit.setBounds(820, 580, 100, 30);
+        submit.setForeground(Color.decode("#e87020"));
+        submit.setBackground(Color.white);
+        submit.setFont(new Font("Raleway", Font.BOLD, 22));
+        submit.setBorder(null);
         submit.addActionListener(this);
-        panel3.add(submit);
-        c3.add(panel3);
+        image.add(submit);
 
-        back = new JButton("Back");
-        back.setBounds(250, 360, 100, 30);
+        back = new JButton("BACK");
+        back.setBounds(45, 580, 100, 30);
+        back.setForeground(Color.decode("#e87020"));
+        back.setBackground(Color.white);
+        back.setFont(new Font("Raleway", Font.BOLD, 22));
+        back.setBorder(null);
         back.addActionListener(this);
-        panel3.add(back);
+        image.add(back);
 
-        c3.add(panel3);
-        setLayout(null);
+        panel.setVisible(false);
+        image.add(panel);
+
+        // setLayout(null);
         setLocation(180, 20);
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -254,11 +288,12 @@ public class AddTrains  extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == Add) {
-
+            panel.setVisible(true);
             if (stopNo.getText().equals("") || stationId.getSelectedItem().equals("") ||  time.getText().equals("") || cost.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please fill all the details");
             } else {
                 if(!stations.contains(stationId.getSelectedItem())){
+                   
                     JOptionPane.showMessageDialog(null, "Invalid station id");
                 }else{
                     model.addRow(new Object[] { stopNo.getText(), stationId.getSelectedItem(),time.getText() ,cost.getText()});
