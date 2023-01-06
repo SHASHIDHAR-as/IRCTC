@@ -300,7 +300,8 @@ public class ConfirmBooking1 extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        BookedTrain details = new BookedTrain(1101, "HAMPI EXPRESS", "YESHWANTHPUR", "KSR", "1:00", "3:00", 10,10);
+        // BookedTrain details = new BookedTrain(1101, "HAMPI EXPRESS", "YESHWANTHPUR", "KSR", "1:00", "3:00", 10,10);
+        BookedTrain details = new BookedTrain(11, "sha", "sh", "df", "sd", "sd", 10,10);
 
         new ConfirmBooking1(details,"54654655","shashi",4);
     }
